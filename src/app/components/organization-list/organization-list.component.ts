@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { OrganizationListService } from '../organization-list.service';
+import { OrganizationListService } from 'src/app/services/organization-list.service';
 
 @Component({
   selector: 'app-organization-list',

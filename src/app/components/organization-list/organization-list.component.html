@@ -1,6 +1,6 @@
 <!-- Just for example -->
 <div *ngIf="organizations" class="text-center card-columns">
-  <div *ngFor="let org of organizations.data" class="card border-dark mb-5" style="max-width: 18rem;">
+  <div *ngFor="let org of organizations" class="card border-dark mb-5" style="max-width: 22vw;">
     <div class="card-header">
       <div class="row list-group list-group-horizontal mx-auto">
         <div class="col border list-group-item-success">
@@ -17,9 +17,9 @@
     </div>
     <div class="card-body text-dark">
       <!-- Need to change properties after changing url -->
-      <h6 class="card-title">{{org.last_name}}</h6>
+      <h6 class="card-title">{{org.name}}</h6>
       <br>
-      <h5 class="card-title text-center">{{org.first_name}}</h5>
+      <h5 class="card-title text-center">{{org.address}}</h5>
       <br>
       <div class="" style="text-align: center; opacity: 0.75">
         <img src="/assets/plus1.png">
