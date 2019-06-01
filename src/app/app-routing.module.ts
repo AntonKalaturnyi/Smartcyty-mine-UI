@@ -1,7 +1,9 @@
 import { NgModule, Component } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { OrganizationListComponent } from './organization-list/organization-list.component';
-import { HomeComponent } from './home/home.component';
+import { OrganizationListComponent } from './components/organization-list/organization-list.component';
+import { HomeComponent } from './components/home/home.component';
+import { SignupComponent } from './components/signup/signup.component';
+import { SigninComponent } from './components/signin/signin.component';
 
 const routes: Routes = [
   {
@@ -11,6 +13,14 @@ const routes: Routes = [
       {
         path: 'organizations',
         component: OrganizationListComponent
+      },
+      {
+        path: 'signup',
+        component: SignupComponent
+      },
+      {
+        path: 'signin',
+        component: SigninComponent
       }
     ]
   }
