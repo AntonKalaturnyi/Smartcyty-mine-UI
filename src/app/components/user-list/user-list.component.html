@@ -1,0 +1,43 @@
+<div class="user-list-header">
+    <nav class="navbar">
+        <a class="navbar-brand">Smartcity users</a>
+        <form class="email-search form-inline">
+                <input class="form-control" type="search" placeholder="Search by email" aria-label="Search">
+        </form>
+    </nav>        
+</div>
+<div class="user-list-body table-responsive">
+    <table class="table table-borderless">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Name</th>
+                <th>Surname</th>
+                <th>Phone number</th>
+                <th>Email</th>
+                <th>Password</th>
+                <th>Date Created</th>
+                <th>Date Updated</th>
+                <th>Active</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody *ngIf="users">
+            <tr *ngFor="let user of users">
+                <td>{{user.id}}</td>
+                <td>{{user.name}}</td>
+                <td>{{user.surname}}</td>
+                <td>{{user.phoneNumber}}</td>
+                <td>{{user.email}}</td>
+                <td>*******</td>
+                <td>{{user.createdDate}}</td>
+                <td>{{user.updatedDate}}</td>
+                <td>{{user.active}}</td>
+                <td>
+                    <button><i class="fas fa-pen"></i></button>
+                    <button><i class="fas fa-trash"></i></button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
