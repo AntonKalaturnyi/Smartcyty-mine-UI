@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import{ UserService } from 'src/app/services/user.service';
+import { Router } from "@angular/router";
  
 @Component({
   selector: 'app-signup',
@@ -11,7 +12,7 @@ export class SignupComponent implements OnInit {
 
   checkoutForm;
 
-  constructor(private formBuilder: FormBuilder, private userService: UserService) {
+  constructor(private formBuilder: FormBuilder, private userService: UserService, private router: Router) {
     this.checkoutForm = this.formBuilder.group({
       name: '',
       surname: '',
@@ -27,6 +28,7 @@ export class SignupComponent implements OnInit {
   onSubmit(user) {
     // Process checkout data here
     this.userService.regUser(user);
+    this.router.navigateByUrl('/home/signin');
   }
 
 }

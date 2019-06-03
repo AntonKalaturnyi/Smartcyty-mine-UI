@@ -2,7 +2,7 @@
   <div class="my-5 col-sm-6 offset-sm-3 text-center">
     <h2>Registration</h2>
     <br>
-    <form [formGroup]="checkoutForm" (ngSubmit)="onSubmit(checkoutForm.value)" class="form-inlin justify-content-center">
+    <form [formGroup]="checkoutForm" (ngSubmit)="onSubmit(checkoutForm.value)" [routerLink]="['/home/signin']" class="form-inlin justify-content-center">
       <div class="form-row">
         <div class="form-group col-md-6">
           <input type="text" class="form-control" formControlName="name" placeholder="FirstName">
