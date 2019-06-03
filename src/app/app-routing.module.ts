@@ -6,7 +6,7 @@ import { SignupComponent } from './components/signup/signup.component';
 import { SigninComponent } from './components/signin/signin.component';
 import { UserListComponent } from './components/user-list/user-list.component';
 
-const routes: Routes = [
+export const routes: Routes = [
   {
     path: 'home',
     component: HomeComponent,
@@ -27,7 +27,8 @@ const routes: Routes = [
         path: 'users',
         component: UserListComponent
       }
-    ]
+    ],
+    // runGuardsAndResolvers: 'always'
   }
 ];
 
