@@ -1,62 +1,45 @@
 <div class="user-list-header">
-    <nav class="navbar">
-        <a class="navbar-brand">Smartcity users</a>
-        <form [formGroup]="checkoutForm" (ngSubmit)="searchByEmail(checkoutForm.value)" class="email-search form-inline">
-                <input class="form-control" formControlName="email" type="text" placeholder="Email">
-                <button class="btn btn-outline-secondary my-sm-0 ml-2">Search</button>
-        </form>
-    </nav>        
+  <nav class="navbar navbar-light">
+    <button class="navbar-brand" (click)="getUsers()">Smartcity users</button>
+    <form class="email-search form-inline" (ngSubmit)="getUserByEmail(inputEmail)" >
+      <label>
+        <div class="input-group">
+          <div class="input-group-prepend">
+            <span class="input-group-text" id="basic-addon1">@</span>
+          </div>
+          <input class="form-control" type="search" placeholder="Search by email" aria-label="Search" [(ngModel)]="inputEmail" name="inputEmail">
+        </div>
+      </label>
+    </form>
+  </nav>
 </div>
 <div class="user-list-body table-responsive">
-    <table class="table table-border">
-        <thead class="thead-light">
-            <tr>
-                <th>#</th>
-                <th>Name</th>
-                <th>Surname</th>
-                <th>Phone number</th>
-                <th>Email</th>
-                <th>Password</th>
-                <th>Date Created</th>
-                <th>Date Updated</th>
-                <th>Active</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody *ngIf="users[0]!=null; else elseBlock1">
-            <tr *ngFor="let user of users">
-                <td>{{user.id}}</td>
-                <td>{{user.name}}</td>
-                <td>{{user.surname}}</td>
-                <td>{{user.phoneNumber}}</td>
-                <td>{{user.email}}</td>
-                <td>*******</td>
-                <td>{{user.createdDate}}</td>
-                <td>{{user.updatedDate}}</td>
-                <td>{{user.active}}</td>
-                <td>
-                    <button><i class="fas fa-pen"></i></button>
-                    <button><i class="fas fa-trash"></i></button>
-                </td>
-            </tr>
-        </tbody>
-        <ng-template #elseBlock1>
-            <tbody *ngIf="users">
-            <!-- <tr *ngFor="let user of users"> -->
-                <td>{{users.id}}</td>
-                <td>{{users.name}}</td>
-                <td>{{users.surname}}</td>
-                <td>{{users.phoneNumber}}</td>
-                <td>{{users.email}}</td>
-                <td>*******</td>
-                <td>{{users.createdDate}}</td>
-                <td>{{users.updatedDate}}</td>
-                <td>{{users.active}}</td>
-                <td>
-                    <button><i class="fas fa-pen"></i></button>
-                    <button><i class="fas fa-trash"></i></button>
-                </td>
-            <!-- </tr> -->
-        </tbody></ng-template>
-    </table>
+  <table class="table table-borderless">
+    <thead class="thead-light">
+    <tr>
+      <th>Id</th>
+      <th>Fullname</th>
+      <th>Email</th>
+      <th>Phone</th>
+      <th>Date Created</th>
+      <th>Roles</th>
+      <th>Active</th>
+      <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody *ngIf="users">
+    <tr *ngFor="let user of users">
+      <td style="color: #555"><strong>{{user.id}}</strong></td>
+      <td>{{user.name}} {{user.surname}}</td>
+      <td>{{user.email}}</td>
+      <td>{{user.phoneNumber}}</td>
+      <td>{{user.createdDate}}</td>
+      <td *ngIf="roles"><span *ngFor="let role of roles">{{role.authority}}</span></td>
+      <td [className]="user.active ? 'activated' : 'deactivated'">{{user.active}}</td>
+      <td>
+        <button (click)=activateUser(user)><i class="fas fa-plus-circle"></i></button>
+        <button (click)="deactivateUser(user)"><i class="fas fa-minus-circle"></i></button>
+      </td>
+    </tr>
+  </table>
 </div>
