@@ -6,6 +6,7 @@ import { SignupComponent } from './components/signup/signup.component';
 import { SigninComponent } from './components/signin/signin.component';
 import { UserListComponent } from './components/user-list/user-list.component';
 import { TaskListComponent } from './components/task-list/task-list.component';
+import { TaskCreateComponent } from './components/task-create/task-create.component';
 
 export const routes: Routes = [
   {
@@ -31,6 +32,10 @@ export const routes: Routes = [
       {
         path: 'tasks',
         component: TaskListComponent
+      },
+      {
+        path: 'task/create/:id',
+        component: TaskCreateComponent
       }
     ],
     // runGuardsAndResolvers: 'always'

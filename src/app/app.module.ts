@@ -13,6 +13,7 @@ import { HomeComponent } from './components/home/home.component';
 import { SignupComponent } from './components/signup/signup.component';
 import { SigninComponent } from './components/signin/signin.component';
 import { UserListComponent } from './components/user-list/user-list.component';
+import { TaskCreateComponent } from './components/task-create/task-create.component';
 import { TaskListComponent } from './components/task-list/task-list.component';
 
 @NgModule({
@@ -25,7 +26,8 @@ import { TaskListComponent } from './components/task-list/task-list.component';
     SignupComponent,
     SigninComponent,
     UserListComponent,
-    TaskListComponent
+    TaskListComponent,
+    TaskCreateComponent
   ],
   imports: [
     BrowserModule,
