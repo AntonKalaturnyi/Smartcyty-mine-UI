@@ -1,0 +1,41 @@
+<div class="task-list-header">
+    <nav class="navbar">
+        <a class="navbar-brand" href="#" >{{organization.name}}</a>
+        <form class="date-search form-inline">
+                <input class="form-control" type="search" placeholder="Search by date" aria-label="Search">
+        </form>
+    </nav>        
+</div>
+<div class="task-list-body table-responsive">
+    <table class="table table-borderless">
+        <thead>
+            <tr>
+                <th>Status</th>
+                <th>#</th>
+                <th>Title</th>
+                <th>Budget</th>
+                <th>Approved Budget</th>
+                <th>Created</th>
+                <th>Updated</th>
+                <th>Deadline</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody *ngIf="tasks">
+            <tr *ngFor="let task of tasks">
+                <td>{{task.taskStatus}}</td>
+                <td>{{task.id}}</td>
+                <td>{{task.title}}</td>
+                <td>{{task.budget}}</td>
+                <td>{{task.approvedBudget}}</td>
+                <td>{{task.createdAt}}</td>
+                <td>{{task.updatedAt}}</td>
+                <td>{{task.deadlineDate}}</td>
+                <td>
+                    <button><i class="fas fa-pen"></i></button>
+                    <button><i class="fas fa-trash"></i></button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
