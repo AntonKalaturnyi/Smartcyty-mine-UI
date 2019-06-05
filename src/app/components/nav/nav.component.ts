@@ -1,8 +1,9 @@
 import { Component, OnInit, ViewChild, AfterViewInit  } from '@angular/core';
 import{ UserService } from 'src/app/services/user.service';
-import { Router } from '@angular/router';
+import{ BudgetService } from 'src/app/services/budget.service';
+import { Router, NavigationStart } from '@angular/router';
 import { ComponentMessageService } from 'src/app/services/component-message.service';
-
+import {timer} from 'rxjs';
 
 @Component({
   selector: 'app-nav',
@@ -13,18 +14,41 @@ import { ComponentMessageService } from 'src/app/services/component-message.serv
 export class NavComponent implements OnInit {
 
   user: Object;
+  budget: Object;
 
-  constructor(private userService: UserService, private router: Router, private compMessage: ComponentMessageService) { 
+  constructor(private userService: UserService, private budgetService: BudgetService, private router: Router, private compMessage: ComponentMessageService) {
+  }
+
+  refreshBudget(){
+    this.budgetService.getBudget().subscribe(data=>{
+      this.budget = data;
+    });
   }
 
   ngOnInit() {
     this.userService.getUserbyEmail(localStorage.getItem('email')).subscribe(data =>{
       this.user = data;
-  });
+    });
+
+    //Refresh budget value upon component load
+    this.refreshBudget();
+    
     this.compMessage.currentMessage.subscribe(user => {
       this.user = user;
       console.log(this.user);
-    })
+    });
+
+    //Refresh budget value upon route change
+    this.router.events.subscribe(event => {
+      if(event instanceof NavigationStart){
+        this.refreshBudget();
+      }
+    });
+
+    //Refresh budget value couple of seconds
+    timer(20*1000,20*1000).subscribe(i => {
+      this.refreshBudget();
+    });
   };
 
   logOut() {
