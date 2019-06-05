@@ -1,5 +1,5 @@
-import { Component, OnInit, } from '@angular/core';
-import { OrganizationListService } from 'src/app/services/organization.service';
+import {Component, OnInit,} from '@angular/core';
+import {OrganizationService} from 'src/app/services/organization.service';
 
 @Component({
   selector: 'app-organization-list',
@@ -11,14 +11,14 @@ export class OrganizationListComponent implements OnInit {
   // Need to get all tasks 
   organizations: Object;
 
-  constructor(private data: OrganizationListService) { 
+  constructor(private data: OrganizationService) {
   }
 
   ngOnInit() {
-    this.data.getOrganizations().subscribe(data =>{
+    this.data.getOrganizations().subscribe(data => {
       this.organizations = data;
       console.log(this.organizations);
-  });
+    });
   }
 
 }
