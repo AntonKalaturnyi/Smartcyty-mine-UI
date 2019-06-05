@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 
-import { OrganizationListService } from './organization-list.service';
+import { OrganizationListService } from './organization.service';
 
 describe('OrganizationListService', () => {
   beforeEach(() => TestBed.configureTestingModule({}));

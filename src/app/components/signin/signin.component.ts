@@ -27,7 +27,6 @@ export class SigninComponent implements OnInit {
   onSubmit(user) {
     // Process checkout data here
     this.userService.authUser(user);
-    new Promise(resolve => {
       setTimeout(() => {
           this.userService.getUserbyEmail(user.username).subscribe(data => {
           this.user = data;
@@ -35,7 +34,6 @@ export class SigninComponent implements OnInit {
         }); 
         this.router.navigateByUrl('/home/organizations')
       }, 800);
-    });
   }
 
 }
