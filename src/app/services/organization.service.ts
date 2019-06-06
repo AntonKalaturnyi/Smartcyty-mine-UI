@@ -35,9 +35,8 @@ export class OrganizationService {
   findById(id) {
     let headers = new HttpHeaders();
     headers = headers.append('authorization', 'Bearer ' + localStorage.getItem('token'));
-    return this.http.get('http://localhost:8080/smartcity_war/organizations/' + id, {headers}).subscribe((res) => {
-      console.log(res);
-    });
+    return this.http.get('http://localhost:8080/smartcity_war/organizations/' + id, {headers})
+    
   }
 
   updateOrganization(organization) {

@@ -1,14 +1,16 @@
 <div class="task-list-header">
     <nav class="navbar">
-        <a class="navbar-brand" href="#">{{organization.name}}</a>
+        <div *ngIf="org">
+            <a class="navbar-brand" href="#">{{org.name}}</a>
+          </div>
         <form class="date-search form-inline">
-            <input class="form-control" type="search" placeholder="Search by date" aria-label="Search">
+                <input class="form-control" type="search" placeholder="Search by date" aria-label="Search">
         </form>
-    </nav>
+    </nav>        
 </div>
 <div class="task-list-body table-responsive">
-    <table class="table table-borderless">
-        <thead>
+    <table class="table table-bordered table-hover">
+        <thead class="thead-light">
             <tr>
                 <th>Status</th>
                 <th>#</th>
@@ -32,8 +34,9 @@
                 <td>{{task.updatedAt}}</td>
                 <td>{{task.deadlineDate}}</td>
                 <td>
-                    <button><i class="fas fa-pen"></i></button>
-                    <button><i class="fas fa-trash"></i></button>
+                    <button (click)="handleEdit(task.id)"><i class="fas fa-pen"></i></button>
+                    <button (click)="handleDelete(task.id)"><i class="fas fa-trash"></i></button>
+                    <button (click)="refOnComments(task.id)"><i class="fas fa-comments-dollar"></i></button>
                 </td>
             </tr>
         </tbody>
