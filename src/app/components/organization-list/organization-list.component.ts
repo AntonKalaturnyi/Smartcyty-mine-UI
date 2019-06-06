@@ -1,5 +1,6 @@
-import {Component, OnInit,} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {OrganizationService} from 'src/app/services/organization.service';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-organization-list',
@@ -8,17 +9,33 @@ import {OrganizationService} from 'src/app/services/organization.service';
 })
 export class OrganizationListComponent implements OnInit {
 
-  // Need to get all tasks 
-  organizations: Object;
+  organizations;
 
-  constructor(private data: OrganizationService) {
+  constructor(private organizationService: OrganizationService, private router: Router) {
+
   }
 
   ngOnInit() {
-    this.data.getOrganizations().subscribe(data => {
+    this.organizationService.findAllOrganizations().subscribe(data => {
       this.organizations = data;
       console.log(this.organizations);
     });
+  }
+
+  onClickAdd() {
+    this.router.navigateByUrl('/home/create-organization');
+  }
+
+  onClickDelete(organization) {
+    console.log(organization);
+    this.organizationService.deleteOrganization(organization.id).subscribe(() => {
+      this.organizations = this.organizations.filter(item => item !== organization);
+    });
+  }
+
+
+  onClickUpdate(id) {
+    this.router.navigateByUrl('/home/update-organization/' + id);
   }
 
 }

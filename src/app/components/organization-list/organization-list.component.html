@@ -1,28 +1,45 @@
 <!-- Just for example -->
-<div *ngIf="organizations" class="text-center card-columns my-5">
-  <div *ngFor="let org of organizations" class="card border-dark mb-5" style="max-width: 22vw;">
-    <div class="card-header">
-      <div class="row list-group list-group-horizontal mx-auto">
-        <div class="col border list-group-item-success">
-          <!-- Need to get tasks -->
-          1
+<div *ngIf="organizations" class="text-center row" style="margin: 0">
+  <div *ngFor="let org of organizations" class="col-auto mt-3 mb-3">
+    <div class="card border-dark " style="width: 22rem; margin-left: 6rem;">
+      <div class="card-header">
+        <div class="row list-group list-group-horizontal mx-auto">
+          <div class="col border list-group-item-success">
+            <!-- Need to get tasks -->
+            1
+          </div>
+          <div class="col border list-group-item-warning">
+            12
+          </div>
+          <div class="col border list-group-item-danger">
+            32
+          </div>
         </div>
-        <div class="col border list-group-item-warning">
-          12
+      </div>
+      <div class="card-body text-dark">
+        <!-- Need to change properties after changing url -->
+        <h6 class="card-title">{{org.name}}</h6>
+        <br>
+        <h5 class="card-title text-center">{{org.address}}</h5>
+        <br>
+        <div class="" style="text-align: center;">
+          <img src="/assets/plus1.png">
         </div>
-        <div class="col border list-group-item-danger">
-          32
+        <div (click)="onClickDelete(org)">
+          <img src="/assets/delete.png" class="delete-button">
+        </div>
+        <div (click)="onClickUpdate(org.id)">
+          <img src="/assets/update.png" class="update-button">
         </div>
       </div>
     </div>
-    <div class="card-body text-dark">
-      <!-- Need to change properties after changing url -->
-      <h6 class="card-title">{{org.name}}</h6>
-      <br>
-      <h5 class="card-title text-center">{{org.address}}</h5>
-      <br>
-      <div class="" style="text-align: center; opacity: 0.75">
-        <img src="/assets/plus1.png">
+  </div>
+  <div class="col-auto mt-3 mb-5">
+    <div class="" style="width: 22rem; height: 16rem; margin-left: 6rem">
+      <div class="card-body text-dark">
+        <div (click)="onClickAdd()" style="text-align: center; opacity: 0.75; cursor: pointer; margin-top: 3.5rem">
+          <img src="/assets/plus.png">
+        </div>
       </div>
     </div>
   </div>

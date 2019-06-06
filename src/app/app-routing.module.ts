@@ -10,8 +10,8 @@ import { TaskListComponent } from './components/task-list/task-list.component';
 import { TaskCreateComponent } from './components/task-create/task-create.component';
 import { UserUpdateComponent } from './components/user-update/user-update.component';
 import { PasswordUpdateComponent } from './components/password-update/password-update.component';
-
-
+import {CreateOrganizationComponent} from './components/create-organization/create-organization.component';
+import {UpdateOrganizationComponent} from './components/update-organization/update-organization.component';
 
 export const routes: Routes = [
   {
@@ -49,6 +49,14 @@ export const routes: Routes = [
       {
         path: 'password-update',
         component: PasswordUpdateComponent
+      },
+      {
+        path: 'create-organization',
+        component: CreateOrganizationComponent
+      },
+      {
+        path: 'update-organization/:id',
+        component: UpdateOrganizationComponent
       }
     ],
     // runGuardsAndResolvers: 'always'
@@ -59,4 +67,5 @@ export const routes: Routes = [
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {
+}

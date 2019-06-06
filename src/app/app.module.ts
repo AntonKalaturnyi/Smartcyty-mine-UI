@@ -1,10 +1,8 @@
-import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
-import { HttpClientModule } from '@angular/common/http';
-
-import { AppRoutingModule } from './app-routing.module';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-
+import {BrowserModule} from '@angular/platform-browser';
+import {NgModule} from '@angular/core';
+import {HttpClientModule} from '@angular/common/http';
+import {AppRoutingModule} from './app-routing.module';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { AppComponent } from './app.component';
 import { NavComponent } from './components/nav/nav.component';
 import { FooterComponent } from './components/footer/footer.component';
@@ -17,6 +15,8 @@ import { TaskCreateComponent } from './components/task-create/task-create.compon
 import { TaskListComponent } from './components/task-list/task-list.component';
 import { UserUpdateComponent } from './components/user-update/user-update.component';
 import { PasswordUpdateComponent } from './components/password-update/password-update.component';
+import {CreateOrganizationComponent} from './components/create-organization/create-organization.component';
+import { UpdateOrganizationComponent } from './components/update-organization/update-organization.component';
 
 
 @NgModule({
@@ -32,16 +32,19 @@ import { PasswordUpdateComponent } from './components/password-update/password-u
     TaskListComponent,
     TaskCreateComponent,
     UserUpdateComponent,
-    PasswordUpdateComponent
+    PasswordUpdateComponent,
+    CreateOrganizationComponent,
+    UpdateOrganizationComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    FormsModule, 
+    FormsModule,
     ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+}
