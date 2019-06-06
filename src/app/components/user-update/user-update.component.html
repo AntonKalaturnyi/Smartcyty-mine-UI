@@ -1,0 +1,30 @@
+<div class="row" *ngIf="user">
+
+    <div class="my-5 col-sm-5 offset-sm-4 text-center bg-white custom-style">
+
+        <h2>Edit profile</h2>
+        <br>
+        <form *ngIf="editProfileForm" [formGroup]="editProfileForm" (ngSubmit)="onEditFormSubmit(editProfileForm.value)"
+            class="form-inlin align-content-center">
+
+            <div class="form-group row">
+                <input type="text" class="form-control" formControlName="username" placeholder="FirstName"
+                    value=" {{ user.name }}">
+            </div>
+            <div class="form-group row">
+                <input type="text" class="form-control" formControlName="surname" placeholder="LastName"
+                    value="{{ user.surname }}">
+            </div>
+            <div class="form-group row">
+                <input type="tel" class="form-control" formControlName="phoneNumber" placeholder="PhoneNumber"
+                    value="{{ user.phoneNumber }}">
+            </div>
+            <div class="form-group row">
+                <input type="email" class="form-control" formControlName="email" placeholder="Email"
+                    value="{{ user.email }}">
+            </div>
+
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+    </div>
+</div>

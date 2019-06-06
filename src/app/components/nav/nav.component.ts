@@ -26,7 +26,7 @@ export class NavComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.userService.getUserbyEmail(localStorage.getItem('email')).subscribe(data =>{
+    this.userService.getAuthenticatedUser().subscribe(data =>{
       this.user = data;
     });
 
