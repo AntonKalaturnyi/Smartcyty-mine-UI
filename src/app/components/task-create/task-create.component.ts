@@ -31,7 +31,7 @@ export class TaskCreateComponent implements OnInit {
   onSubmit(task) {
     // Process checkout data here
     this.taskService.createTask(task);
-    this.router.navigateByUrl('/home/tasks');
+    this.router.navigateByUrl('/home/organizations');
   }
 
 }

@@ -51,11 +51,10 @@ export class TaskService {
 
   deleteTask(id){
     let headers = new HttpHeaders();
-    if (localStorage.getItem('token') == null) {
-      return new Observable;
-    };
     headers = headers.append('authorization', 'Bearer ' + localStorage.getItem('token'));
-    return this.http.delete('http://localhost:8080/smartcity_war/tasks/' + id, { headers });
+    return this.http.delete('http://localhost:8080/smartcity_war/tasks/' + id, { headers }).subscribe((res) => {
+      console.log(res);
+    });
   }
 
   updateTask(id,taskDto){
