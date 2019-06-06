@@ -1,14 +1,15 @@
 <div class="user-list-header">
     <nav class="navbar">
         <a class="navbar-brand">Smartcity users</a>
-        <form class="email-search form-inline">
-                <input class="form-control" type="search" placeholder="Search by email" aria-label="Search">
+        <form [formGroup]="checkoutForm" (ngSubmit)="searchByEmail(checkoutForm.value)" class="email-search form-inline">
+                <input class="form-control" formControlName="email" type="text" placeholder="Email">
+                <button class="btn btn-outline-secondary my-sm-0 ml-2">Search</button>
         </form>
     </nav>        
 </div>
 <div class="user-list-body table-responsive">
-    <table class="table table-borderless">
-        <thead>
+    <table class="table table-border">
+        <thead class="thead-light">
             <tr>
                 <th>#</th>
                 <th>Name</th>
@@ -22,7 +23,7 @@
                 <th>Actions</th>
             </tr>
         </thead>
-        <tbody *ngIf="users">
+        <tbody *ngIf="users[0]!=null; else elseBlock1">
             <tr *ngFor="let user of users">
                 <td>{{user.id}}</td>
                 <td>{{user.name}}</td>
@@ -39,5 +40,23 @@
                 </td>
             </tr>
         </tbody>
+        <ng-template #elseBlock1>
+            <tbody *ngIf="users">
+            <!-- <tr *ngFor="let user of users"> -->
+                <td>{{users.id}}</td>
+                <td>{{users.name}}</td>
+                <td>{{users.surname}}</td>
+                <td>{{users.phoneNumber}}</td>
+                <td>{{users.email}}</td>
+                <td>*******</td>
+                <td>{{users.createdDate}}</td>
+                <td>{{users.updatedDate}}</td>
+                <td>{{users.active}}</td>
+                <td>
+                    <button><i class="fas fa-pen"></i></button>
+                    <button><i class="fas fa-trash"></i></button>
+                </td>
+            <!-- </tr> -->
+        </tbody></ng-template>
     </table>
 </div>
