@@ -38,6 +38,7 @@ export class NavComponent implements OnInit {
       console.log(this.user);
     });
 
+
     // Refresh budget value upon route change
     this.router.events.subscribe(event => {
       if (event instanceof NavigationStart) {
