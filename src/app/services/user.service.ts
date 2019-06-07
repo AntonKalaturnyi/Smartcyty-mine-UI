@@ -44,9 +44,7 @@ export class UserService {
 
   deleteUser(id) {
     let headers = this.getAuthHeader();
-    return this.http.delete('http://localhost:8080/smartcity_war/users/' + id, { headers }).subscribe(res =>{
-      console.log(res);
-    });
+    return this.http.delete('http://localhost:8080/smartcity_war/users/' + id, { headers });
   }
 
   updateUser(user: any, id: Number) {

@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from 'src/app/services/user.service';
-import { FormBuilder } from '@angular/forms';
 
 @Component({
   selector: 'app-user-list',
@@ -8,30 +7,55 @@ import { FormBuilder } from '@angular/forms';
   styleUrls: ['./user-list.component.scss']
 })
 export class UserListComponent implements OnInit {
-
+  inputEmail: string;
   //storing users
-  users: Object;
-  checkoutForm;
+  users: any;
+  roles: any;
 
-  constructor(private formBuilder: FormBuilder, private data: UserService) { 
-    this.checkoutForm = this.formBuilder.group({
-      email: ''
-    });
-  }
+
+  constructor(private data: UserService) {}
+
 
   ngOnInit() {
     this.data.getAllUsers().subscribe(data => {
-        this.users = data;
-        console.log(this.users);
+      this.users = data;
+      for(let user of this.users) {
+        this.data.getRoles(user.id).subscribe(data => {
+            this.roles = data;
+        });
+      }
     });
   }
 
-  searchByEmail(obj){
-    console.log(obj);
-    this.data.getUserbyEmail(obj.email).subscribe(user => {
-      this.users = user;
+  getUsers() {
+    this.data.getAllUsers().subscribe(data => {
+      this.users = data;
       console.log(this.users);
     })
   }
 
+  deactivateUser(user) {
+    let id = user.id;
+    this.data.deleteUser(id).subscribe(data => {
+      if(user.id === id) {
+        user.active = false;
+      }
+      console.log(data);
+    });
+  }
+
+  activateUser(user) {
+    let id = user.id;
+    user.active = true;
+    this.data.updateUser(user, id).subscribe(data => {
+      console.log(data);
+    });
+  }
+
+  getUserByEmail(inputEmail) {
+    this.data.getUserbyEmail(this.inputEmail).subscribe(user => {
+      let userList: Object[] = []; userList.push(user); this.users = userList;
+      console.log(this.users);
+    });
+  }
 }
