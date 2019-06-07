@@ -21,23 +21,16 @@ export class UserListComponent implements OnInit {
       this.users = data;
       for(let user of this.users) {
         this.data.getRoles(user.id).subscribe(data => {
-          this.roles = data;
+            this.roles = data;
         });
       }
     });
   }
 
-<<<<<<< HEAD
   getUsers() {
     this.data.getAllUsers().subscribe(data => {
       this.users = data;
       console.log(this.users);
-=======
-  deleteUser(user) {
-    this.selectedUser = user;
-    this.data.deleteUser(this.selectedUser.id).subscribe(data => {
-      console.log("deleted")
->>>>>>> admin view
     })
   }
 

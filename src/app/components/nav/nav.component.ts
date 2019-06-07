@@ -30,13 +30,12 @@ export class NavComponent implements OnInit {
       this.user = data;
     });
 
-    // Refresh budget value upon component load
+    //Refresh budget value upon component load
     this.refreshBudget();
-
-    this.compMessage.currentMessage.subscribe((user: any) => {
-      if(user.email!=null){
+    
+    this.compMessage.currentMessage.subscribe(user => {
       this.user = user;
-      }
+      console.log(this.user);
     });
 
     // Refresh budget value upon route change
