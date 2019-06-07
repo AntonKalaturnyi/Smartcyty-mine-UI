@@ -12,6 +12,8 @@ import { UserUpdateComponent } from './components/user-update/user-update.compon
 import { PasswordUpdateComponent } from './components/password-update/password-update.component';
 import {CreateOrganizationComponent} from './components/create-organization/create-organization.component';
 import {UpdateOrganizationComponent} from './components/update-organization/update-organization.component';
+import {CommentListComponent} from './components/comment-list/comment-list.component';
+import {CommentEditComponent} from './components/comment-edit/comment-edit.component';
 
 export const routes: Routes = [
   {
@@ -45,6 +47,14 @@ export const routes: Routes = [
       {
         path: 'user-update',
         component: UserUpdateComponent
+      },
+      {
+        path: 'comments/:id',
+        component: CommentListComponent
+      },
+      {
+        path: 'comments/edit/:id',
+        component: CommentEditComponent
       },
       {
         path: 'password-update',

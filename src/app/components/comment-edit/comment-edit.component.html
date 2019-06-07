@@ -1,0 +1,24 @@
+<div class="form row mt-3">
+  <div class="my-5 col-sm-6 offset-sm-3 text-center mt-5">
+    <h2>Оновлення коментарря</h2>
+    <br>
+    <form id="contact-form" [formGroup]="checkoutForm" (ngSubmit)="onSubmit(checkoutForm.value)" role="form">
+      <div class="controls form-builder">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="form-group">
+              <label for="form_message">Повідомлення *</label>
+              <textarea id="form_message" class="form-control" formControlName="description" class="form-control" placeholder="Повідомлення до таску*" rows="4" required="required" data-error="Залиште повідомлення."></textarea>
+              <div class="help-block with-errors"></div>
+            </div>
+          </div>
+          <div class="col-md-12">
+            <input type="submit" class="btn btn-success btn-send btn-block" value="Зберегти зміни">
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div>
+  </div>
+</div>
