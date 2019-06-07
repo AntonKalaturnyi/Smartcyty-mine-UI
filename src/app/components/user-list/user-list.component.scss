@@ -1,5 +1,9 @@
 .email-search {
      margin-left: auto;
+     margin-right: 10px;
+}
+.form-control {
+     width: 247px;
 }
 .navbar-brand {
      margin-left: 8px;
@@ -16,10 +20,25 @@ button {
      background: white;
 }
 
-.fa-pen {
-     color: yellow;
+
+
+.activated {
+     font-weight: bold;
+     color: rgb(34, 165, 40);
+     font-style: italic;
+}
+.deactivated {
+     color: rgb(209, 76, 58);  
+     font-weight: bold;
+     font-style: italic;  
 }
 
-.fa-trash {
-     color: red;
+.fa-minus-circle {
+     color: rgb(209, 76, 58);
+     font-size: 1.3em;
+}
+
+.fa-plus-circle {
+     color: rgb(34, 165, 40);
+     font-size: 1.3em;
 }
