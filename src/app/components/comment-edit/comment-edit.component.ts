@@ -21,7 +21,7 @@ export class CommentEditComponent implements OnInit {
   onSubmit(incom) {
     console.log(incom);
     let comment = incom;
-    this.commentService.findCommentById(this.actRouter.snapshot.paramMap.get('id')).subscribe(com => {
+    this.commentService.findCommentById(this.actRouter.snapshot.paramMap.get('id')).subscribe((com: any) => {
      com.description = incom.description;
      comment = com;
      this.commentService.updateComment(this.actRouter.snapshot.paramMap.get('id'), comment).subscribe(() => {
@@ -32,7 +32,7 @@ export class CommentEditComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.commentService.findCommentById(this.actRouter.snapshot.paramMap.get('id')).subscribe(comment => {
+    this.commentService.findCommentById(this.actRouter.snapshot.paramMap.get('id')).subscribe((comment: any) => {
       this.checkoutForm.controls.description.setValue(comment.description);
     });
   }
