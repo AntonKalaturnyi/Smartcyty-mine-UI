@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {FormBuilder} from '@angular/forms';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {OrganizationService} from '../../services/organization.service';
 import {ActivatedRoute, Router} from '@angular/router';
 
@@ -10,14 +10,22 @@ import {ActivatedRoute, Router} from '@angular/router';
 })
 export class UpdateOrganizationComponent implements OnInit {
 
-  updateOrganizationForm;
+  updateOrganizationForm: FormGroup;
 
   constructor(private formBuilder: FormBuilder, private organizationService: OrganizationService, private router: Router,
               private actRouter: ActivatedRoute) {
     this.updateOrganizationForm = this.formBuilder.group({
-      name: '',
-      address: ''
+      name: ['', [Validators.required]],
+      address: ['', [Validators.required]]
     });
+  }
+
+  get name() {
+    return this.updateOrganizationForm.get('name');
+  }
+
+  get address() {
+    return this.updateOrganizationForm.get('address');
   }
 
   onSubmit(organization) {
@@ -32,6 +40,10 @@ export class UpdateOrganizationComponent implements OnInit {
       this.updateOrganizationForm.controls['name'].setValue(organization.name);
       this.updateOrganizationForm.controls['address'].setValue(organization.address);
     });
+  }
+
+  onClickCancel() {
+    this.router.navigate(['home/organizations']);
   }
 }
 

@@ -1,13 +1,41 @@
-.delete-button{
+*{
+  margin: 0;
+}
+
+.create-organization-button, .create-task-button, .update-organization-button, .delete-organization-button{
+  cursor: pointer;
+}
+
+.create-task-button{
+  display: inline-block;
+  width: auto;
+  cursor: pointer;
+}
+
+.delete-organization-button{
   position: absolute;
   right: 10px;
   bottom: 10px;
   cursor: pointer;
 }
 
-.update-button{
+.update-organization-button{
   position: absolute;
   left: 10px;
   bottom: 10px;
   cursor: pointer;
 }
+
+.create-organization-button{
+  text-align: center;
+  cursor: pointer;
+  margin-top: 3.5rem
+}
+
+.card-wrapper{
+  width: 20%;
+  margin-left: 10%;
+  max-width: 400px;
+  min-width: 200px;
+}
+

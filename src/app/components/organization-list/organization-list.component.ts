@@ -9,7 +9,7 @@ import {Router} from '@angular/router';
 })
 export class OrganizationListComponent implements OnInit {
 
-  organizations;
+  organizations: object[];
 
   constructor(private organizationService: OrganizationService, private router: Router) {
 
@@ -22,20 +22,27 @@ export class OrganizationListComponent implements OnInit {
     });
   }
 
-  onClickAdd() {
+  onClickCreateOrganization() {
     this.router.navigateByUrl('/home/create-organization');
   }
 
-  onClickDelete(organization) {
+  onClickDeleteOrganization(organization: any) {
     console.log(organization);
     this.organizationService.deleteOrganization(organization.id).subscribe(() => {
       this.organizations = this.organizations.filter(item => item !== organization);
     });
   }
 
-
-  onClickUpdate(id) {
+  onClickUpdateOrganization(id: number) {
     this.router.navigateByUrl('/home/update-organization/' + id);
+  }
+
+  onClickCreateTask(id: number) {
+    this.router.navigateByUrl('/home/task/create/' + id);
+  }
+
+  onDblClickTasksList(id: number) {
+    this.router.navigateByUrl('/home/tasks/' + id);
   }
 
 }
