@@ -1,5 +1,6 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Output, EventEmitter } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { User } from '../model/User';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -8,6 +9,13 @@ import { Observable } from 'rxjs';
 export class UserService {
 
   constructor(private http: HttpClient) { }
+
+  @Output()
+  change: EventEmitter<any> = new EventEmitter();
+
+  refreshUsernameOnNavbar(user: User): void {
+    this.change.emit(user);
+  }
 
   regUser(user) {
     this.http.post('http://localhost:8080/smartcity_war/registration', user).subscribe((res) => {
@@ -27,9 +35,9 @@ export class UserService {
     return this.http.get('http://localhost:8080/smartcity_war/users/?email=' + id, { headers });
   }
 
-  getAuthenticatedUser() {
+  getAuthenticatedUser(): Observable<User> {
     let headers = this.getAuthHeader();
-    return this.http.get('http://localhost:8080/smartcity_war/users/get-current', { headers });
+    return this.http.get<User>('http://localhost:8080/smartcity_war/users/get-current', { headers });
   }
 
   getUserbyEmail(email) {

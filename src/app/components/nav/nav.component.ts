@@ -25,14 +25,23 @@ export class NavComponent implements OnInit {
     });
   }
 
-  ngOnInit() {
-    this.userService.getUserbyEmail(localStorage.getItem('email')).subscribe(data => {
+  initUser() {
+    this.userService.getAuthenticatedUser().subscribe(data => {
       this.user = data;
+    });
+  }
+
+  ngOnInit() {
+
+    this.initUser();
+
+    this.userService.change.subscribe(user => {
+      this.user = user;
     });
 
     //Refresh budget value upon component load
     this.refreshBudget();
-    
+
     this.compMessage.currentMessage.subscribe(user => {
       this.user = user;
       console.log(this.user);
@@ -51,6 +60,11 @@ export class NavComponent implements OnInit {
       this.refreshBudget();
     });
   };
+
+  ngOnDestroy() {
+    // Unsubscribing
+    this.userService.change.unsubscribe();
+  }
 
   logOut() {
     // Process checkout data here
