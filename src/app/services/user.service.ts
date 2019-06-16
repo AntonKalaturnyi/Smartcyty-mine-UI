@@ -61,6 +61,12 @@ export class UserService {
     return this.http.put('http://localhost:8080/smartcity_war/users/' + id, user, { headers });
   }
 
+  activateUser(id: Number) {
+    let headers = this.getAuthHeader();
+    headers.append('Content-type', 'application/json');
+    return this.http.post('http://localhost:8080/smartcity_war/users/activate/' + id, null, {headers});
+  }
+
   getRoles(id) {
     let headers = this.getAuthHeader();
     return this.http.get('http://localhost:8080/smartcity_war/users/' + id + '/get-roles', { headers });
