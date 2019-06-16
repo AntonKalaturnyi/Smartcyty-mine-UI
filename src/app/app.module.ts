@@ -1,6 +1,8 @@
 import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
 import {HttpClientModule} from '@angular/common/http';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { DateRangePickerModule } from '@uiowa/date-range-picker';
 import {AppRoutingModule} from './app-routing.module';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { AppComponent } from './app.component';
@@ -41,6 +43,8 @@ import { CommentEditComponent } from './components/comment-edit/comment-edit.com
   ],
   imports: [
     BrowserModule,
+    NgbModule.forRoot(), 
+    DateRangePickerModule,
     AppRoutingModule,
     HttpClientModule,
     FormsModule,
