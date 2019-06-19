@@ -55,10 +55,10 @@ export class UserService {
     return this.http.delete('http://localhost:8080/smartcity_war/users/' + id, { headers });
   }
 
-  updateUser(user: any, id: Number) {
+  updateUser(user: User): Observable<User> {
     let headers = this.getAuthHeader();
     headers.append('Content-Type', 'application/json');
-    return this.http.put('http://localhost:8080/smartcity_war/users/' + id, user, { headers });
+    return this.http.put<User>('http://localhost:8080/smartcity_war/users/update-profile', user, { headers });
   }
 
   activateUser(id: Number) {

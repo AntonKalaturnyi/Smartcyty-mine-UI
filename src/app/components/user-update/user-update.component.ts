@@ -69,7 +69,7 @@ export class UserUpdateComponent implements OnInit {
     this.user.phoneNumber = updatedUser.phoneNumber;
     this.user.email = updatedUser.email;
 
-    this.userUpdateSubscription = this.userService.updateUser(this.user, this.user.id).subscribe();
+    this.userUpdateSubscription = this.userService.updateUser(this.user).subscribe();
 
     console.log("User is updated!!!");
 
