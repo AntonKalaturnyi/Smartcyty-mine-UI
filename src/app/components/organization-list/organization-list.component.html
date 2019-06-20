@@ -18,9 +18,9 @@
       </div>
       <div class="card-body text-dark">
         <!-- Need to change properties after changing url -->
-        <h6 class="card-title">{{organization.name}}</h6>
+        <h6 class="card-title">{{organization.address}}</h6>
         <br>
-        <h5 class="card-title text-center">{{organization.address}}</h5>
+        <h5 class="card-title text-center">{{organization.name}}</h5>
         <br>
         <div (click)="onClickCreateTask(organization.id)" class="create-task-button">
           <img src="/assets/plus1.png">
@@ -30,6 +30,9 @@
         </div>
         <div (click)="onClickUpdateOrganization(organization.id)">
           <img src="/assets/update.png" class="update-organization-button">
+        </div>
+        <div (click)="onClickUsersOrganization(organization.id)">
+          <img src="/assets/users-organization.png" class="users-organization-button">
         </div>
       </div>
     </div>

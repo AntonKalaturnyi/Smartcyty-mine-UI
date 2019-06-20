@@ -1,7 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {OrganizationService} from '../../services/organization.service';
 import {Router} from '@angular/router';
-import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {Organization} from '../../model/Organization';
 
 @Component({
   selector: 'app-create-organization',
@@ -27,7 +28,7 @@ export class CreateOrganizationComponent implements OnInit {
     return this.createOrganizationForm.get('address');
   }
 
-  onSubmit(organization: any) {
+  onSubmit(organization: Organization) {
     // Process checkout data here
     console.log(organization);
     this.organizationServise.addOrganization(organization).subscribe(() => {

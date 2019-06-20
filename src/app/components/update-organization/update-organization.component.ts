@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {OrganizationService} from '../../services/organization.service';
 import {ActivatedRoute, Router} from '@angular/router';
+import {Organization} from '../../model/Organization';
 
 @Component({
   selector: 'app-update-organization',
@@ -28,11 +29,13 @@ export class UpdateOrganizationComponent implements OnInit {
     return this.updateOrganizationForm.get('address');
   }
 
-  onSubmit(organization) {
-    console.log(organization);
-    this.organizationService.updateOrganization(this.actRouter.snapshot.paramMap.get('id'), organization).subscribe(() => {
-      this.router.navigate(['home/organizations']);
-    });
+  onSubmit(organization: Organization) {
+    if (organization.name !== '' && organization.address !== '') {
+      console.log(organization);
+      this.organizationService.updateOrganization(this.actRouter.snapshot.paramMap.get('id'), organization).subscribe(() => {
+        this.router.navigate(['home/organizations']);
+      });
+    }
   }
 
   ngOnInit() {

@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {OrganizationService} from 'src/app/services/organization.service';
 import {Router} from '@angular/router';
+import {Organization} from '../../model/Organization';
 
 @Component({
   selector: 'app-organization-list',
@@ -9,7 +10,7 @@ import {Router} from '@angular/router';
 })
 export class OrganizationListComponent implements OnInit {
 
-  organizations: object[];
+  organizations: Organization[];
 
   constructor(private organizationService: OrganizationService, private router: Router) {
 
@@ -26,7 +27,7 @@ export class OrganizationListComponent implements OnInit {
     this.router.navigateByUrl('/home/create-organization');
   }
 
-  onClickDeleteOrganization(organization: any) {
+  onClickDeleteOrganization(organization: Organization) {
     console.log(organization);
     this.organizationService.deleteOrganization(organization.id).subscribe(() => {
       this.organizations = this.organizations.filter(item => item !== organization);
@@ -43,6 +44,10 @@ export class OrganizationListComponent implements OnInit {
 
   onDblClickTasksList(id: number) {
     this.router.navigateByUrl('/home/tasks/' + id);
+  }
+
+  onClickUsersOrganization(id: number) {
+    this.router.navigateByUrl('/home/users-organization/' + id);
   }
 
 }

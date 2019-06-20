@@ -1,14 +1,15 @@
-import { Injectable, Output, EventEmitter } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { User } from '../model/User';
-import { Observable } from 'rxjs';
+import {Injectable, Output, EventEmitter} from '@angular/core';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {User} from '../model/User';
+import {Observable} from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {
+  }
 
   @Output()
   change: EventEmitter<any> = new EventEmitter();
@@ -24,7 +25,7 @@ export class UserService {
   }
 
   authUser(user) {
-    this.http.post<any>('http://localhost:8080/smartcity_war/auth/signin', user, { observe: 'response' }).forEach((res) => {
+    this.http.post<any>('http://localhost:8080/smartcity_war/auth/signin', user, {observe: 'response'}).forEach((res) => {
       localStorage.setItem('token', res.body.token);
       localStorage.setItem('email', res.body.username);
     });
@@ -32,33 +33,33 @@ export class UserService {
 
   getUserbyId(id) {
     let headers = this.getAuthHeader();
-    return this.http.get('http://localhost:8080/smartcity_war/users/?email=' + id, { headers });
+    return this.http.get('http://localhost:8080/smartcity_war/users/?email=' + id, {headers});
   }
 
   getAuthenticatedUser(): Observable<User> {
     let headers = this.getAuthHeader();
-    return this.http.get<User>('http://localhost:8080/smartcity_war/users/get-current', { headers });
+    return this.http.get<User>('http://localhost:8080/smartcity_war/users/get-current', {headers});
   }
 
   getUserbyEmail(email) {
     let headers = this.getAuthHeader();
-    return this.http.get('http://localhost:8080/smartcity_war/users/?email=' + email, { headers });
+    return this.http.get('http://localhost:8080/smartcity_war/users/?email=' + email, {headers});
   }
 
-  getAllUsers() {
+  getAllUsers(): Observable<any> {
     let headers = this.getAuthHeader();
-    return this.http.get('http://localhost:8080/smartcity_war/users/all', { headers });
+    return this.http.get('http://localhost:8080/smartcity_war/users/all', {headers});
   }
 
   deleteUser(id) {
     let headers = this.getAuthHeader();
-    return this.http.delete('http://localhost:8080/smartcity_war/users/' + id, { headers });
+    return this.http.delete('http://localhost:8080/smartcity_war/users/' + id, {headers});
   }
 
   updateUser(user: User): Observable<User> {
     let headers = this.getAuthHeader();
     headers.append('Content-Type', 'application/json');
-    return this.http.put<User>('http://localhost:8080/smartcity_war/users/update-profile', user, { headers });
+    return this.http.put<User>('http://localhost:8080/smartcity_war/users/update-profile', user, {headers});
   }
 
   activateUser(id: Number) {
@@ -69,12 +70,22 @@ export class UserService {
 
   getRoles(id) {
     let headers = this.getAuthHeader();
-    return this.http.get('http://localhost:8080/smartcity_war/users/' + id + '/get-roles', { headers });
+    return this.http.get('http://localhost:8080/smartcity_war/users/' + id + '/get-roles', {headers});
   }
 
   setRoles(roles, id) {
     let headers = this.getAuthHeader();
-    return this.http.put('http://localhost:8080/smartcity_war/users/' + id + '/set-roles', roles, { headers });
+    return this.http.put('http://localhost:8080/smartcity_war/users/' + id + '/set-roles', roles, {headers});
+  }
+
+  getUsersByOrganizationId(organizationId: any): Observable<any> {
+    let headers = this.getAuthHeader();
+    return this.http.get('http://localhost:8080/smartcity_war/users/organization/' + organizationId, {headers});
+  }
+
+  getUsersByRoleId(id): Observable<any> {
+    let headers = this.getAuthHeader();
+    return this.http.get('http://localhost:8080/smartcity_war/users/role/' + id, {headers});
   }
 
   private getAuthHeader() {

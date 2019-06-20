@@ -21,6 +21,7 @@ import {CreateOrganizationComponent} from './components/create-organization/crea
 import { UpdateOrganizationComponent } from './components/update-organization/update-organization.component';
 import {CommentListComponent} from './components/comment-list/comment-list.component';
 import { CommentEditComponent } from './components/comment-edit/comment-edit.component';
+import { UsersOrganizationComponent } from './components/users-organization/users-organization.component';
 
 @NgModule({
   declarations: [
@@ -40,6 +41,7 @@ import { CommentEditComponent } from './components/comment-edit/comment-edit.com
     UpdateOrganizationComponent,
     CommentListComponent,
     CommentEditComponent,
+    UsersOrganizationComponent,
   ],
   imports: [
     BrowserModule,
