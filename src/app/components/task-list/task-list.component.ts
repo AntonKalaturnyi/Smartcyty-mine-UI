@@ -32,23 +32,28 @@ export class TaskListComponent implements OnInit {
       console.log(this.org)
     });
   }
-  refOnComments(comId: BigInteger){
+  refOnComments(comId: Number){
     this.router.navigateByUrl('/home/comments/'+ comId);
   }
-  handleDelete(id: BigInteger){
+  handleDelete(id: Number){
     this.taskService.deleteTask(id);
   }
 
-  handleEdit(id: BigInteger){
+  handleEdit(id: Number){
     this.router.navigateByUrl('/home/task/edit/' + id);
   }
 
   changeDate(dateRange: DateRange) {
     this.dateRange = dateRange;
-    this.taskService.findTasksByDate(this.dateRange).subscribe(data => {
+    this.taskService.findTasksByDate(this.route.snapshot.paramMap.get("id"),this.dateRange).subscribe(data => {
       this.tasks = data;
       console.log(this.tasks);
+      console.log(this.org);
   });
+  }
+
+  handleTransactions(taskId: Number){
+    this.router.navigateByUrl('/home/transactions/' + taskId);
   }
 
 }

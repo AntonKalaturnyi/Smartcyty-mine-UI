@@ -33,9 +33,10 @@
                 <td>{{task.updatedAt}}</td>
                 <td>{{task.deadlineDate}}</td>
                 <td>
-                    <button (click)="handleEdit(task.id)"><i class="fas fa-pen"></i></button>
-                    <button (click)="handleDelete(task.id)"><i class="fas fa-trash"></i></button>
-                    <button (click)="refOnComments(task.id)"><i class="fas fa-comments-dollar"></i></button>
+                    <button (click)="handleEdit(task.id)" title="Edit"><i class="fas fa-pen"></i></button>
+                    <button (click)="handleTransactions(task.id)" title="Transactions"><i class="far fa-money-bill-alt"></i></button>
+                    <button (click)="refOnComments(task.id)" title="Comments"><i class="fas fa-comments-dollar"></i></button>
+                    <button (click)="handleDelete(task.id)" title="Delete"><i class="fas fa-trash"></i></button>
                 </td>
             </tr>
         </tbody>
