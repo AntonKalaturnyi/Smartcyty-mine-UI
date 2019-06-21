@@ -5,10 +5,11 @@ import { User } from 'src/app/model/User';
 import { NgIf } from '@angular/common';
 
 
+
 @NgModule({
   imports: [
     ReactiveFormsModule
-  ],
+  ]
 })
 @Component({
   selector: 'app-user-update',
@@ -21,6 +22,8 @@ export class UserUpdateComponent implements OnInit {
   user: User;
   userUpdateSubscription;
   getAuthUserSubscription;
+  errorMsg: string;
+  submitted: boolean = false;
 
 
   constructor(private userService: UserService, private formBuilder: FormBuilder) {
@@ -41,7 +44,6 @@ export class UserUpdateComponent implements OnInit {
       this.editProfileForm.controls['username'].setValue(this.user.name);
       this.editProfileForm.controls['surname'].setValue(this.user.surname);
       this.editProfileForm.controls['phoneNumber'].setValue(this.user.phoneNumber);
-      this.editProfileForm.controls['email'].setValue(this.user.email);
     });
 
 
@@ -50,7 +52,7 @@ export class UserUpdateComponent implements OnInit {
   }
 
   ngOnDestroy() {
-    
+
     // Unsubscribing
     if (this.userUpdateSubscription) {
       this.userUpdateSubscription.unsubscribe();
@@ -64,17 +66,19 @@ export class UserUpdateComponent implements OnInit {
 
   onEditFormSubmit(updatedUser: any) {
 
+    this.submitted = true;
+
     this.user.name = updatedUser.username;
     this.user.surname = updatedUser.surname;
     this.user.phoneNumber = updatedUser.phoneNumber;
-    this.user.email = updatedUser.email;
 
-    this.userUpdateSubscription = this.userService.updateUser(this.user).subscribe();
+    this.userUpdateSubscription = this.userService.updateUser(this.user).subscribe(
+      user => this.userService.refreshUsernameOnNavbar(this.user),
+      error => this.errorMsg = error
+    );
 
-    console.log("User is updated!!!");
 
 
-    this.userService.refreshUsernameOnNavbar(this.user);
   }
 }
 
