@@ -4,7 +4,6 @@ import { TransactionService } from 'src/app/services/transaction.service';
 import { TaskService } from 'src/app/services/task.service';
 import { Router } from '@angular/router';
 import { DateRange } from '@uiowa/date-range-picker';
-import { TaskListComponent } from '../task-list/task-list.component';
 
 @Component({
   selector: 'app-transaction-list',
@@ -13,6 +12,7 @@ import { TaskListComponent } from '../task-list/task-list.component';
 })
 
 export class TransactionListComponent implements OnInit {
+
   dateRange: DateRange;
   transactions: Object;
   task: Object;
@@ -22,7 +22,6 @@ export class TransactionListComponent implements OnInit {
 
   ngOnInit() {
     this.dateRange =  new DateRange(new Date());
-    this.dateRange = new DateRange(new Date());
     this.transactionService.findTransactionsByTaskId(this.route.snapshot.paramMap.get("id"))
       .subscribe(data => {
         this.transactions = data;
@@ -50,6 +49,5 @@ export class TransactionListComponent implements OnInit {
   handleEdit(id: Number) {
     this.router.navigateByUrl('/home/task/edit/' + id);
   }
-
 
 }

@@ -11,7 +11,7 @@ export class TransactionService {
 
   constructor(private http: HttpClient) { }
 
-  findTransactionsByTaskId(id) {
+  findTransactionsByTaskId(id: String) {
     let headers = new HttpHeaders();
     if (localStorage.getItem('token') == null) {
       return new Observable;
@@ -21,7 +21,7 @@ export class TransactionService {
   }
 
 
-  findTransactionById(id) {
+  findTransactionById(id: Number) {
     let headers = new HttpHeaders();
     if (localStorage.getItem('token') == null) {
       return new Observable;
@@ -31,13 +31,13 @@ export class TransactionService {
   }
 
 
-  createTransaction(transactionDto) {
+  createTransaction(transactionDto: Object) {
     this.http.post('http://localhost:8080/smartcity_war/transactions/', transactionDto).subscribe((res) => {
       console.log(res);
     });
   }
 
-  deleteTransaction(id) {
+  deleteTransaction(id: Number) {
     let headers = new HttpHeaders();
     if (localStorage.getItem('token') == null) {
       return new Observable;
@@ -46,7 +46,7 @@ export class TransactionService {
     return this.http.delete('http://localhost:8080/smartcity_war/transactions/' + id, { headers });
   }
 
-  updateTransaction(id, transactionDto) {
+  updateTransaction(id: Number, transactionDto: Object) {
     let headers = new HttpHeaders();
     if (localStorage.getItem('token') == null) {
       return new Observable;
@@ -62,6 +62,8 @@ export class TransactionService {
     };
     headers = headers.append('authorization', 'Bearer ' + localStorage.getItem('token'));
     if (dateRange.start != null && dateRange.end != null) {
+      dateRange.start.setUTCHours(0);
+      dateRange.end.setUTCHours(24);
       return this.http.get('http://localhost:8080/smartcity_war/transactions/taskId/' + id +
         "/date?from=" + dateRange.start.toJSON().replace('Z', '') + "&to=" + dateRange.end.toJSON().replace('Z', ''), { headers });
     } else return new Observable();
