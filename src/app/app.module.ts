@@ -22,6 +22,7 @@ import { UpdateOrganizationComponent } from './components/update-organization/up
 import {CommentListComponent} from './components/comment-list/comment-list.component';
 import { CommentEditComponent } from './components/comment-edit/comment-edit.component';
 import { UsersOrganizationComponent } from './components/users-organization/users-organization.component';
+import { TransactionListComponent } from './components/transaction-list/transaction-list.component';
 
 @NgModule({
   declarations: [
@@ -38,6 +39,7 @@ import { UsersOrganizationComponent } from './components/users-organization/user
     UserUpdateComponent,
     PasswordUpdateComponent,
     CreateOrganizationComponent,
+    TransactionListComponent,
     UpdateOrganizationComponent,
     CommentListComponent,
     CommentEditComponent,

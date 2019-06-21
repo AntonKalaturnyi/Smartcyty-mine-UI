@@ -1,0 +1,46 @@
+<div class="transaction-list-header">   
+    <nav class="navbar">
+        <div class="d-flex">
+            <form class="mr-auto p-2">
+                <button onclick="goBack()">
+                    <i class="fas fa-arrow-alt-circle-left" style="font-size: 2em; color: gray"></i>
+                </button>
+            </form>
+        </div>
+        <div class="mr-auto p-2" *ngIf="task" style="margin: 0 auto">
+            <h4>{{task.title}}</h4>
+        </div>
+        <div class="p-2">
+            <date-range-picker [(dateRange)]="dateRange" (click)="changeDate(dateRange)"></date-range-picker>
+        </div>
+    </nav>
+</div>
+<div class="transaction-list-body table-responsive">
+    <table class="table table-bordered table-hover">
+        <thead class="thead-light">
+            <tr>
+                <th>#</th>
+                <th>Current budget</th>
+                <th>Transaction budget</th>
+                <th>Created</th>
+                <th>Updated</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody *ngIf="transactions">
+            <tr *ngFor="let transaction of transactions">
+                <td>{{transaction.id}}</td>
+                <td>{{transaction.currentBudget}}</td>
+                <td>{{transaction.transactionBudget}}</td>
+                <td>{{transaction.createdDate}}</td>
+                <td>{{transaction.updatedDate}}</td>
+                <td>
+                    <button (click)="handleEdit(transaction.id)" title="Edit"><i class="fas fa-pen"></i></button>
+                    <button (click)="handleDelete(transaction.id)" title="Delete"><i class="fas fa-trash"></i></button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+
+</div>
