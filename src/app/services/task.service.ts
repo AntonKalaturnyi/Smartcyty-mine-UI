@@ -3,7 +3,6 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { DateRange } from '@uiowa/date-range-picker';
 
-
 @Injectable({
   providedIn: 'root'
 })
@@ -12,7 +11,7 @@ export class TaskService {
 
   constructor(private http: HttpClient) { }
 
-  findTaskById(id) {
+  findTaskById(id: String) {
     let headers = new HttpHeaders();
     if (localStorage.getItem('token') == null) {
       return new Observable;
@@ -21,7 +20,7 @@ export class TaskService {
     return this.http.get('http://localhost:8080/smartcity_war/tasks/' + id, { headers });
   }
 
-  findTasksByOrganizationId(id) {
+  findTasksByOrganizationId(id: String) {
     let headers = new HttpHeaders();
     if (localStorage.getItem('token') == null) {
       return new Observable;
@@ -30,7 +29,7 @@ export class TaskService {
     return this.http.get('http://localhost:8080/smartcity_war/tasks/organizationId/' + id, { headers });
   }
 
-  findTasksByUserId(id) {
+  findTasksByUserId(id: Number) {
     let headers = new HttpHeaders();
     if (localStorage.getItem('token') == null) {
       return new Observable;
@@ -39,7 +38,7 @@ export class TaskService {
     return this.http.get('http://localhost:8080/smartcity_war/tasks/userId/' + id, { headers });
   }
 
-  createTask(taskDto) {
+  createTask(taskDto: Object) {
     let headers = new HttpHeaders();
     if (localStorage.getItem('token') == null) {
       return new Observable;
@@ -58,6 +57,8 @@ export class TaskService {
     };
     headers = headers.append('authorization', 'Bearer ' + localStorage.getItem('token'));
     if (dateRange.start != null && dateRange.end != null) {
+      dateRange.start.setUTCHours(0);
+      dateRange.end.setUTCHours(24);
       return this.http.get('http://localhost:8080/smartcity_war/tasks/organizationId/' + orgId + "/date?from="
         + dateRange.start.toJSON().replace('Z', '')
         + "&to=" + dateRange.end.toJSON().replace('Z', ''), { headers });
@@ -65,7 +66,7 @@ export class TaskService {
     else return new Observable();
   }
 
-  deleteTask(id) {
+  deleteTask(id: Number) {
     let headers = new HttpHeaders();
     headers = headers.append('authorization', 'Bearer ' + localStorage.getItem('token'));
     return this.http.delete('http://localhost:8080/smartcity_war/tasks/' + id, { headers }).subscribe((res) => {
@@ -73,7 +74,7 @@ export class TaskService {
     });
   }
 
-  updateTask(id, taskDto) {
+  updateTask(id: Number, taskDto: Object) {
     let headers = new HttpHeaders();
     if (localStorage.getItem('token') == null) {
       return new Observable;
