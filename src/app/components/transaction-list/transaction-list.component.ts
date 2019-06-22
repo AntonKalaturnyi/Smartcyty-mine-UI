@@ -14,7 +14,7 @@ import { DateRange } from '@uiowa/date-range-picker';
 export class TransactionListComponent implements OnInit {
 
   dateRange: DateRange;
-  transactions: Object;
+  transactions;
   task: Object;
 
   constructor(private transactionService: TransactionService, private taskService: TaskService,
@@ -44,6 +44,7 @@ export class TransactionListComponent implements OnInit {
 
   handleDelete(id: Number) {
     this.transactionService.deleteTransaction(id);
+    this.transactions = this.transactions.filter(item => item.id !== id);
   }
 
   handleEdit(id: Number) {

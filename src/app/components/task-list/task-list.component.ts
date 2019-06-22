@@ -13,7 +13,7 @@ import { DateRange } from '@uiowa/date-range-picker';
 
 export class TaskListComponent implements OnInit {
   dateRange: DateRange;
-  tasks: Object;
+  tasks;
   org: Object;
 
   constructor(private taskService: TaskService, private orgService: OrganizationService,
@@ -37,6 +37,7 @@ export class TaskListComponent implements OnInit {
   }
   handleDelete(id: Number){
     this.taskService.deleteTask(id);
+    this.tasks = this.tasks.filter(item => item.id !== id);
   }
 
   handleEdit(id: Number){

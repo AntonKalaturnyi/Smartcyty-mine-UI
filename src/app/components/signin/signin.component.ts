@@ -26,14 +26,12 @@ export class SigninComponent implements OnInit {
 
   onSubmit(user) {
     // Process checkout data here
-    this.userService.authUser(user);
-      setTimeout(() => {
-          this.userService.getUserbyEmail(user.username).subscribe(data => {
-          this.user = data;
-          this.compMessage.changeMessage(this.user);
-        }); 
-        this.router.navigateByUrl('/home/organizations')
-      }, 800);
-  }
-
+    this.userService.authUser(user).then(data => {
+      this.userService.getUserbyEmail(user.username).subscribe(data => {
+        this.user = data;
+        this.compMessage.changeMessage(this.user);
+        this.router.navigateByUrl('/home/organizations');
+    });
+  });
+  } 
 }

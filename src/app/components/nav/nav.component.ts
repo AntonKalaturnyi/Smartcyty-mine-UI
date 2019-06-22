@@ -42,9 +42,10 @@ export class NavComponent implements OnInit {
     //Refresh budget value upon component load
     this.refreshBudget();
 
-    this.compMessage.currentMessage.subscribe(user => {
+    this.compMessage.currentMessage.subscribe((user: any) => {
+      if(user.email!=null){
       this.user = user;
-      console.log(this.user);
+      }
     });
 
 

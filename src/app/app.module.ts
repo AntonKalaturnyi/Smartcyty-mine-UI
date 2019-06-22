@@ -1,4 +1,12 @@
-import {BrowserModule} from '@angular/platform-browser';
+import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { 
+  MatDatepickerModule, 
+  MatNativeDateModule, 
+  MatButtonModule,
+  MatFormFieldModule,
+  MatInputModule,
+  MatRippleModule } from '@angular/material';
 import {NgModule} from '@angular/core';
 import {HttpClientModule} from '@angular/common/http';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -46,6 +54,13 @@ import { TransactionListComponent } from './components/transaction-list/transact
     UsersOrganizationComponent,
   ],
   imports: [
+    MatButtonModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatRippleModule,
+    BrowserAnimationsModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
     BrowserModule,
     NgbModule.forRoot(), 
     DateRangePickerModule,

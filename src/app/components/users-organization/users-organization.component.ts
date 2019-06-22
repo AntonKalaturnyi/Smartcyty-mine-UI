@@ -25,7 +25,7 @@ export class UsersOrganizationComponent implements OnInit {
       .subscribe(organization => {
         this.organization = organization;
       });
-    this.userService.getUsersByRoleId(3).subscribe(allUsers => {
+    this.userService.getUsersByRoleId(4).subscribe(allUsers => {
       this.allUsers = allUsers;
     });
     this.userService.getUsersByOrganizationId(this.actRouter.snapshot.paramMap.get('id'))

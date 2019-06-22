@@ -1,5 +1,5 @@
 <!-- Just for example -->
-<div *ngIf="organizations" class="text-center row">
+<div *ngIf="organizations" class="text-center row my-4">
   <div *ngFor="let organization of organizations" class="mt-3 mb-3 card-wrapper">
     <div (dblclick)="onDblClickTasksList(organization.id)" class="card border-dark">
       <div class="card-header">

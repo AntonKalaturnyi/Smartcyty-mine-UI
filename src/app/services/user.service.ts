@@ -27,7 +27,7 @@ export class UserService {
   }
 
   authUser(user) {
-    this.http.post<any>('http://localhost:8080/smartcity_war/auth/signin', user, { observe: 'response' }).forEach((res) => {
+    return this.http.post<any>('http://localhost:8080/smartcity_war/auth/signin', user, { observe: 'response' }).forEach((res) => {
       localStorage.setItem('token', res.body.token);
       localStorage.setItem('email', res.body.username);
     });

@@ -80,6 +80,14 @@ export class TaskService {
       return new Observable;
     };
     headers = headers.append('authorization', 'Bearer ' + localStorage.getItem('token'));
-    return this.http.put('http://localhost:8080/smartcity_war/tasks/' + id, taskDto, { headers });
+    return this.http.put('http://localhost:8080/smartcity_war/tasks/' + id, taskDto, { headers }).subscribe((res) => {
+      console.log(res);
+    });
+  }
+
+  findUsersOrgsId(userId: string, orgId: string){
+    let headers = new HttpHeaders();
+    headers = headers.append('authorization', 'Bearer ' + localStorage.getItem('token'));
+    return this.http.get('http://localhost:8080/smartcity_war/tasks?userId=' + userId + "&orgId=" + orgId, { headers });
   }
 }

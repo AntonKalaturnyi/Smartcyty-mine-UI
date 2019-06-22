@@ -43,7 +43,9 @@ export class TransactionService {
       return new Observable;
     };
     headers = headers.append('authorization', 'Bearer ' + localStorage.getItem('token'));
-    return this.http.delete('http://localhost:8080/smartcity_war/transactions/' + id, { headers });
+    return this.http.delete('http://localhost:8080/smartcity_war/transactions/' + id, { headers }).subscribe((res)=>{
+      console.log(res);
+    });
   }
 
   updateTransaction(id: Number, transactionDto: Object) {
