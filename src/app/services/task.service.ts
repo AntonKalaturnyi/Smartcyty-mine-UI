@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { DateRange } from '@uiowa/date-range-picker';
+import {Task} from '../model/Task';
 
 @Injectable({
   providedIn: 'root'
@@ -20,7 +21,7 @@ export class TaskService {
     return this.http.get('http://localhost:8080/smartcity_war/tasks/' + id, { headers });
   }
 
-  findTasksByOrganizationId(id: String) {
+  findTasksByOrganizationId(id: number): Observable<any> {
     let headers = new HttpHeaders();
     if (localStorage.getItem('token') == null) {
       return new Observable;
