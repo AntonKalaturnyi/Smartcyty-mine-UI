@@ -21,7 +21,7 @@ export class TaskService {
     return this.http.get('http://localhost:8080/smartcity_war/tasks/' + id, { headers });
   }
 
-  findTasksByOrganizationId(id: number): Observable<any> {
+  findTasksByOrganizationId(id: any): Observable<any> {
     let headers = new HttpHeaders();
     if (localStorage.getItem('token') == null) {
       return new Observable;
