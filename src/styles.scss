@@ -12,3 +12,43 @@ body {
   min-height: 100%;
   background-image: url('assets/nightCity.jpg');
 }
+
+
+
+/* mat-confirm-dialog*/
+.mat-dialog-container{
+  padding: 0 !important;
+  border-radius: 20px !important;
+}
+
+.close-icon{
+  float: right;
+  padding: 5px;
+}
+
+.close-icon:hover{
+  cursor: pointer;
+}
+
+.confirm-dialog-container .no-button,.confirm-dialog-container .yes-button {
+  height: 50px;
+  width: 50%;
+  border-radius: 0px;
+}
+
+.no-button{
+  background-color: #c82333;
+  color: white;
+}
+
+.yes-button{
+  background-color: #0069d9;
+  color: white;
+}
+
+.confirm-dialog-container .message{
+  padding:  30px 10px;
+  text-align: center;
+  font-size: 20px;
+  color: #8f9cb5;
+}

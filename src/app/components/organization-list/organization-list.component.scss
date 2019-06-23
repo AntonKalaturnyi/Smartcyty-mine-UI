@@ -1,47 +1,91 @@
-*{
+* {
   margin: 0;
+  -webkit-transition: all 0.3s ease;;
+  -moz-transition: all 0.3s ease;;
+  -o-transition: all 0.3s ease;;
+  transition: all 0.3s ease;
 }
 
-.create-organization-button, .create-task-button, .update-organization-button, .delete-organization-button{
+img {
+  opacity: 0.8;
+}
+
+.create-organization-button, .create-task-button, .update-organization-button, .delete-organization-button {
   cursor: pointer;
 }
 
-.create-task-button{
+.create-task-button {
   display: inline-block;
   width: auto;
   cursor: pointer;
 }
 
-.delete-organization-button{
+.delete-organization-button {
   position: absolute;
   right: 10px;
   bottom: 10px;
   cursor: pointer;
 }
 
-.update-organization-button{
+.update-organization-button {
   position: absolute;
   left: 10px;
   bottom: 10px;
   cursor: pointer;
 }
 
-.create-organization-button{
+.create-organization-button {
   text-align: center;
   cursor: pointer;
   margin-top: 3.5rem
 }
 
-.card-wrapper{
+.card-wrapper, .card-add-wrapper {
   width: 20%;
   margin-left: 10%;
   max-width: 400px;
   min-width: 200px;
 }
 
-.users-organization-button{
+.users-organization-button {
   position: absolute;
   left: 10px;
   top: 60px;
   cursor: pointer;
+}
+
+
+/*hover*/
+.card-wrapper::after {
+  content: "";
+  border-radius: 5px;
+  position: absolute;
+  z-index: -1;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  opacity: 0;
+  -webkit-transition: all 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+  transition: all 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+.card-wrapper:hover {
+  -webkit-transform: scale(1.25, 1.25);
+  transform: scale(1.25, 1.25);
+}
+
+.card-wrapper:hover::after {
+  opacity: 1;
+}
+
+.card-header:hover {
+  opacity: 0.6;
+  cursor: pointer;
+}
+
+.delete-organization-button:hover, .create-task-button:hover, .create-organization-button:hover,
+.update-organization-button:hover, .users-organization-button:hover {
+  opacity: 0.6;
 }
