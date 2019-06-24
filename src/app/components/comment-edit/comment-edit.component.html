@@ -1,24 +1,28 @@
-<div class="form row mt-3">
-  <div class="my-5 col-sm-6 offset-sm-3 text-center mt-5">
-    <h2>Оновлення коментарря</h2>
+<div class="my-5 col-sm-6 offset-sm-3 text-center mt-5">
+  <h2>Update comment</h2>
     <br>
-    <form id="contact-form" [formGroup]="checkoutForm" (ngSubmit)="onSubmit(checkoutForm.value)" role="form">
+    <form id="contact-form" [formGroup]="updatedCommentForm" (ngSubmit)="onSubmit(updatedCommentForm.value)" role="form">
       <div class="controls form-builder">
         <div class="row">
           <div class="col-md-12">
             <div class="form-group">
-              <label for="form_message">Повідомлення *</label>
-              <textarea id="form_message" class="form-control" formControlName="description" class="form-control" placeholder="Повідомлення до таску*" rows="4" required="required" data-error="Залиште повідомлення."></textarea>
-              <div class="help-block with-errors"></div>
+              <label for="form_message">Message *</label>
+              <textarea id="form_message" class="form-control"   formControlName="description" class="form-control" placeholder="write a comment..." rows="4" required="required" data-error="Залиште повідомлення."></textarea>
+              <div *ngIf="description.invalid && (description.dirty || description.touched)" class="alert alert-danger" style="width: 100%">
+                <div *ngIf="description.errors.required">
+                  <strong>Error!</strong> Comment can not be empty!
+                </div>
+              </div>
             </div>
           </div>
           <div class="col-md-12">
-            <input type="submit" class="btn btn-success btn-send btn-block" value="Зберегти зміни">
+            <button type="submit" class="btn btn-primary">Update</button>
+            <button class="btn btn-danger ml-4" (click)="onClickCancel()">Cancel</button>
           </div>
         </div>
       </div>
     </form>
   </div>
   <div>
-  </div>
+
 </div>

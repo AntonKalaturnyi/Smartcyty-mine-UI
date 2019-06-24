@@ -2,18 +2,20 @@
   <div class="task-list-header">
     <nav class="navbar">
         <h4>Comments for: <a (click)="goBackToTask()">{{task.title}}</a></h4>
-      <div class="sort-classs">
-        Search by Author:
         <div>
-          <input type="text" [(ngModel)]="searchText" (ngModelChange)="search()" >
+          <div class="input-group flex-row">
+            <div class="input-group-prepend">
+              <span class="input-group-text" id="basic-addon1">@</span>
+            </div>
+            <div>
+              <input class="form-control" type="search" placeholder="Search by email" aria-label="Search" [(ngModel)]="searchText"  (ngModelChange)="search()" name="inputEmail">
+            </div>
+            </div>
         </div>
-      </div>
-        <div class="sort-classs">
+        <div class="sort-classs flex-row text-center justify-content-center">
            Sort by Date Created:
-          <div>
-            <button class="btn btn-secondary " (click)="sortNew()">First New</button>
+            <button class="btn btn-secondary btn-marg" (click)="sortNew()">First New</button>
             <button class="btn btn-secondary btn-marg" (click)="sortOld()">First Old</button>
-          </div>
         </div>
     </nav>
   </div>
@@ -24,18 +26,18 @@
             Comments ({{allComments.length}})
           </div>
           <div class="form-block">
-            <form id="contact-form" [formGroup]="checkoutForm" (ngSubmit)="handleCreate(checkoutForm.value)" role="form">
+            <form id="contact-form" [formGroup]="createCommentForm" (ngSubmit)="handleCreate(createCommentForm.value)" role="form">
               <div class="controls">
                 <div class="row">
                   <div class="col-md-12">
                     <div class="form-group">
                       <textarea id="form_message" class="form-control"   formControlName="description" class="form-control" placeholder="write a comment...*" rows="4"  data-error="Залиште повідомлення."></textarea>
-                          <div *ngIf="isValidationMessage">
-                            <div class="alert alert-danger alert-dismissible fade show">
-                              <strong>Error!</strong> Comment can not be empty!
-                              <button type="button" (click)="messageValidationClose()" class="close" data-dismiss="alert">&times;</button>
-                            </div>
-                          </div>
+                      <div *ngIf="isValidationMessage">
+                      <div class="alert alert-danger alert-dismissible fade show">
+                        <strong>Error!</strong> Comment can not be empty!
+                        <button type="button" (click)="messageValidationClose()" class="close" data-dismiss="alert">&times;</button>
+                      </div>
+                    </div>
 
                       <div *ngIf="isSuccesfullMessage">
                         <div class="alert alert-success alert-dismissible fade show">
@@ -78,6 +80,9 @@
       <div class="text-center">
         <div *ngIf="comments.length < allComments.length && !isMoreView">
              <button (click)="viewMore()" class="btn btn-primary btn-marg-botom">View more Comments! ({{allComments.length - comments.length}})</button>
+        </div>
+        <div *ngIf="comments.length === 0">
+          <h2>Comments not found!!!</h2>
         </div>
       </div>
     </div>

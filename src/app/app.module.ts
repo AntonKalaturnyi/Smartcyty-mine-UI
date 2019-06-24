@@ -34,6 +34,7 @@ import {CommentEditComponent} from './components/comment-edit/comment-edit.compo
 import {UsersOrganizationComponent} from './components/users-organization/users-organization.component';
 import {TransactionListComponent} from './components/transaction-list/transaction-list.component';
 import {MatConfirmDialogComponent} from './components/mat-confirm-dialog/mat-confirm-dialog.component';
+import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
   declarations: [
@@ -72,11 +73,21 @@ import {MatConfirmDialogComponent} from './components/mat-confirm-dialog/mat-con
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
-    MatDialogModule
+    MatDialogModule,
+    ToastrModule.forRoot(
+      {
+        closeButton: true,
+        disableTimeOut: true,
+        maxOpened: 6,
+        progressBar: true,
+        newestOnTop: true
+      }
+    )
   ],
   providers: [],
   bootstrap: [AppComponent],
   entryComponents: [MatConfirmDialogComponent]
+
 })
 export class AppModule {
 }
