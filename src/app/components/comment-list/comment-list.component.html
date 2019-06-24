@@ -1,57 +1,85 @@
 <div *ngIf="task">
-<div class="task-list-header">
-  <nav class="navbar">
-      <h4>Коментарі до :{{task.title}}</h4>
-  </nav>
-</div>
-<div class="form-builder">
-  <button (click)="viewFormCreate()" class="btn btn-warning btn-block ">Додати коментарій до таску!</button>
-  <div *ngIf="isCreated">
-    <br>
-    <form id="contact-form" [formGroup]="checkoutForm" (ngSubmit)="handleCreate(checkoutForm.value)" role="form">
-      <div class="controls">
-        <div class="row">
-          <div class="col-md-12">
-            <div class="form-group">
-              <label for="form_message">Повідомлення *</label>
-              <textarea id="form_message" class="form-control" formControlName="description" class="form-control" placeholder="Повідомлення до таску*" rows="4" required="required" data-error="Залиште повідомлення."></textarea>
-              <div class="help-block with-errors"></div>
-            </div>
-          </div>
-          <div class="col-md-12">
-            <input type="submit" class="btn btn-success btn-send btn-block" value="Створити коментарій">
-          </div>
+  <div class="task-list-header">
+    <nav class="navbar">
+        <h4>Comments for: <a (click)="goBackToTask()">{{task.title}}</a></h4>
+      <div class="sort-classs">
+        Search by Author:
+        <div>
+          <input type="text" [(ngModel)]="searchText" (ngModelChange)="search()" >
         </div>
       </div>
-    </form>
+        <div class="sort-classs">
+           Sort by Date Created:
+          <div>
+            <button class="btn btn-secondary " (click)="sortNew()">First New</button>
+            <button class="btn btn-secondary btn-marg" (click)="sortOld()">First Old</button>
+          </div>
+        </div>
+    </nav>
   </div>
-</div>
-<div class="comments form-builder">
-  <div  *ngIf="comments">
-  <h3 class="title-comments">Комментарии ({{comments.length}})</h3>
-  </div>
-  <ul class="media-list">
-    <div *ngIf="comments">
-      <li class="media block-comment" *ngFor="let com of comments">
-        <div class="media-body">
-          <div class="panel panel-primary">
-            <div class="panel-heading">
-              <div class="author">Автор :{{com.userId}}</div>
-            </div>
-            <div class="panel-body">
-              <div class="media-text text-justify body-text">{{com.description}}</div>
-            </div>
-            <div class="panel-footer ">
-                <span class="date">Дата створення :{{com.createdDate}}</span>
-                <span class="date">Дата останьої зміни :{{com.updatedDate}}</span>
-                <button  *ngIf="checkOnOwner(com.userId)" (click)="handleEdit(com.id)" class="btn btn-secondary" href="#">Редагувати</button>
-                <button *ngIf="checkOnOwner(com.userId)" (click)="handleDelete(com.id)" class="btn btn-danger" href="#">Видалити</button>
-            </div>
+
+  <div class="container">
+    <div class="panel">
+          <div class="panel-heading">
+            Comments ({{allComments.length}})
+          </div>
+          <div class="form-block">
+            <form id="contact-form" [formGroup]="checkoutForm" (ngSubmit)="handleCreate(checkoutForm.value)" role="form">
+              <div class="controls">
+                <div class="row">
+                  <div class="col-md-12">
+                    <div class="form-group">
+                      <textarea id="form_message" class="form-control"   formControlName="description" class="form-control" placeholder="write a comment...*" rows="4"  data-error="Залиште повідомлення."></textarea>
+                          <div *ngIf="isValidationMessage">
+                            <div class="alert alert-danger alert-dismissible fade show">
+                              <strong>Error!</strong> Comment can not be empty!
+                              <button type="button" (click)="messageValidationClose()" class="close" data-dismiss="alert">&times;</button>
+                            </div>
+                          </div>
+
+                      <div *ngIf="isSuccesfullMessage">
+                        <div class="alert alert-success alert-dismissible fade show">
+                          <strong>Success!</strong>The comment was successfully created!
+                          <button type="button" (click)="messageSuccsesfulClose()" class="close" data-dismiss="alert">&times;</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-12 text-right">
+                    <button type="button " class="btn btn-info pull-right">Post</button>
+
+                  </div>
+                </div>
+              </div>
+            </form>
           </div>
 
+          <div class="comments__block">
+              <ul class="comments" *ngIf="comments">
+                <li class="comment-block" *ngFor="let comment of comments">
+                  <img src="https://bootdey.com/img/Content/user_1.jpg" class="avatar" alt="">
+                  <div class="post-comments">
+                    <p class="header-info">
+                     <i>Author: <strong class="text-success text-left">{{comment.userId}}</strong></i>
+                      <i class="pull-right text-right" >Created: {{ comment.createdDate | date:'MM/dd/yyyy HH:mm:ss' }} Updated: {{ comment.updatedDate | date:'MM/dd/yyyy HH:mm:ss' }}</i>
+                    </p>
+                    <p class="description">
+                      {{comment.description}}
+                    </p>
+                    <div class="text-right">
+                      <button  *ngIf="checkOnOwner(comment)" (click)="handleEdit(comment)" class="btn btn-primary btn-marg text-right" href="#">Редагувати</button>
+                      <button *ngIf="checkOnOwner(comment)" (click)="handleDelete(comment)" class="btn btn-danger btn-marg text-right" href="#">Видалити</button>
+                    </div>
+                  </div>
+                </li>
+              </ul>
+
+          </div>
+      <div class="text-center">
+        <div *ngIf="comments.length < allComments.length && !isMoreView">
+             <button (click)="viewMore()" class="btn btn-primary btn-marg-botom">View more Comments! ({{allComments.length - comments.length}})</button>
         </div>
-      </li>
+      </div>
     </div>
-  </ul>
-</div>
+  </div>
 </div>
