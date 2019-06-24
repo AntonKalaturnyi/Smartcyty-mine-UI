@@ -23,7 +23,7 @@ export class UserUpdateComponent implements OnInit {
   userUpdateSubscription;
   getAuthUserSubscription;
   errorMsg: string;
-  submitted: boolean = false;
+  isResultReady: boolean = false;
 
 
   constructor(private userService: UserService, private formBuilder: FormBuilder) {
@@ -66,15 +66,22 @@ export class UserUpdateComponent implements OnInit {
 
   onEditFormSubmit(updatedUser: any) {
 
-    this.submitted = true;
+    this.errorMsg = null;
+    this.isResultReady = false;
 
     this.user.name = updatedUser.username;
     this.user.surname = updatedUser.surname;
     this.user.phoneNumber = updatedUser.phoneNumber;
 
     this.userUpdateSubscription = this.userService.updateUser(this.user).subscribe(
-      user => this.userService.refreshUsernameOnNavbar(this.user),
-      error => this.errorMsg = error
+      user => {
+        this.userService.refreshUsernameOnNavbar(this.user)
+        this.isResultReady = true;
+      },
+      error => {
+        this.errorMsg = error;
+        this.isResultReady = true;
+      }
     );
 
 

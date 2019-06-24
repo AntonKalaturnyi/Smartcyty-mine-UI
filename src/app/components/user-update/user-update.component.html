@@ -34,8 +34,9 @@
             <button type="submit" class="btn btn-primary">Submit</button>
         </form>
 
-        <h4 *ngIf="submitted && !errorMsg" class="mt-3 text-success">User was updated successfully!</h4>
-        <h4 *ngIf="submitted && errorMsg" class="mt-3 text-danger">Some error occurs!!!</h4>
-
+        <div *ngIf="isResultReady" class="bg-light custom-style mt-3 col-sm-8 d-block mx-auto">
+            <h6 *ngIf="!errorMsg" class="mt-3 text-success">User was updated successfully!</h6>
+            <h6 *ngIf="errorMsg" class="mt-3 text-danger">Error: {{ errorMsg.error.message }}</h6>
+        </div>
     </div>
 </div>
