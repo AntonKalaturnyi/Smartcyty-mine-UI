@@ -21,16 +21,13 @@ export class UserService {
   }
 
   regUser(user) {
-    this.http.post('http://localhost:8080/smartcity_war/registration', user).subscribe((res) => {
-      console.log(res);
-    });
+   return this.http.post('http://localhost:8080/smartcity_war/registration', user)
+    .pipe(catchError(this.errorHandler));
   }
 
   authUser(user) {
-    return this.http.post<any>('http://localhost:8080/smartcity_war/auth/signin', user, { observe: 'response' }).forEach((res) => {
-      localStorage.setItem('token', res.body.token);
-      localStorage.setItem('email', res.body.username);
-    });
+    return this.http.post<any>('http://localhost:8080/smartcity_war/auth/signin', user)
+      .pipe(catchError(this.errorHandler));
   }
 
   getUserbyId(id) {
@@ -66,7 +63,7 @@ export class UserService {
   }
 
   errorHandler(error: HttpErrorResponse) {
-    return Observable.throw(error.message || "Server error");
+    return throwError(error|| "Server error");
   }
 
   activateUser(id: Number) {
