@@ -14,7 +14,7 @@
           </div>
         </div>
       </div>
-      <div class="card-body text-dark">
+      <div class="card-body text-dark" (click)="onDblClickTasksList(organization.id)">
         <!-- Need to change properties after changing url -->
         <h6 class="card-title">{{organization.address}}</h6>
         <br>
