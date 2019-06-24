@@ -6,33 +6,11 @@ import { ActivatedRoute } from "@angular/router";
 import { Task } from 'src/app/model/Task';
 import { User } from 'src/app/model/User';
 import { UserService } from 'src/app/services/user.service';
-import {MomentDateAdapter} from '@angular/material-moment-adapter';
-import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from '@angular/material/core';
-import * as moment from 'moment';
-import { DateRange } from '@uiowa/date-range-picker';
-
-export const MY_FORMATS = {
-  parse: {
-    dateInput: 'YYYY MMMM DDDD',
-  },
-  display: {
-    dateInput: 'LL',
-    monthYearLabel: 'MMM YYYY',
-    dateA11yLabel: 'LL',
-    monthYearA11yLabel: 'MMMM YYYY',
-  },
-};
-
 
 @Component({
   selector: 'app-task-create',
   templateUrl: './task-create.component.html',
-  styleUrls: ['./task-create.component.scss'],
-  // providers: [
-  // {provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE]},
-
-  //   {provide: MAT_DATE_FORMATS, useValue: MY_FORMATS},
-  // ],
+  styleUrls: ['./task-create.component.scss']
 })
 
 export class TaskCreateComponent implements OnInit {
@@ -41,6 +19,7 @@ export class TaskCreateComponent implements OnInit {
   allUsers: User[];
   orgId: string;
   date: Date;
+  
   constructor(private taskService: TaskService, private userService: UserService, private formBuilder: FormBuilder, private router: Router, private actRouter: ActivatedRoute) {
     this.checkoutForm = this.formBuilder.group({ 
       title: '',
