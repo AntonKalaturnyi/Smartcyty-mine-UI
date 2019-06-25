@@ -34,7 +34,18 @@
                 <td>{{user.email}}</td>
                 <td>{{user.phoneNumber}}</td>
                 <td>{{user.createdDate}}</td>
-                <td *ngIf="roles"><span *ngFor="let role of roles">{{role.authority}}</span></td>
+                <td>
+                    <div class="dropdown">
+                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            edit roles
+                        </button>
+                        <div *ngIf="user.roles" class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <div *ngFor="let role of allRoles" >
+                                    <label for=""><input type="checkbox" [checked]="getUserRoles(user, role)"> {{role.name}}</label>
+                            </div>
+                        </div>
+                    </div>
+                </td>
                 <td [className]="user.active ? 'activated' : 'deactivated'">{{user.active}}</td>
                 <td>
                     <button (click)=activateUser(user)><i class="fas fa-plus-circle"></i></button>

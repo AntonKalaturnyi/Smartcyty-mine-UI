@@ -42,3 +42,24 @@ button {
      color: rgb(34, 165, 40);
      font-size: 1.3em;
 }
+
+.btn-secondary {
+     padding: 6px;
+     color: #444;
+}
+.btn-secondary:hover {
+     background-color: transparent;
+     padding: 6px;
+     color: #444;
+}
+
+.btn-secondary:active {
+     background-color: transparent;
+     padding: 6px;
+     color: #444;
+}
+
+.dropdown-menu {
+     padding: 15px;
+     width: 300px;
+}

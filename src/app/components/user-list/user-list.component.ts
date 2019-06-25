@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from 'src/app/services/user.service';
+import { RoleService } from 'src/app/services/role.service';
+import { User } from 'src/app/model/User';
+import { Role } from 'src/app/model/Role';
 
 @Component({
   selector: 'app-user-list',
@@ -7,17 +10,21 @@ import { UserService } from 'src/app/services/user.service';
   styleUrls: ['./user-list.component.scss']
 })
 export class UserListComponent implements OnInit {
-  inputEmail: string;
+  inputEmail: String;
   //storing users
-  users;
-  roles;
+  users: User[];
+  roles: Role[];
+  allRoles: Role[];
+  selectedRoles: Role[];
   getUsersSubscription;
+  getRolesSubscription;
   deactivateUserSubscription;
   activateUserSubscription;
   getUserByEmailSubscription;
 
 
-  constructor(private data: UserService) {}
+
+  constructor(private data: UserService, private roleService: RoleService) {}
 
 
   ngOnInit() {
@@ -25,9 +32,12 @@ export class UserListComponent implements OnInit {
       this.users = data;
       for(let user of this.users) {
         this.data.getRoles(user.id).subscribe(data => {
-            this.roles = data;
+            user.roles = data;
         });
       }
+    });
+    this.getRolesSubscription = this.roleService.getRoles().subscribe(roleService => {
+      this.allRoles = roleService;
     });
   }
 
@@ -45,6 +55,9 @@ export class UserListComponent implements OnInit {
     if(this.getUserByEmailSubscription) {
       this.getUserByEmailSubscription.unsubcribe();
     }
+    if(this.getRolesSubscription) {
+      this.getRolesSubscription.unsubcribe();
+    }
 
   }
 
@@ -53,6 +66,12 @@ export class UserListComponent implements OnInit {
       this.users = data;
       console.log(this.users);
     })
+  }
+
+  getUserRoles(user: User, role: Role) {
+    if(user.roles) {
+      return user.roles.some((userRole) => userRole.name === role.name);
+    }
   }
 
   deactivateUser(user) {
@@ -75,9 +94,9 @@ export class UserListComponent implements OnInit {
     });
   }
 
-  getUserByEmail(inputEmail) {
+  getUserByEmail(inputEmail:String) {
     this.getUserByEmailSubscription = this.data.getUserbyEmail(this.inputEmail).subscribe(user => {
-      let userList: Object[] = []; userList.push(user); this.users = userList;
+      let userList: User[] = []; userList.push(user); this.users = userList;
       console.log(this.users);
     });
   }
