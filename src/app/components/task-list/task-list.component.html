@@ -11,9 +11,9 @@
     <table class="table table-bordered table-hover">
         <thead class="thead-light">
             <tr>
-                <th>Status</th>
-                <th>#</th>
+                <th>№</th>
                 <th>Title</th>
+                <th>Status</th>
                 <th>Budget</th>
                 <th>Approved Budget</th>
                 <th>Created</th>
@@ -23,10 +23,10 @@
             </tr>
         </thead>
         <tbody *ngIf="tasks">
-            <tr *ngFor="let task of tasks">
-                <td>{{task.taskStatus}}</td>
-                <td>{{task.id}}</td>
+            <tr *ngFor="let task of tasks; let i = index">
+                <td>{{i + 1}}</td>
                 <td>{{task.title}}</td>
+                <td>{{task.taskStatus}}</td>
                 <td>{{task.budget}}</td>
                 <td>{{task.approvedBudget}}</td>
                 <td>{{task.createdAt}}</td>

@@ -2,7 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { DateRange } from '@uiowa/date-range-picker';
-import {Task} from '../model/Task';
+import { Task } from '../model/Task';
+
 
 @Injectable({
   providedIn: 'root'
@@ -12,13 +13,13 @@ export class TaskService {
 
   constructor(private http: HttpClient) { }
 
-  findTaskById(id: String) {
+  findTaskById(id: String): Observable<Task> {
     let headers = new HttpHeaders();
     if (localStorage.getItem('token') == null) {
       return new Observable;
     };
     headers = headers.append('authorization', 'Bearer ' + localStorage.getItem('token'));
-    return this.http.get('http://localhost:8080/smartcity_war/tasks/' + id, { headers });
+    return this.http.get<Task>('http://localhost:8080/smartcity_war/tasks/' + id, { headers });
   }
 
   findTasksByOrganizationId(id: any): Observable<any> {
@@ -75,18 +76,17 @@ export class TaskService {
     });
   }
 
-  updateTask(id: Number, taskDto: Object) {
+  updateTask(id: Number, taskDto: Task)  {
     let headers = new HttpHeaders();
     if (localStorage.getItem('token') == null) {
-      return new Observable;
+      return new Observable();
     };
+    console.log("In update!");
     headers = headers.append('authorization', 'Bearer ' + localStorage.getItem('token'));
-    return this.http.put('http://localhost:8080/smartcity_war/tasks/' + id, taskDto, { headers }).subscribe((res) => {
-      console.log(res);
-    });
+    return this.http.put<Task>('http://localhost:8080/smartcity_war/tasks/' + id, taskDto, { headers });
   }
 
-  findUsersOrgsId(userId: string, orgId: string){
+  findUsersOrgsId(userId: string, orgId: string) {
     let headers = new HttpHeaders();
     headers = headers.append('authorization', 'Bearer ' + localStorage.getItem('token'));
     return this.http.get('http://localhost:8080/smartcity_war/tasks?userId=' + userId + "&orgId=" + orgId, { headers });

@@ -4,6 +4,7 @@ import { ActivatedRoute } from "@angular/router";
 import { Router } from '@angular/router';
 import {  OrganizationService } from 'src/app/services/organization.service';
 import { DateRange } from '@uiowa/date-range-picker';
+import { TaskUpdateComponent } from '../task-update/task-update.component';
 
 @Component({
   selector: 'app-task-list',
@@ -15,18 +16,20 @@ export class TaskListComponent implements OnInit {
   dateRange: DateRange;
   tasks;
   org: Object;
+  orgId;
 
   constructor(private taskService: TaskService, private orgService: OrganizationService,
     private route: ActivatedRoute, private router: Router) { }
 
   ngOnInit() {
+    this.orgId = this.route.snapshot.paramMap.get("id");
     this.dateRange =  new DateRange(new Date());
-    this.taskService.findTasksByOrganizationId(this.route.snapshot.paramMap.get("id"))
+    this.taskService.findTasksByOrganizationId(this.orgId)
     .subscribe(data => {
         this.tasks = data;
         console.log(this.tasks);
     });
-    this.orgService.findById(this.route.snapshot.paramMap.get("id"))
+    this.orgService.findById(this.orgId)
     .subscribe(data => {
       this.org = data;
       console.log(this.org)
@@ -40,13 +43,14 @@ export class TaskListComponent implements OnInit {
     this.tasks = this.tasks.filter(item => item.id !== id);
   }
 
-  handleEdit(id: Number){
+  handleEdit(id: Number) {
+    TaskUpdateComponent.organizationId = this.orgId;
     this.router.navigateByUrl('/home/task/edit/' + id);
   }
 
   changeDate(dateRange: DateRange) {
     this.dateRange = dateRange;
-    this.taskService.findTasksByDate(this.route.snapshot.paramMap.get("id"),this.dateRange).subscribe(data => {
+    this.taskService.findTasksByDate(this.orgId, this.dateRange).subscribe(data => {
       this.tasks = data;
       console.log(this.tasks);
       console.log(this.org);
