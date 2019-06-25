@@ -5,6 +5,9 @@ import {Organization} from '../../model/Organization';
 import {TaskService} from '../../services/task.service';
 import {Task} from '../../model/Task';
 import {DialogService} from '../../services/dialog.service';
+import {User} from '../../model/User';
+import {UserService} from '../../services/user.service';
+import {UserVerificationService} from '../../services/user-verification.service';
 
 @Component({
   selector: 'app-organization-list',
@@ -14,21 +17,30 @@ import {DialogService} from '../../services/dialog.service';
 export class OrganizationListComponent implements OnInit {
 
   organizations: Organization[];
+  authenticatedUser: User;
 
   constructor(private organizationService: OrganizationService, private taskService: TaskService, private router: Router,
-              private dialogService: DialogService) {
-
+              private dialogService: DialogService, private userService: UserService,
+              private userVerificationService: UserVerificationService) {
   }
 
   ngOnInit() {
-    this.organizationService.findAllOrganizations().subscribe(data => {
-      this.organizations = data;
-      this.numberTasks();
-      console.log(this.organizations);
+    this.userService.getAuthenticatedUser().subscribe(authenticatedUser => {
+      this.authenticatedUser = authenticatedUser;
+      this.organizationService.findAllOrganizations().subscribe(data => {
+        this.organizations = data;
+        if (!this.userVerificationService.adminVerification()
+          && !this.userVerificationService.supervisorVerification()
+          && this.userVerificationService.responsiblePersonVerification()) {
+          this.organizations = this.organizations.filter(organization => organization.responsiblePersons
+            .some((item) => item.id === this.authenticatedUser.id));
+        }
+        this.setNumberTasks();
+      });
     });
   }
 
-  numberTasks() {
+  setNumberTasks() {
     let tasks: Task[];
     this.organizations.forEach((item) => {
       this.taskService.findTasksByOrganizationId(item.id).subscribe(data => {
@@ -39,6 +51,7 @@ export class OrganizationListComponent implements OnInit {
       });
     });
   }
+
 
   onClickCreateOrganization() {
     this.router.navigateByUrl('/home/create-organization');

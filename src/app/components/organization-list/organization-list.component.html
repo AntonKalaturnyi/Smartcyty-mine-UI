@@ -1,7 +1,7 @@
 <div *ngIf="organizations" class="text-center row my-4">
   <div *ngFor="let organization of organizations" class="mt-4 mb-4 card-wrapper">
     <div class="card border-dark">
-      <div class="card-header" (click)="onDblClickTasksList(organization.id)">
+      <div class="card-header">
         <div class="row list-group list-group-horizontal mx-auto">
           <div class="col border list-group-item-success">
             {{organization.numberDone}}
@@ -14,28 +14,33 @@
           </div>
         </div>
       </div>
-      <div class="card-body text-dark" (click)="onDblClickTasksList(organization.id)">
+      <div class="card-body text-dark" (dblclick)="onDblClickTasksList(organization.id)">
         <!-- Need to change properties after changing url -->
         <h6 class="card-title">{{organization.address}}</h6>
         <br>
         <h5 class="card-title text-center">{{organization.name}}</h5>
         <br>
-        <div (click)="onClickCreateTask(organization.id)" class="create-task-button">
+        <div
+          *ngIf="this.userVerificationService.responsiblePersonVerification() || this.userVerificationService.supervisorVerification()"
+          (click)="onClickCreateTask(organization.id)" class="create-task-button">
           <img src="/assets/plus1.png">
         </div>
-        <div (click)="onClickDeleteOrganization(organization)">
+        <div *ngIf="this.userVerificationService.adminVerification()" (click)="onClickDeleteOrganization(organization)">
           <img src="/assets/delete.png" class="delete-organization-button">
         </div>
-        <div (click)="onClickUpdateOrganization(organization.id)">
+        <div *ngIf="this.userVerificationService.adminVerification()"
+             (click)="onClickUpdateOrganization(organization.id)">
           <img src="/assets/update.png" class="update-organization-button">
         </div>
-        <div (click)="onClickUsersOrganization(organization.id)">
+        <div
+          *ngIf="this.userVerificationService.adminVerification() || this.userVerificationService.supervisorVerification()"
+          (click)="onClickUsersOrganization(organization.id)">
           <img src="/assets/users-organization.png" class="users-organization-button">
         </div>
       </div>
     </div>
   </div>
-  <div class="mt-3 mb-5 card-add-wrapper">
+  <div *ngIf="this.userVerificationService.adminVerification()" class="mt-3 mb-5 card-add-wrapper">
     <div class="card-body text-dark">
       <div (click)="onClickCreateOrganization()" class="create-organization-button">
         <img src="/assets/plus.png">
