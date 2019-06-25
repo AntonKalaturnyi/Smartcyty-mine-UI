@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
+import { Observable, throwError } from 'rxjs';
 import { DateRange } from '@uiowa/date-range-picker';
 import { Task } from '../model/Task';
+import { catchError } from 'rxjs/operators';
 
 
 @Injectable({
@@ -47,9 +48,8 @@ export class TaskService {
     };
     console.log(taskDto);
     headers = headers.append('authorization', 'Bearer ' + localStorage.getItem('token'));
-    this.http.post('http://localhost:8080/smartcity_war/tasks/', taskDto, { headers }).subscribe((res) => {
-      console.log(res);
-    });
+    return this.http.post('http://localhost:8080/smartcity_war/tasks/', taskDto, { headers })
+    .pipe(catchError(this.errorHandler));
   }
 
   findTasksByDate(orgId: Object, dateRange: DateRange) {
@@ -89,6 +89,11 @@ export class TaskService {
   findUsersOrgsId(userId: string, orgId: string) {
     let headers = new HttpHeaders();
     headers = headers.append('authorization', 'Bearer ' + localStorage.getItem('token'));
-    return this.http.get('http://localhost:8080/smartcity_war/tasks?userId=' + userId + "&orgId=" + orgId, { headers });
+    return this.http.get('http://localhost:8080/smartcity_war/tasks?userId=' + userId + "&orgId=" + orgId, { headers })
+    .pipe(catchError(this.errorHandler));
+  }
+
+  errorHandler(error: HttpErrorResponse) {
+    return throwError(error|| "Server error");
   }
 }

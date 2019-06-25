@@ -20,15 +20,19 @@ export class NavComponent implements OnInit {
   }
 
   refreshBudget() {
-    this.budgetService.getBudget().subscribe(data => {
-      this.budget = data;
-    });
+    if(localStorage.email!=null){
+      this.budgetService.getBudget().subscribe(data => {
+        this.budget = data;
+      });
+    }
   }
 
   initUser() {
-    this.userService.getAuthenticatedUser().subscribe(data => {
-      this.user = data;
-    });
+    if(localStorage.email!=null){
+      this.userService.getAuthenticatedUser().subscribe(data => {
+        this.user = data;
+      });
+    }
   }
 
   ngOnInit() {
@@ -40,7 +44,6 @@ export class NavComponent implements OnInit {
     });
 
     //Refresh budget value upon component load
-    this.refreshBudget();
 
     this.compMessage.currentMessage.subscribe((user: any) => {
       if(user.email!=null){
