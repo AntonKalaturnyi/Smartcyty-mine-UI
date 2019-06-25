@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http
 import { User } from '../model/User';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators'
+import { Role } from '../model/Role';
 
 @Injectable({
   providedIn: 'root'
@@ -40,17 +41,17 @@ export class UserService {
     return this.http.get<User>('http://localhost:8080/smartcity_war/users/get-current', { headers });
   }
 
-  getUserbyEmail(email) {
+  getUserbyEmail(email: String): Observable<User> {
     let headers = this.getAuthHeader();
-    return this.http.get('http://localhost:8080/smartcity_war/users/?email=' + email, { headers });
+    return this.http.get<User>('http://localhost:8080/smartcity_war/users/?email=' + email, { headers });
   }
 
-  getAllUsers(): Observable<any> {
+  getAllUsers(): Observable<User[]> {
     let headers = this.getAuthHeader();
-    return this.http.get('http://localhost:8080/smartcity_war/users/all', { headers });
+    return this.http.get<User[]>('http://localhost:8080/smartcity_war/users/all', { headers });
   }
 
-  deleteUser(id) {
+  deleteUser(id: Number) {
     let headers = this.getAuthHeader();
     return this.http.delete('http://localhost:8080/smartcity_war/users/' + id, { headers });
   }
@@ -72,9 +73,9 @@ export class UserService {
     return this.http.post('http://localhost:8080/smartcity_war/users/activate/' + id, null, { headers });
   }
 
-  getRoles(id) {
+  getRoles(id: Number): Observable<Role[]> {
     let headers = this.getAuthHeader();
-    return this.http.get('http://localhost:8080/smartcity_war/users/' + id + '/get-roles', { headers });
+    return this.http.get<Role[]>('http://localhost:8080/smartcity_war/users/' + id + '/get-roles', { headers });
   }
 
   setRoles(roles, id) {
