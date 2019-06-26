@@ -16,11 +16,13 @@ export class UserListComponent implements OnInit {
   roles: Role[];
   allRoles: Role[];
   selectedRoles: Role[];
+  userRoles: Number[] = [];
   getUsersSubscription;
   getRolesSubscription;
   deactivateUserSubscription;
   activateUserSubscription;
   getUserByEmailSubscription;
+  getRolesAddSubscription;
 
 
 
@@ -58,6 +60,9 @@ export class UserListComponent implements OnInit {
     if(this.getRolesSubscription) {
       this.getRolesSubscription.unsubcribe();
     }
+    if(this.getRolesAddSubscription) {
+      this.getRolesAddSubscription.unsubcribe();
+    }
 
   }
 
@@ -71,6 +76,45 @@ export class UserListComponent implements OnInit {
   getUserRoles(user: User, role: Role) {
     if(user.roles) {
       return user.roles.some((userRole) => userRole.name === role.name);
+    }
+  }
+
+  userAddRoleWithExisting(roleId: Number, id: Number) {
+    for(let user of this.users) {
+      if (user.id === id) {
+        for (let role of user.roles) {
+          if(role.id !== roleId) {
+            this.userRoles.push(role.id);
+          }
+        }
+      }
+    }
+    this.userRoles.push(roleId);
+    this.getRolesAddSubscription = this.data.setRoles(this.userRoles, id).subscribe(data => {
+      console.log(data)
+    })
+  }
+
+  userRemoveRole(roleId: Number, id: Number) {
+    console.log(this.userRoles);
+    for (let user of this.users) {
+      if(user.id === id) {
+        for (let role of user.roles) {
+          this.userRoles.push(role.id);
+        }
+      }
+    }
+    console.log(this.userRoles);
+    this.getRolesAddSubscription = this.data.setRoles(this.userRoles, id).subscribe(data => {
+      console.log(data)
+    })
+  }
+
+  toggleEditable(event, roleId:Number, id:Number) {
+    if(event.target.checked) {
+      this.userAddRoleWithExisting(roleId, id);
+    } else if(!event.target.checked) {
+      this.userRemoveRole(roleId, id);
     }
   }
 

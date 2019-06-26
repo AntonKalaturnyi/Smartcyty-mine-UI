@@ -78,7 +78,7 @@ export class UserService {
     return this.http.get<Role[]>('http://localhost:8080/smartcity_war/users/' + id + '/get-roles', { headers });
   }
 
-  setRoles(roles, id) {
+  setRoles(roles:Number[], id: Number) {
     let headers = this.getAuthHeader();
     return this.http.put('http://localhost:8080/smartcity_war/users/' + id + '/set-roles', roles, { headers });
   }

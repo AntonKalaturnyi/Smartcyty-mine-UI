@@ -41,7 +41,7 @@
                         </button>
                         <div *ngIf="user.roles" class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                             <div *ngFor="let role of allRoles" >
-                                    <label for=""><input type="checkbox" [checked]="getUserRoles(user, role)"> {{role.name}}</label>
+                                    <label for=""><input type="checkbox" [checked]="getUserRoles(user, role)" (change)="toggleEditable($event, role.id, user.id)"> {{role.name}}</label>
                             </div>
                         </div>
                     </div>
