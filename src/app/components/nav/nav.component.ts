@@ -4,6 +4,8 @@ import { BudgetService } from 'src/app/services/budget.service';
 import { Router, NavigationStart } from '@angular/router';
 import { ComponentMessageService } from 'src/app/services/component-message.service';
 import { timer } from 'rxjs';
+import { UserVerificationService } from 'src/app/services/user-verification.service';
+import { User } from 'src/app/model/User';
 
 @Component({
   selector: 'app-nav',
@@ -13,10 +15,12 @@ import { timer } from 'rxjs';
 
 export class NavComponent implements OnInit {
 
-  user: Object;
+  user: User;
   budget: Object;
-
-  constructor(private userService: UserService, private budgetService: BudgetService, private router: Router, private compMessage: ComponentMessageService) {
+  
+  constructor(private userService: UserService, private budgetService: 
+    BudgetService, private router: Router, private compMessage: ComponentMessageService,
+    private userVerfService: UserVerificationService) {
   }
 
   refreshBudget() {
@@ -44,7 +48,6 @@ export class NavComponent implements OnInit {
     });
 
     //Refresh budget value upon component load
-
     this.compMessage.currentMessage.subscribe((user: any) => {
       if(user.email!=null){
       this.user = user;
@@ -74,8 +77,15 @@ export class NavComponent implements OnInit {
     // Process checkout data here
     localStorage.removeItem('token');
     localStorage.removeItem('email');
-    this.user = false;
+    this.user = null;
     this.router.navigateByUrl('/home/signin');
   }
 
+  toOrg() {
+    this.router.navigateByUrl('/home/organizations');
+  }
+  
+  toUsers(){
+    this.router.navigateByUrl('/home/users');
+  }
 }

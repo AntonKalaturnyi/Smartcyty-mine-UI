@@ -7,6 +7,7 @@ import { Task } from 'src/app/model/Task';
 import { User } from 'src/app/model/User';
 import { UserService } from 'src/app/services/user.service';
 import { NotificationService } from 'src/app/services/notification.service';
+import { UserVerificationService } from 'src/app/services/user-verification.service';
 
 @Component({
   selector: 'app-task-create',
@@ -20,11 +21,12 @@ export class TaskCreateComponent implements OnInit {
   allUsers: User[];
   orgId: string;
   date: Date;
-  
-  constructor(private taskService: TaskService, private userService: UserService, 
-    private formBuilder: FormBuilder, private router: Router, 
-    private actRouter: ActivatedRoute, private notificationService: NotificationService) {
-    this.checkoutForm = this.formBuilder.group({ 
+  email: string;
+  constructor(private taskService: TaskService, private userService: UserService,
+    private formBuilder: FormBuilder, private router: Router,
+    private actRouter: ActivatedRoute, private notificationService: NotificationService,
+    private userVerfService: UserVerificationService) {
+    this.checkoutForm = this.formBuilder.group({
       title: '',
       description: '',
       budget: '',
@@ -33,9 +35,12 @@ export class TaskCreateComponent implements OnInit {
       taskStatus: '',
       usersOrganizationsId: ''
     });
-   }
+  }
 
   ngOnInit() {
+    this.email = localStorage.getItem('email');
+    console.log(this.email);
+    
     this.orgId = this.actRouter.snapshot.paramMap.get('id');
     this.userService.getUsersByOrganizationId(this.orgId).subscribe(allUsers => {
       this.allUsers = allUsers;
@@ -44,20 +49,29 @@ export class TaskCreateComponent implements OnInit {
 
   onSubmit(task: Task) {
     // Process checkout data here
-    task.deadlineDate = JSON.stringify(task.deadlineDate).replace('Z','').replace('"', '').replace('"', '');
-    this.taskService.findUsersOrgsId(task.usersOrganizationsId.toString(), this.orgId).subscribe((res)=>{
+    if (this.userVerfService.supervisorVerification()) {
+      task.budget = task.approvedBudget;
+    } else {
+      task.usersOrganizationsId = this.allUsers.filter(item => item.email === localStorage.getItem('email'))[0].id;
+      task.approvedBudget = 0;
+      console.log(task.usersOrganizationsId);
+    }
+    task.taskStatus = 'Todo';
+    task.deadlineDate = JSON.stringify(task.deadlineDate).replace('Z', '').replace('"', '').replace('"', '');
+    this.taskService.findUsersOrgsId(task.usersOrganizationsId.toString(), this.orgId).subscribe((res) => {
       task.usersOrganizationsId = Number.parseInt(res.toString());
-      this.taskService.createTask(task).subscribe(data =>{
+      this.taskService.createTask(task).subscribe(data => {
         console.log(data);
         this.router.navigateByUrl('/home/organizations');
       }, error => {
-          this.notificationService.showErrorHTMLMessage(error.error.message, 'Invalid input')});
+        this.notificationService.showErrorHTMLMessage(error.error.message, 'Invalid input')
+      });
     }
-    , error=>{
-      this.notificationService.showErrorHTMLMessage('Please asign responsible person', 'Invalid input')
-    }
+      , error => {
+        this.notificationService.showErrorHTMLMessage('Please asign responsible person', 'Invalid input')
+      }
     );
-    
+
   }
 
 }

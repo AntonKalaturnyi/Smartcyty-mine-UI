@@ -45,24 +45,21 @@ export class UserListComponent implements OnInit {
 
   ngOnDestroy() {
 
-    if(this.getUsersSubscription) {
-      this.getUsersSubscription.unsubcribe();
-    } 
-    if(this.activateUserSubscription) {
-      this.activateUserSubscription.unsubcribe();
-    }
-    if(this.deactivateUserSubscription) {
-      this.deactivateUserSubscription.unsubcribe();
-    }
-    if(this.getUserByEmailSubscription) {
-      this.getUserByEmailSubscription.unsubcribe();
-    }
-    if(this.getRolesSubscription) {
-      this.getRolesSubscription.unsubcribe();
-    }
-    if(this.getRolesAddSubscription) {
-      this.getRolesAddSubscription.unsubcribe();
-    }
+    // if(this.getUsersSubscription) {
+    //   this.getUsersSubscription.unsubcribe();
+    // } 
+    // if(this.activateUserSubscription) {
+    //   this.activateUserSubscription.unsubcribe();
+    // }
+    // if(this.deactivateUserSubscription) {
+    //   this.deactivateUserSubscription.unsubcribe();
+    // }
+    // if(this.getUserByEmailSubscription) {
+    //   this.getUserByEmailSubscription.unsubcribe();
+    // }
+    // if(this.getRolesSubscription) {
+    //   this.getRolesSubscription.unsubcribe();
+    // }
 
   }
 

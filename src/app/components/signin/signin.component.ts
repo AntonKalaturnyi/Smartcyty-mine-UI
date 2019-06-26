@@ -4,6 +4,7 @@ import { UserService } from 'src/app/services/user.service';
 import { Router } from '@angular/router';
 import { ComponentMessageService } from 'src/app/services/component-message.service';
 import { NotificationService } from 'src/app/services/notification.service';
+import { User } from 'src/app/model/User';
 
 
 @Component({
@@ -14,7 +15,7 @@ import { NotificationService } from 'src/app/services/notification.service';
 export class SigninComponent implements OnInit {
 
   checkoutForm;
-  user: any;
+  user: User;
   errorMsg: string;
   constructor(private formBuilder: FormBuilder, private userService: UserService, 
     private router: Router, private compMessage: ComponentMessageService, 
@@ -31,7 +32,6 @@ export class SigninComponent implements OnInit {
   onSubmit(user) {
     // Process checkout data here
     this.userService.authUser(user).subscribe(data => {
-      // console.log(data);
       localStorage.setItem('token', data.token);
       localStorage.setItem('email', data.username);
       this.userService.getUserbyEmail(user.username).subscribe(data => {

@@ -1,4 +1,6 @@
-<div class="row">
+<div
+  *ngIf="this.userVerfService.supervisorVerification()||this.userVerfService.responsiblePersonVerification(); else elseBlock"
+  class="row">
   <div class="my-5 col-sm-4 offset-sm-4 text-center">
     <h2>Create Task</h2>
     <br>
@@ -11,28 +13,30 @@
         <textarea type="textarea" class="form-control" formControlName="description"
           placeholder="Description"></textarea>
       </div>
-      <div class="form-group row">
+      <div *ngIf="!this.userVerfService.supervisorVerification()" class="form-group row">
         <input type="number" class="form-control" formControlName="budget" placeholder="Budget">
       </div>
-      <div class="form-group row">
-        <input type="number" class="form-control" formControlName="approvedBudget" placeholder="Approved Budget">
+      <div *ngIf="!this.userVerfService.responsiblePersonVerification()||this.userVerfService.supervisorVerification()"
+        class="form-group row">
+        <input type="number" class="form-control" formControlName="approvedBudget" placeholder="Budget">
       </div>
-      <div class="form-group row">
-          <select class="form-control" formControlName="taskStatus">
-              <option value="" disabled selected>Task Status</option>
-              <option style="color: black" value="Todo">Todo</option>
-              <option style="color: black" value="InProgress">InProgress</option>
-              <option style="color: black" value="Done">Done</option>
-            </select>
-      </div>
-      <div class="form-group row">
+      <!-- <div class="form-group row">
+        <select class="form-control" formControlName="taskStatus">
+          <option value="" disabled selected>Task Status</option>
+          <option style="color: black" value="Todo">Todo</option>
+          <option style="color: black" value="InProgress">InProgress</option>
+          <option style="color: black" value="Done">Done</option>
+        </select>
+      </div> -->
+      <div *ngIf="this.userVerfService.supervisorVerification();" class="form-group row">
         <select class="form-control" formControlName="usersOrganizationsId" name="users">
           <option value="" disabled selected>Assignee</option>
           <option style="color: black" *ngFor="let user: of allUsers" value="{{user.id}}">{{user.name}}</option>
         </select>
       </div>
       <div class="form-group row">
-        <input class="form-control col-sm-6" matInput [matDatepicker]="picker" formControlName="deadlineDate" placeholder="Choose a date">
+        <input class="form-control col-sm-6" matInput [matDatepicker]="picker" formControlName="deadlineDate"
+          placeholder="Choose a date">
         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
         <mat-datepicker #picker></mat-datepicker>
       </div>
@@ -40,3 +44,8 @@
     </form>
   </div>
 </div>
+<ng-template #elseBlock>
+  <div class="my-5 col-sm-4 offset-sm-4 text-center">
+    <h2>You don't have permissions to create task.</h2>
+  </div>
+</ng-template>
