@@ -13,12 +13,14 @@ import { ConstantPool } from '@angular/compiler';
   styleUrls: ['./user-list.component.scss']
 })
 export class UserListComponent implements OnInit {
-  inputEmail: String;
+  inputName: string;
   //storing users
   users: User[];
+  allUsers: User[];
   roles: Role[];
   allRoles: Role[];
   selectedRoles: Role[];
+  userId: number;
   getUsersSubscription;
   getRolesSubscription;
   deactivateUserSubscription;
@@ -34,42 +36,49 @@ export class UserListComponent implements OnInit {
   ngOnInit() {
     this.getUsersSubscription = this.userService.getAllUsers().subscribe(data => {
       this.users = data;
-      console.log(this.users);
+      this.allUsers = data;
       for (let user of this.users) {
         this.userService.getRoles(user.id).subscribe(date2 => {
           user.roles = date2;
         });
       }
     });
+    this.userService.getAuthenticatedUser().subscribe(authUser => {
+      this.userId = authUser.id;
+    });
     this.getRolesSubscription = this.roleService.getRoles().subscribe(roleService => {
       this.allRoles = roleService;
     });
   }
 
-  ngOnDestroy() {
-
-    // if(this.getUsersSubscription) {
-    //   this.getUsersSubscription.unsubcribe();
-    // }
-    // if(this.activateUserSubscription) {
-    //   this.activateUserSubscription.unsubcribe();
-    // }
-    // if(this.deactivateUserSubscription) {
-    //   this.deactivateUserSubscription.unsubcribe();
-    // }
-    // if(this.getUserByEmailSubscription) {
-    //   this.getUserByEmailSubscription.unsubcribe();
-    // }
-    // if(this.getRolesSubscription) {
-    //   this.getRolesSubscription.unsubcribe();
-    // }
-
+  showUsers() {
+    this.users = this.allUsers;
   }
 
-  getUsers() {
-    this.getUsersSubscription = this.userService.getAllUsers().subscribe(data => {
-      this.users = data;
-      console.log(this.users);
+  search(){
+    this.users = this.allUsers.filter(value => {
+      if(value.name) {
+        return value.name.toLowerCase().indexOf(this.inputName.toLowerCase()) > -1
+      }
+      return false;
+    });
+  }
+
+  isCurrent(user: User):boolean {
+    if(this.userId) {
+      return user.id === this.userId;
+    }
+  }
+
+  showActive() {
+    this.users = this.allUsers.filter(user => {
+      return user.active;
+    });
+  }
+
+  showDeactivated() {
+    this.users = this.allUsers.filter(user => {
+      return !user.active;
     })
   }
 
@@ -127,13 +136,4 @@ export class UserListComponent implements OnInit {
       console.log(data);
     });
   }
-
-  getUserByEmail(inputEmail: String) {
-    this.getUserByEmailSubscription = this.userService.getUserbyEmail(this.inputEmail).subscribe(user => {
-      let userList: User[] = []; userList.push(user); this.users = userList;
-      console.log(this.users);
-    });
-  }
-
-
 }

@@ -6,5 +6,6 @@ export class User{
     surname: string;
     email: string;
     phoneNumber: string;
+    active: boolean;
     roles: Role[];
 }

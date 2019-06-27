@@ -1,23 +1,27 @@
 <div class="user-list-header">
   <nav class="navbar navbar-light">
-    <button class="navbar-brand" (click)="getUsers()">Smartcity users</button>
+    <button type="button" class="allUsers btn btn-outline-primary" (click)="showUsers()">All</button>
+    <button type="button" class="btn btn-outline-success" (click)="showActive()">Activated</button>
+    <button type="button" class="btn btn-outline-danger" (click)="showDeactivated()">Deactivated</button>
     <form class="email-search form-inline" (ngSubmit)="getUserByEmail(inputEmail)" >
       <label>
-        <div class="input-group">
-          <div class="input-group-prepend">
-            <span class="input-group-text" id="basic-addon1">@</span>
+          <div class="input-group flex-row">
+            <div class="input-group-prepend">
+              <span class="input-group-text" id="basic-addon1">@</span>
+            </div>
+            <div>
+              <input class="form-control searchByName rounded-0" type="search" placeholder="Search by name" aria-label="Search" [(ngModel)]="inputName"  (ngModelChange)="search()" name="inputName">
+            </div>
           </div>
-          <input class="form-control" type="search" placeholder="Search by email" aria-label="Search" [(ngModel)]="inputEmail" name="inputEmail">
-        </div>
       </label>
     </form>
   </nav>
 </div>
 <div class="user-list-body table-responsive">
   <table class="table table-borderless">
-    <thead class="thead-light">
+    <thead>
     <tr>
-      <th>Id</th>
+      <th>#</th>
       <th>Fullname</th>
       <th>Email</th>
       <th>Phone</th>
@@ -28,28 +32,29 @@
     </tr>
     </thead>
     <tbody *ngIf="users">
-    <tr *ngFor="let user of users">
+    <tr *ngFor="let user of users" [class.table-info]="isCurrent(user)">
       <td style="color: #555"><strong>{{user.id}}</strong></td>
       <td>{{user.name}} {{user.surname}}</td>
       <td>{{user.email}}</td>
       <td>{{user.phoneNumber}}</td>
-      <td>{{user.createdDate}}</td>
+      <td>{{user.createdDate | date:'MM-dd-yyyy HH:mm:ss'}}</td>
       <td>
         <div class="dropdown">
-          <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            edit roles
+          <button class="roleButton btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <span *ngIf="user.roles == 0">Edit roles</span>
+            <span *ngFor="let role of user.roles" class="rolesView"><b>(</b>{{role.name.replace('ROLE_','')}}<b>) </b></span>
           </button>
           <div *ngIf="user.roles" class="dropdown-menu" aria-labelledby="dropdownMenuButton">
             <div *ngFor="let role of allRoles" >
-              <label for=""><input type="checkbox" [checked]="getUserRoles(user, role)" (change)="toggleEditable($event, role, user)"> {{role.name}}</label>
+              <label for=""><input type="checkbox" [disabled]="isCurrent(user)" [checked]="getUserRoles(user, role)" (change)="toggleEditable($event, role, user)"> {{role.name}}</label>
             </div>
           </div>
         </div>
       </td>
       <td [className]="user.active ? 'activated' : 'deactivated'">{{user.active}}</td>
       <td>
-        <button (click)=activateUser(user)><i class="fas fa-plus-circle"></i></button>
-        <button (click)="deactivateUser(user)"><i class="fas fa-minus-circle"></i></button>
+        <button *ngIf="!isCurrent(user)" class="activate" (click)=activateUser(user)><i class="fas fa-plus-circle"></i></button>
+        <button *ngIf="!isCurrent(user)" class="activate" (click)="deactivateUser(user)"><i class="fas fa-minus-circle"></i></button>
       </td>
     </tr>
   </table>
