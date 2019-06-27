@@ -1,4 +1,4 @@
-<div class="form row mt-3">
+<div *ngIf="this.userVerificationService.adminVerification() else accessDenied" class="form row mt-3">
   <div class="my-5 col-sm-6 offset-sm-3 text-center mt-5">
     <h2>Create organization</h2>
     <br>
@@ -24,3 +24,10 @@
     </form>
   </div>
 </div>
+<ng-template #accessDenied>
+  <div class="denied mt-3 p-5 alert-danger">
+    <h2 class="text-danger mt-3">ACCESS DENIED !!!</h2>
+    <p class="mt-4">You dont have permissions to view this information.<br><br> Please contact your administrator.</p>
+  </div>
+</ng-template>
+

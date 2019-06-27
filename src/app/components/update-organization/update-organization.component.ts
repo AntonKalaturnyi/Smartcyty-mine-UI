@@ -3,6 +3,7 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {OrganizationService} from '../../services/organization.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Organization} from '../../model/Organization';
+import {UserVerificationService} from '../../services/user-verification.service';
 
 @Component({
   selector: 'app-update-organization',
@@ -14,7 +15,7 @@ export class UpdateOrganizationComponent implements OnInit {
   updateOrganizationForm: FormGroup;
 
   constructor(private formBuilder: FormBuilder, private organizationService: OrganizationService, private router: Router,
-              private actRouter: ActivatedRoute) {
+              private actRouter: ActivatedRoute, private userVerificationService: UserVerificationService) {
     this.updateOrganizationForm = this.formBuilder.group({
       name: ['', [Validators.required]],
       address: ['', [Validators.required]]

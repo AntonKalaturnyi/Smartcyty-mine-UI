@@ -15,7 +15,7 @@
           <div *ngIf="user;" class="pointer" (click)="toOrg()">Organizations</div>
         </li>
         <li class="ml-4">
-          <div *ngIf="user&&this.userVerfService.adminVerification()" class="pointer" (click)="toUsers()">Users</div>
+          <div *ngIf="user&&this.userVerfService.adminVerification" class="pointer" (click)="toUsers()">Users</div>
         </li>
       </ul>
       <!-- Button for log in and log out, depends on state -->

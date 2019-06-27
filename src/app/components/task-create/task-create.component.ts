@@ -49,7 +49,7 @@ export class TaskCreateComponent implements OnInit {
 
   onSubmit(task: Task) {
     // Process checkout data here
-    if (this.userVerfService.supervisorVerification()) {
+    if (this.userVerfService.supervisorVerification) {
       task.budget = task.approvedBudget;
     } else {
       task.usersOrganizationsId = this.allUsers.filter(item => item.email === localStorage.getItem('email'))[0].id;

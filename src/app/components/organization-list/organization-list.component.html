@@ -1,4 +1,5 @@
-<div *ngIf="organizations" class="text-center row my-4">
+<div *ngIf="this.userVerificationService.adminVerification() || this.userVerificationService.supervisorVerification()
+ || this.userVerificationService.responsiblePersonVerification(); else accessDenied" class="text-center row my-4">
   <div *ngFor="let organization of organizations" class="mt-4 mb-4 card-wrapper">
     <div class="card border-dark">
       <div class="card-header">
@@ -14,7 +15,7 @@
           </div>
         </div>
       </div>
-      <div class="card-body text-dark" (dblclick)="onDblClickTasksList(organization.id)">
+      <div class="card-body text-dark" (dblclick)="this.userVerificationService.adminVerification() && onDblClickTasksList(organization.id)">
         <!-- Need to change properties after changing url -->
         <h6 class="card-title">{{organization.address}}</h6>
         <br>
@@ -33,7 +34,7 @@
           <img src="/assets/update.png" class="update-organization-button">
         </div>
         <div
-          *ngIf="this.userVerificationService.adminVerification() || this.userVerificationService.supervisorVerification()"
+          *ngIf="this.userVerificationService.adminVerification()"
           (click)="onClickUsersOrganization(organization.id)">
           <img src="/assets/users-organization.png" class="users-organization-button">
         </div>
@@ -48,3 +49,9 @@
     </div>
   </div>
 </div>
+<ng-template #accessDenied>
+  <div class="denied mt-3 p-5 alert-danger">
+    <h2 class="text-danger mt-3">ACCESS DENIED !!!</h2>
+    <p class="mt-4">You dont have permissions to view this information.<br><br> Please contact your administrator.</p>
+  </div>
+</ng-template>

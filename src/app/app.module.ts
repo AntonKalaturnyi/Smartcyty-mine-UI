@@ -24,7 +24,7 @@ import {SignupComponent} from './components/signup/signup.component';
 import {SigninComponent} from './components/signin/signin.component';
 import {UserListComponent} from './components/user-list/user-list.component';
 import {TaskCreateComponent} from './components/task-create/task-create.component';
-import { TaskUpdateComponent } from './components/task-update/task-update.component';
+import {TaskUpdateComponent} from './components/task-update/task-update.component';
 import {TaskListComponent} from './components/task-list/task-list.component';
 import {UserUpdateComponent} from './components/user-update/user-update.component';
 import {PasswordUpdateComponent} from './components/password-update/password-update.component';
@@ -35,7 +35,7 @@ import {CommentEditComponent} from './components/comment-edit/comment-edit.compo
 import {UsersOrganizationComponent} from './components/users-organization/users-organization.component';
 import {TransactionListComponent} from './components/transaction-list/transaction-list.component';
 import {MatConfirmDialogComponent} from './components/mat-confirm-dialog/mat-confirm-dialog.component';
-import { ToastrModule } from 'ngx-toastr';
+import {ToastrModule} from 'ngx-toastr';
 
 @NgModule({
   declarations: [

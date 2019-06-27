@@ -4,6 +4,7 @@ import {ActivatedRoute} from '@angular/router';
 import {UserService} from '../../services/user.service';
 import {Organization} from '../../model/Organization';
 import {User} from '../../model/User';
+import {UserVerificationService} from '../../services/user-verification.service';
 
 @Component({
   selector: 'app-users-organization',
@@ -17,7 +18,7 @@ export class UsersOrganizationComponent implements OnInit {
   usersOrganization: User[];
 
   constructor(private organizationService: OrganizationService, private userService: UserService,
-              private actRouter: ActivatedRoute) {
+              private actRouter: ActivatedRoute, private userVerificatioService: UserVerificationService) {
   }
 
   ngOnInit() {

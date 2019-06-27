@@ -19,18 +19,21 @@ export class OrganizationListComponent implements OnInit {
   organizations: Organization[];
   authenticatedUser: User;
 
-  constructor(private organizationService: OrganizationService, private taskService: TaskService, private router: Router,
-              private dialogService: DialogService, private userService: UserService,
-              private userVerificationService: UserVerificationService) {
+  constructor(private userVerificationService: UserVerificationService, private organizationService: OrganizationService,
+              private taskService: TaskService, private router: Router,
+              private dialogService: DialogService, private userService: UserService) {
   }
 
   ngOnInit() {
+    console.log(this.userVerificationService.adminVerification());
+    console.log(this.userVerificationService.supervisorVerification());
+    console.log(this.userVerificationService.responsiblePersonVerification());
+    console.log(this.userVerificationService.userVerification());
     this.userService.getAuthenticatedUser().subscribe(authenticatedUser => {
       this.authenticatedUser = authenticatedUser;
       this.organizationService.findAllOrganizations().subscribe(data => {
         this.organizations = data;
-        if (!this.userVerificationService.adminVerification()
-          && !this.userVerificationService.supervisorVerification()
+        if (!this.userVerificationService.adminVerification() && !this.userVerificationService.supervisorVerification()
           && this.userVerificationService.responsiblePersonVerification()) {
           this.organizations = this.organizations.filter(organization => organization.responsiblePersons
             .some((item) => item.id === this.authenticatedUser.id));
