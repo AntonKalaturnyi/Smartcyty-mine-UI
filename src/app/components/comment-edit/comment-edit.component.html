@@ -1,7 +1,7 @@
 <div class="my-5 col-sm-6 offset-sm-3 text-center mt-5">
   <h2>Update comment</h2>
     <br>
-    <form id="contact-form" [formGroup]="updatedCommentForm" (ngSubmit)="onSubmit(updatedCommentForm.value)" role="form">
+    <form id="contact-form" [formGroup]="updatedCommentForm"role="form">
       <div class="controls form-builder">
         <div class="row">
           <div class="col-md-12">
@@ -16,7 +16,7 @@
             </div>
           </div>
           <div class="col-md-12">
-            <button type="submit" class="btn btn-primary">Update</button>
+            <button type="submit" class="btn btn-primary" (click)="onSubmit(updatedCommentForm.value)">Update</button>
             <button class="btn btn-danger ml-4" (click)="onClickCancel()">Cancel</button>
           </div>
         </div>

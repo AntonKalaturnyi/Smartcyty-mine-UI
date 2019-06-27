@@ -1,4 +1,4 @@
-<div *ngIf="task">
+<div *ngIf="task && (this.userVerificationService.responsiblePersonVerification() || this.userVerificationService.adminVerification() || this.userVerificationService.supervisorVerification())">
   <div class="task-list-header">
     <nav class="navbar">
         <h4>Comments for: <a (click)="goBackToTask()">{{task.title}}</a></h4>
@@ -13,9 +13,10 @@
             </div>
         </div>
         <div class="sort-classs flex-row text-center justify-content-center">
-           Sort by Date Created:
-            <button class="btn btn-secondary btn-marg" (click)="sortNew()">First New</button>
-            <button class="btn btn-secondary btn-marg" (click)="sortOld()">First Old</button>
+            <button class="btn btn-secondary btn-marg" (click)="viewAll()">Viwe All</button>
+            <button class="btn btn-secondary btn-marg" (click)="viewNew()">Only New</button>
+            <button class="btn btn-secondary btn-marg" (click)="sortNew()">Sort first New</button>
+            <button class="btn btn-secondary btn-marg" (click)="sortOld()">Sort first Old</button>
         </div>
     </nav>
   </div>
@@ -62,16 +63,20 @@
                   <img src="https://bootdey.com/img/Content/user_1.jpg" class="avatar" alt="">
                   <div class="post-comments">
                     <p class="header-info">
-                     <i>Author: <strong class="text-success text-left">{{comment.userId}}</strong></i>
-                      <i class="pull-right text-right" >Created: {{ comment.createdDate | date:'MM/dd/yyyy HH:mm:ss' }} Updated: {{ comment.updatedDate | date:'MM/dd/yyyy HH:mm:ss' }}</i>
+                     <i>Author: <strong class="text-success text-left">{{comment.createName}}</strong></i>
+                      <i class="pull-right text-right" >Created: {{ comment.createdDate | date:'MM/dd/yyyy HH:mm:ss' }} Updated: {{ comment.updatedDate | date:'MM/dd/yyyy HH:mm:ss' }} View: {{comment.userSeen.length}}</i>
                     </p>
                     <p class="description">
                       {{comment.description}}
                     </p>
                     <div class="text-right">
-                      <button  *ngIf="checkOnOwner(comment)" (click)="handleEdit(comment)" class="btn btn-primary btn-marg text-right" href="#">Редагувати</button>
-                      <button *ngIf="checkOnOwner(comment)" (click)="handleDelete(comment)" class="btn btn-danger btn-marg text-right" href="#">Видалити</button>
+                      <button  *ngIf="checkOnOwner(comment) || this.userVerificationService.adminVerification()" (click)="handleEdit(comment)" class="btn btn-primary btn-marg text-center" >Edit</button>
+                      <button *ngIf="checkOnOwner(comment) || this.userVerificationService.adminVerification()" (click)="handleDelete(comment)" class="btn btn-danger btn-marg text-center" >Delete</button>
+                      <button *ngIf="checkOnSeen(comment) && !checkOnOwner(comment)" (click)="addToSeen(comment)" class="btn btn-primary btn-marg text-center">Seen!</button>
                     </div>
+                  </div>
+                  <div class="checkNewBlock" *ngIf="checkOnSeen(comment) && !checkOnOwner(comment)">
+                    <div class="newMessag"></div>
                   </div>
                 </li>
               </ul>
@@ -82,7 +87,7 @@
              <button (click)="viewMore()" class="btn btn-primary btn-marg-botom">View more Comments! ({{allComments.length - comments.length}})</button>
         </div>
         <div *ngIf="comments.length === 0">
-          <h2>Comments not found!!!</h2>
+          <h2>Comments not found or loading...</h2>
         </div>
       </div>
     </div>

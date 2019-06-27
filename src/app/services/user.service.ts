@@ -93,6 +93,12 @@ export class UserService {
     return this.http.get('http://localhost:8080/smartcity_war/users/role/' + id, { headers });
   }
 
+
+  getUsersByCommentId(commentId): Observable<any> {
+    let headers = this.getAuthHeader();
+    return this.http.get('http://localhost:8080/smartcity_war/users/comment/' + commentId, { headers });
+  }
+
   private getAuthHeader() {
     let headers = new HttpHeaders();
     if (localStorage.getItem('token')) {

@@ -82,7 +82,10 @@ import { ToastrModule } from 'ngx-toastr';
         disableTimeOut: true,
         maxOpened: 6,
         progressBar: true,
-        newestOnTop: true
+        newestOnTop: true,
+        autoDismiss: true,
+        countDuplicates: true,
+        preventDuplicates: true
       }
     )
   ],

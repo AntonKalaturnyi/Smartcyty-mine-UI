@@ -31,15 +31,17 @@ export class CommentEditComponent implements OnInit {
           console.log(date);
           this.router.navigateByUrl('home/comments/' + com.taskId);
           this.notificationService.showSuccessWithTimeout("Comment has been successfully updated!","Success",3200);
-        });
-      });
+        },  error =>         this.notificationService.showErrorHTMLMessage(error.error.message,"Error"))
+      },error => this.notificationService.showErrorHTMLMessage(error.error.message,"Error"));
     }
     else{
       this.notificationService.showErrorWithTimeout("You do not update the comment with the empty description!!!","Error",4200);
     }
   }
   onClickCancel() {
-    this.router.navigateByUrl('home/comments/' + this.actRouter.snapshot.paramMap.get('id'));
+    this.commentService.findCommentById(this.actRouter.snapshot.paramMap.get('id')).subscribe((com: Comment) => {
+        this.router.navigateByUrl('home/comments/' + com.taskId);
+      },error => this.notificationService.showErrorHTMLMessage(error.error.message,"Error"));
   }
   ngOnInit() {
     this.commentService.findCommentById(this.actRouter.snapshot.paramMap.get('id')).subscribe((comment: Comment) => {

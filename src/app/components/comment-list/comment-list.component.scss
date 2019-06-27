@@ -94,6 +94,7 @@
 }
 .btn-marg{
   margin-left: 15px;
+  min-width: 70px;
 }
 .btn-marg-botom{
   margin-bottom: 30px;
@@ -109,4 +110,16 @@
   justify-content: center;
   display: flex;
   flex-direction: column;
+}
+
+.checkNewBlock{
+  margin-left: 15px;
+}
+
+.newMessag{
+  background: url("../../../assets/new.png") center;
+  -webkit-background-size: cover;
+  background-size: cover;
+  width: 100px;
+  height: 72px;
 }
