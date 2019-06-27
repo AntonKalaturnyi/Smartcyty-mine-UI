@@ -75,8 +75,7 @@ export class NavComponent implements OnInit {
 
   logOut() {
     // Process checkout data here
-    localStorage.removeItem('token');
-    localStorage.removeItem('email');
+    localStorage.clear();
     this.user = null;
     this.router.navigateByUrl('/home/signin');
   }

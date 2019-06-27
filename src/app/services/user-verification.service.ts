@@ -10,36 +10,35 @@ export class UserVerificationService {
   authenticatedUser: User;
 
   constructor(private userService: UserService) {
-    this.userService.getAuthenticatedUser().subscribe(authenticatedUser => {
-      this.authenticatedUser = authenticatedUser;
-      this.userService.getRoles(this.authenticatedUser.id).subscribe(roles => {
-        this.authenticatedUser.roles = roles;
-      });
-    });
+   
   }
 
   adminVerification(): boolean {
-    if (this.authenticatedUser && this.authenticatedUser.roles) {
-      return this.authenticatedUser.roles.some((item) => item.name === 'ROLE_ADMIN');
+    if(localStorage.getItem('ROLE_ADMIN')){
+      return true;
     }
+    return false;
   }
 
   supervisorVerification(): boolean {
-    if (this.authenticatedUser && this.authenticatedUser.roles) {
-      return this.authenticatedUser.roles.some((item) => item.name === 'ROLE_SUPERVISOR');
+    if(localStorage.getItem('ROLE_SUPERVISOR')){
+      return true;
     }
+    return false;
   }
 
   responsiblePersonVerification(): boolean {
-    if (this.authenticatedUser && this.authenticatedUser.roles) {
-      return this.authenticatedUser.roles.some((item) => item.name === 'ROLE_RESPONSIBLE_PERSON');
+    if(localStorage.getItem('ROLE_RESPONSIBLE_PERSON')){
+      return true;
     }
+    return false;
   }
 
   userVerification(): boolean {
-    if (this.authenticatedUser && this.authenticatedUser.roles) {
-      return this.authenticatedUser.roles.some((item) => item.name === 'ROLE_USER');
+    if(localStorage.getItem('ROLE_USER')){
+      return true;
     }
+    return false;
   }
 
 }

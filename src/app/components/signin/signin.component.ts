@@ -32,6 +32,11 @@ export class SigninComponent implements OnInit {
   onSubmit(user) {
     // Process checkout data here
     this.userService.authUser(user).subscribe(data => {
+      console.log(data);
+        data.roles.forEach(element => {
+          console.log(element.name);
+          localStorage.setItem(element.name, 'true');
+        });
       localStorage.setItem('token', data.token);
       localStorage.setItem('email', data.username);
       this.userService.getUserbyEmail(user.username).subscribe(data => {
