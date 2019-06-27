@@ -13,10 +13,10 @@
       <textarea type="textarea" class="form-control" formControlName="description"
         placeholder="Description"></textarea>
     </div>
-    <div class="form-group row">
+    <div *ngIf="this.verificationService.responsiblePersonVerification() && !this.verificationService.supervisorVerification()" class="form-group row">
       <input type="number" class="form-control" formControlName="budget" placeholder="Budget">
     </div>
-    <div class="form-group row">
+    <div *ngIf="this.verificationService.supervisorVerification()" class="form-group row">
       <input type="number" class="form-control" formControlName="approvedBudget" placeholder="Approved Budget">
     </div>
     <div class="form-group row">
