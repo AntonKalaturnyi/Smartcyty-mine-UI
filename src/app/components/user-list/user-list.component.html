@@ -1,61 +1,69 @@
-<div class="user-list-header">
-  <nav class="navbar navbar-light">
-    <button type="button" class="allUsers btn btn-outline-primary" (click)="showUsers()">All</button>
-    <button type="button" class="btn btn-outline-success" (click)="showActive()">Activated</button>
-    <button type="button" class="btn btn-outline-danger" (click)="showDeactivated()">Deactivated</button>
-    <form class="email-search form-inline" (ngSubmit)="getUserByEmail(inputEmail)" >
-      <label>
-          <div class="input-group flex-row">
-            <div class="input-group-prepend">
-              <span class="input-group-text" id="basic-addon1">@</span>
+<div *ngIf="this.userVerificationService.adminVerification(); else accessDenied">
+  <div class="user-list-header">
+    <nav class="navbar navbar-light">
+      <button type="button" class="allUsers btn btn-outline-primary" (click)="showUsers()">All</button>
+      <button type="button" class="btn btn-outline-success" (click)="showActive()">Activated</button>
+      <button type="button" class="btn btn-outline-danger" (click)="showDeactivated()">Deactivated</button>
+      <form class="email-search form-inline" (ngSubmit)="getUserByEmail(inputEmail)" >
+        <label>
+            <div class="input-group flex-row">
+              <div class="input-group-prepend">
+                <span class="input-group-text" id="basic-addon1">@</span>
+              </div>
+              <div>
+                <input class="form-control searchByName rounded-0" type="search" placeholder="Search by name" aria-label="Search" [(ngModel)]="inputName"  (ngModelChange)="search()" name="inputName">
+              </div>
             </div>
-            <div>
-              <input class="form-control searchByName rounded-0" type="search" placeholder="Search by name" aria-label="Search" [(ngModel)]="inputName"  (ngModelChange)="search()" name="inputName">
+        </label>
+      </form>
+    </nav>
+  </div>
+  <div class="user-list-body table-responsive">
+    <table class="table table-borderless">
+      <thead>
+      <tr>
+        <th>#</th>
+        <th>Fullname</th>
+        <th>Email</th>
+        <th>Phone</th>
+        <th>Date Created</th>
+        <th>Roles</th>
+        <th>Active</th>
+        <th>Actions</th>
+      </tr>
+      </thead>
+      <tbody *ngIf="users">
+      <tr *ngFor="let user of users" [class.table-info]="isCurrent(user)">
+        <td style="color: #555"><strong>{{user.id}}</strong></td>
+        <td>{{user.name}} {{user.surname}}</td>
+        <td>{{user.email}}</td>
+        <td>{{user.phoneNumber}}</td>
+        <td>{{user.createdDate | date:'MM-dd-yyyy HH:mm:ss'}}</td>
+        <td>
+          <div class="dropdown">
+            <button class="roleButton btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <span *ngIf="user.roles == 0">Edit roles</span>
+              <span *ngFor="let role of user.roles" class="rolesView"><b>(</b>{{role.name.replace('ROLE_','')}}<b>) </b></span>
+            </button>
+            <div *ngIf="user.roles" class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+              <div *ngFor="let role of allRoles" >
+                <label for=""><input type="checkbox" [disabled]="isCurrent(user)" [checked]="getUserRoles(user, role)" (change)="toggleEditable($event, role, user)"> {{role.name}}</label>
+              </div>
             </div>
           </div>
-      </label>
-    </form>
-  </nav>
+        </td>
+        <td [className]="user.active ? 'activated' : 'deactivated'">{{user.active}}</td>
+        <td>
+          <button *ngIf="!isCurrent(user)" class="activate" (click)=activateUser(user)><i class="fas fa-plus-circle"></i></button>
+          <button *ngIf="!isCurrent(user)" class="activate" (click)="deactivateUser(user)"><i class="fas fa-minus-circle"></i></button>
+        </td>
+      </tr>
+    </table>
+  </div>
 </div>
-<div class="user-list-body table-responsive">
-  <table class="table table-borderless">
-    <thead>
-    <tr>
-      <th>#</th>
-      <th>Fullname</th>
-      <th>Email</th>
-      <th>Phone</th>
-      <th>Date Created</th>
-      <th>Roles</th>
-      <th>Active</th>
-      <th>Actions</th>
-    </tr>
-    </thead>
-    <tbody *ngIf="users">
-    <tr *ngFor="let user of users" [class.table-info]="isCurrent(user)">
-      <td style="color: #555"><strong>{{user.id}}</strong></td>
-      <td>{{user.name}} {{user.surname}}</td>
-      <td>{{user.email}}</td>
-      <td>{{user.phoneNumber}}</td>
-      <td>{{user.createdDate | date:'MM-dd-yyyy HH:mm:ss'}}</td>
-      <td>
-        <div class="dropdown">
-          <button class="roleButton btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <span *ngIf="user.roles == 0">Edit roles</span>
-            <span *ngFor="let role of user.roles" class="rolesView"><b>(</b>{{role.name.replace('ROLE_','')}}<b>) </b></span>
-          </button>
-          <div *ngIf="user.roles" class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-            <div *ngFor="let role of allRoles" >
-              <label for=""><input type="checkbox" [disabled]="isCurrent(user)" [checked]="getUserRoles(user, role)" (change)="toggleEditable($event, role, user)"> {{role.name}}</label>
-            </div>
-          </div>
-        </div>
-      </td>
-      <td [className]="user.active ? 'activated' : 'deactivated'">{{user.active}}</td>
-      <td>
-        <button *ngIf="!isCurrent(user)" class="activate" (click)=activateUser(user)><i class="fas fa-plus-circle"></i></button>
-        <button *ngIf="!isCurrent(user)" class="activate" (click)="deactivateUser(user)"><i class="fas fa-minus-circle"></i></button>
-      </td>
-    </tr>
-  </table>
-</div>
+<ng-template #accessDenied>
+  <div class="denied mt-3 p-5 alert-danger">
+    <h2 class="text-danger mt-3">Access denied</h2>
+    <p class="mt-4">You don't have permission to view this resource.</p>
+  </div>
+</ng-template>

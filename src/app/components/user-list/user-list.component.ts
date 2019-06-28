@@ -6,6 +6,7 @@ import { Role } from 'src/app/model/Role';
 import { element } from 'protractor';
 import { Observable } from 'rxjs';
 import { ConstantPool } from '@angular/compiler';
+import { UserVerificationService } from 'src/app/services/user-verification.service';
 
 @Component({
   selector: 'app-user-list',
@@ -21,6 +22,7 @@ export class UserListComponent implements OnInit {
   allRoles: Role[];
   selectedRoles: Role[];
   userId: number;
+  authenticationUser: User;
   getUsersSubscription;
   getRolesSubscription;
   deactivateUserSubscription;
@@ -30,24 +32,27 @@ export class UserListComponent implements OnInit {
 
 
 
-  constructor(private userService: UserService, private roleService: RoleService) { }
+  constructor(private userService: UserService, private roleService: RoleService, 
+    private userVerificationService: UserVerificationService) { }
 
 
   ngOnInit() {
-    this.getUsersSubscription = this.userService.getAllUsers().subscribe(data => {
-      this.users = data;
-      this.allUsers = data;
-      for (let user of this.users) {
-        this.userService.getRoles(user.id).subscribe(date2 => {
-          user.roles = date2;
-        });
-      }
-    });
+    console.log(this.userVerificationService.adminVerification());
     this.userService.getAuthenticatedUser().subscribe(authUser => {
       this.userId = authUser.id;
-    });
-    this.getRolesSubscription = this.roleService.getRoles().subscribe(roleService => {
-      this.allRoles = roleService;
+      this.authenticationUser = authUser;
+      this.getUsersSubscription = this.userService.getAllUsers().subscribe(data => {
+        this.users = data;
+        this.allUsers = data;
+        for (let user of this.users) {
+          this.userService.getRoles(user.id).subscribe(date2 => {
+            user.roles = date2;
+          });
+        }
+      });
+      this.getRolesSubscription = this.roleService.getRoles().subscribe(roleService => {
+        this.allRoles = roleService;
+      });
     });
   }
 
