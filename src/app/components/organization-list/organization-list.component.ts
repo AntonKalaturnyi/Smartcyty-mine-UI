@@ -25,10 +25,6 @@ export class OrganizationListComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log(this.userVerificationService.adminVerification());
-    console.log(this.userVerificationService.supervisorVerification());
-    console.log(this.userVerificationService.responsiblePersonVerification());
-    console.log(this.userVerificationService.userVerification());
     this.userService.getAuthenticatedUser().subscribe(authenticatedUser => {
       this.authenticatedUser = authenticatedUser;
       this.organizationService.findAllOrganizations().subscribe(data => {
