@@ -15,7 +15,7 @@
           </div>
         </div>
       </div>
-      <div class="card-body text-dark" (dblclick)="this.userVerificationService.adminVerification() && onDblClickTasksList(organization.id)">
+      <div class="card-body text-dark" (dblclick)="!this.userVerificationService.adminVerification() && onDblClickTasksList(organization.id)">
         <!-- Need to change properties after changing url -->
         <h6 class="card-title">{{organization.address}}</h6>
         <br>

@@ -30,10 +30,10 @@ export class SignupComponent implements OnInit {
   onSubmit(user) {
     // Process checkout data here
     this.userService.regUser(user).subscribe(data =>{
-      console.log(data);
+      this.notificationService.showSuccessHTMLMessage('User successfully created', 'SignUp');
       this.router.navigateByUrl('/home/signin');
     }, error => {
-      console.log(error);
+      // console.log(error);
       this.notificationService.showErrorHTMLMessage(error.error.message, 'Invalid input');
     }
     );

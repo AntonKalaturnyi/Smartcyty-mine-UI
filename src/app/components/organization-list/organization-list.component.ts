@@ -60,7 +60,6 @@ export class OrganizationListComponent implements OnInit {
     this.dialogService.openConfirmDialog('Are you sure to delete this organization ?')
       .afterClosed().subscribe(res => {
       if (res) {
-        console.log(organization);
         this.organizationService.deleteOrganization(organization.id).subscribe(() => {
           this.organizations = this.organizations.filter(item => item !== organization);
         });

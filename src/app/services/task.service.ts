@@ -71,9 +71,8 @@ export class TaskService {
   deleteTask(id: Number) {
     let headers = new HttpHeaders();
     headers = headers.append('authorization', 'Bearer ' + localStorage.getItem('token'));
-    return this.http.delete('http://localhost:8080/smartcity_war/tasks/' + id, { headers }).subscribe((res) => {
-      console.log(res);
-    });
+    return this.http.delete('http://localhost:8080/smartcity_war/tasks/' + id, { headers })
+    .pipe(catchError(this.errorHandler));
   }
 
   updateTask(id: Number, taskDto: Task)  {

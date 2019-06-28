@@ -1,4 +1,4 @@
-<div *ngIf="task && (this.userVerificationService.responsiblePersonVerification || this.userVerificationService.adminVerification || this.userVerificationService.supervisorVerification)">
+<div *ngIf="task && (this.userVerificationService.responsiblePersonVerification() || this.userVerificationService.adminVerification() || this.userVerificationService.supervisorVerification())">
   <div class="task-list-header">
     <nav class="navbar">
         <h4>Comments for: <a (click)="goBackToTask()">{{task.title}}</a></h4>
@@ -70,8 +70,8 @@
                       {{comment.description}}
                     </p>
                     <div class="text-right">
-                      <button  *ngIf="checkOnOwner(comment) || this.userVerificationService.adminVerification" (click)="handleEdit(comment)" class="btn btn-primary btn-marg text-center" >Edit</button>
-                      <button *ngIf="checkOnOwner(comment) || this.userVerificationService.adminVerification" (click)="handleDelete(comment)" class="btn btn-danger btn-marg text-center" >Delete</button>
+                      <button  *ngIf="checkOnOwner(comment) || this.userVerificationService.adminVerification()" (click)="handleEdit(comment)" class="btn btn-primary btn-marg text-center" >Edit</button>
+                      <button *ngIf="checkOnOwner(comment) || this.userVerificationService.adminVerification()" (click)="handleDelete(comment)" class="btn btn-danger btn-marg text-center" >Delete</button>
                       <button *ngIf="checkOnSeen(comment) && !checkOnOwner(comment)" (click)="addToSeen(comment)" class="btn btn-primary btn-marg text-center">Seen!</button>
                     </div>
                   </div>

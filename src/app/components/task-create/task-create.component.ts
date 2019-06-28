@@ -39,7 +39,6 @@ export class TaskCreateComponent implements OnInit {
 
   ngOnInit() {
     this.email = localStorage.getItem('email');
-    console.log(this.email);
     
     this.orgId = this.actRouter.snapshot.paramMap.get('id');
     this.userService.getUsersByOrganizationId(this.orgId).subscribe(allUsers => {
@@ -49,26 +48,25 @@ export class TaskCreateComponent implements OnInit {
 
   onSubmit(task: Task) {
     // Process checkout data here
-    if (this.userVerfService.supervisorVerification) {
+    if (this.userVerfService.supervisorVerification()) {
       task.budget = task.approvedBudget;
     } else {
       task.usersOrganizationsId = this.allUsers.filter(item => item.email === localStorage.getItem('email'))[0].id;
       task.approvedBudget = 0;
-      console.log(task.usersOrganizationsId);
     }
     task.taskStatus = 'Todo';
     task.deadlineDate = JSON.stringify(task.deadlineDate).replace('Z', '').replace('"', '').replace('"', '');
     this.taskService.findUsersOrgsId(task.usersOrganizationsId.toString(), this.orgId).subscribe((res) => {
       task.usersOrganizationsId = Number.parseInt(res.toString());
       this.taskService.createTask(task).subscribe(data => {
-        console.log(data);
+        this.notificationService.showSuccessHTMLMessage('Task successfully created', 'Task create');
         this.router.navigateByUrl('/home/organizations');
       }, error => {
         this.notificationService.showErrorHTMLMessage(error.error.message, 'Invalid input')
       });
     }
-      , error => {
-        this.notificationService.showErrorHTMLMessage('Please asign responsible person', 'Invalid input')
+      , () => {
+        this.notificationService.showErrorHTMLMessage('Please assign responsible person', 'Invalid input')
       }
     );
 

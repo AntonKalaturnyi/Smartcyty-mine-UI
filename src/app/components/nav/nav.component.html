@@ -12,20 +12,43 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav mr-auto">
         <li class="nav-item active">
-          <div *ngIf="user;" class="pointer" (click)="toOrg()">Organizations</div>
+          <div *ngIf="user&&(this.userVerfService.adminVerification()||this.userVerfService.supervisorVerification()||this.userVerfService.responsiblePersonVerification());" class="pointer" (click)="toOrg()">Organizations</div>
         </li>
         <li class="ml-4">
-          <div *ngIf="user&&this.userVerfService.adminVerification" class="pointer" (click)="toUsers()">Users</div>
+          <div *ngIf="user&&this.userVerfService.adminVerification()" class="pointer" (click)="toUsers()">Users</div>
         </li>
       </ul>
       <!-- Button for log in and log out, depends on state -->
       <div *ngIf="user; else elseBlock2">
         <div class="form-group row my-2 mr-1">
-          <label for="Budget" class="col-sm-3 col-form-label">Budget:</label>
-          <div class="col-sm-6">
-            <input type="number" class="form-control" id="Budget" placeholder="" value="{{budget!=null?budget.value:0}}" readonly>
-          </div>
+          <ng-template [ngIf]="canSeeBudget()">
+            <label for="Budget" class="col-sm-3 col-form-label">Budget:</label>
+            <div class="col-sm-6 row">
+              <input type="number" class="form-control" id="Budget" placeholder="" value="{{budget!=null?budget.value:0}}" readonly>
+            </div>
+          <ng-template [ngIf]="this.userVerfService.supervisorVerification()" [ngIfElse]="ml">
+              <button *ngIf="!awaitingBudgetDepositFinish; else elseShowLoading" (click)="toggleBudgetPopup()" class="clear-button col-sm-1">
+                <i class="fas fa-plus-circle"></i>
+              </button>
+            </ng-template>
+            <ng-template #ml> 
+              <div class="mr-4"></div>
+            </ng-template>
+            <ng-template #elseShowLoading>
+              <div class="col-sm-1">
+                <div class="spinner"></div>
+              </div>
+            </ng-template>
+          </ng-template>
+          
           <button (click)="logOut()" [routerLink]="['/home/signin']" class="btn btn-outline-secondary my-sm-0 ml-3" type="button">Log out</button>
+        </div>
+
+        <div *ngIf="canSeeBudget()" id="nav-budget-deposit-popup" class="nav-budget-deposit-popup row my-2 mr-1 step" [class.hide]="!showBudgetDepositPopup">
+          <input #deposit
+            (keyup.enter)="depositBudget(deposit.value)"
+            type="number" class="form-control nav-budget-deposit col-sm-9" placeholder="0" value="0" [disabled]="!showBudgetDepositPopup">
+          <button (click)="depositBudget(deposit.value)" class="clear-button col-sm-1" [disabled]="!showBudgetDepositPopup"><i class="fas fa-dollar-sign fa-2x"></i></button>
         </div>
       </div>
       <ng-template #elseBlock2>
