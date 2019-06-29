@@ -15,15 +15,20 @@
           </div>
         </div>
       </div>
-      <div class="card-body text-dark" (dblclick)="!this.userVerificationService.adminVerification() && onDblClickTasksList(organization.id)">
+      <div class="card-body text-dark" (dblclick)="(this.userVerificationService.adminVerification()
+       && !this.userVerificationService.supervisorVerification()
+        && this.userVerificationService.responsiblePersonVerification() && this.inOrganization(organization)
+        || this.userVerificationService.supervisorVerification() || this.userVerificationService.responsiblePersonVerification()) && onDblClickTasksList(organization.id)">
         <!-- Need to change properties after changing url -->
         <h6 class="card-title">{{organization.address}}</h6>
         <br>
         <h5 class="card-title text-center">{{organization.name}}</h5>
         <br>
-        <div
-          *ngIf="this.userVerificationService.responsiblePersonVerification() || this.userVerificationService.supervisorVerification()"
-          (click)="onClickCreateTask(organization.id)" class="create-task-button">
+        <div *ngIf="(this.userVerificationService.adminVerification()
+       && !this.userVerificationService.supervisorVerification()
+        && this.userVerificationService.responsiblePersonVerification() && this.inOrganization(organization)
+        || this.userVerificationService.supervisorVerification() || this.userVerificationService.responsiblePersonVerification()); else createTask"
+             (click)="onClickCreateTask(organization.id)" class="create-task-button">
           <img src="/assets/plus1.png">
         </div>
         <div *ngIf="this.userVerificationService.adminVerification()" (click)="onClickDeleteOrganization(organization)">
@@ -49,9 +54,13 @@
     </div>
   </div>
 </div>
+<ng-template #createTask>
+  <div style="width: 48px; height: 48px">
+  </div>
+</ng-template>
 <ng-template #accessDenied>
   <div class="denied mt-3 p-5 alert-danger">
     <h2 class="text-danger mt-3">ACCESS DENIED !!!</h2>
-    <p class="mt-4">You dont have permissions to view this information.<br><br> Please contact your administrator.</p>
+    <p class="mt-4">You dont have permissions to view this resource.<br><br> Please contact your administrator.</p>
   </div>
 </ng-template>

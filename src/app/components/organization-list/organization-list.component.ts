@@ -8,6 +8,7 @@ import {DialogService} from '../../services/dialog.service';
 import {User} from '../../model/User';
 import {UserService} from '../../services/user.service';
 import {UserVerificationService} from '../../services/user-verification.service';
+import {NotificationService} from '../../services/notification.service';
 
 @Component({
   selector: 'app-organization-list',
@@ -20,8 +21,8 @@ export class OrganizationListComponent implements OnInit {
   authenticatedUser: User;
 
   constructor(private userVerificationService: UserVerificationService, private organizationService: OrganizationService,
-              private taskService: TaskService, private router: Router,
-              private dialogService: DialogService, private userService: UserService) {
+              private taskService: TaskService, private router: Router, private dialogService: DialogService,
+              private userService: UserService, private notificationService: NotificationService) {
   }
 
   ngOnInit() {
@@ -37,6 +38,10 @@ export class OrganizationListComponent implements OnInit {
         this.setNumberTasks();
       });
     });
+  }
+
+  inOrganization(organization: Organization): boolean {
+    return organization.responsiblePersons.some(item => item.id === this.authenticatedUser.id);
   }
 
   setNumberTasks() {
@@ -62,6 +67,11 @@ export class OrganizationListComponent implements OnInit {
       if (res) {
         this.organizationService.deleteOrganization(organization.id).subscribe(() => {
           this.organizations = this.organizations.filter(item => item !== organization);
+          this.notificationService.showSuccessWithTimeout('Organization has been successfully deleted.',
+            'Delete organization',
+            3200);
+        }, error => {
+          this.notificationService.showErrorHTMLMessage('Delete organization error', 'Error');
         });
       }
     });

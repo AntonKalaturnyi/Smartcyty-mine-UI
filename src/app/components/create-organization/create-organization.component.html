@@ -4,22 +4,50 @@
     <br>
     <form (ngSubmit)="onSubmit(createOrganizationForm.value)" [formGroup]="createOrganizationForm">
       <div class="form-group row">
-        <input type="text" class="form-control" formControlName="name" placeholder="Name">
+        <label for="Organization name">
+          <span class="text-black-50">
+            Organization name:
+          </span>
+        </label>
+        <input id="Organization name" type="text" class="form-control" formControlName="name" placeholder="Name">
         <div *ngIf="name.invalid && (name.dirty || name.touched)" class="alert alert-danger" style="width: 100%">
           <div *ngIf="name.errors.required">
             Name is required.
           </div>
+          <div *ngIf="name.errors.pattern">
+            Only latin letters.
+          </div>
+          <div *ngIf="name.errors.minlength">
+            Min length is 3 symbols.
+          </div>
+          <div *ngIf="name.errors.maxlength">
+            Max length is 15 symbols.
+          </div>
         </div>
       </div>
       <div class="form-group row">
-        <input type="text" class="form-control ng-touched ng-invalid" formControlName="address" placeholder="Address">
+        <label for="Organization address">
+          <span class="text-black-50">
+            Organization address:
+          </span>
+        </label>
+        <input id="Organization address" type="text" class="form-control" formControlName="address" placeholder="Address">
         <div *ngIf="address.invalid && (address.dirty || address.touched)" class="alert alert-danger" style="width: 100%">
           <div *ngIf="address.errors.required">
             Address is required.
           </div>
+          <div *ngIf="address.errors.pattern">
+            Only latin letters and numbers.
+          </div>
+          <div *ngIf="address.errors?.minlength">
+            Min length is 3 symbols.
+          </div>
+          <div *ngIf="address.errors?.maxlength">
+            Max length is 15 symbols.
+          </div>
         </div>
       </div>
-      <button type="submit" class="btn btn-primary">Create</button>
+      <button type="submit" class="btn btn-primary" [disabled]="!createOrganizationForm.valid">Create</button>
       <button class="btn btn-danger ml-4" (click)="onClickCancel()">Cancel</button>
     </form>
   </div>
@@ -27,7 +55,7 @@
 <ng-template #accessDenied>
   <div class="denied mt-3 p-5 alert-danger">
     <h2 class="text-danger mt-3">ACCESS DENIED !!!</h2>
-    <p class="mt-4">You dont have permissions to view this information.<br><br> Please contact your administrator.</p>
+    <p class="mt-4">You dont have permissions to view this resource.<br><br> Please contact your administrator.</p>
   </div>
 </ng-template>
 

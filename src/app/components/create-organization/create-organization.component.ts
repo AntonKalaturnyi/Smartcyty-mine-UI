@@ -4,6 +4,7 @@ import {Router} from '@angular/router';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Organization} from '../../model/Organization';
 import {UserVerificationService} from '../../services/user-verification.service';
+import {NotificationService} from '../../services/notification.service';
 
 @Component({
   selector: 'app-create-organization',
@@ -15,10 +16,16 @@ export class CreateOrganizationComponent implements OnInit {
   createOrganizationForm: FormGroup;
 
   constructor(private formBuilder: FormBuilder, private organizationServise: OrganizationService, private router: Router,
-              private userVerificationService: UserVerificationService) {
+              private userVerificationService: UserVerificationService, private notificationService: NotificationService) {
     this.createOrganizationForm = this.formBuilder.group({
-      name: ['', [Validators.required]],
-      address: ['', [Validators.required]]
+      name: ['', [Validators.required,
+        Validators.pattern('^[a-zA-Z \-\']+'),
+        Validators.minLength(3),
+        Validators.maxLength(15)]],
+      address: ['', [Validators.required,
+        Validators.pattern('^[a-zA-Z0-9 \-\']+'),
+        Validators.minLength(3),
+        Validators.maxLength(15)]]
     });
   }
 
@@ -35,7 +42,11 @@ export class CreateOrganizationComponent implements OnInit {
     console.log(organization);
     this.organizationServise.addOrganization(organization).subscribe(() => {
       this.router.navigate(['home/organizations']);
-    });
+      this.notificationService.showSuccessWithTimeout('Organization has been successfully added.',
+        'Add organization',
+        3200);
+    }, (error) =>
+      this.notificationService.showErrorHTMLMessage(error.error.message, 'Error'));
   }
 
   onClickCancel() {

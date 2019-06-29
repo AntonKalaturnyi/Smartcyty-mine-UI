@@ -5,6 +5,7 @@ import {UserService} from '../../services/user.service';
 import {Organization} from '../../model/Organization';
 import {User} from '../../model/User';
 import {UserVerificationService} from '../../services/user-verification.service';
+import {NotificationService} from '../../services/notification.service';
 
 @Component({
   selector: 'app-users-organization',
@@ -15,10 +16,10 @@ export class UsersOrganizationComponent implements OnInit {
 
   organization: Organization;
   allUsers: User[];
-  usersOrganization: User[];
 
   constructor(private organizationService: OrganizationService, private userService: UserService,
-              private actRouter: ActivatedRoute, private userVerificatioService: UserVerificationService) {
+              private actRouter: ActivatedRoute, private userVerificatioService: UserVerificationService,
+              private notificationService: NotificationService) {
   }
 
   ngOnInit() {
@@ -43,14 +44,22 @@ export class UsersOrganizationComponent implements OnInit {
     if (!e.target.checked) {
       this.organizationService.addUserToOrganization(user.id, this.organization.id).subscribe(() => {
         this.organization.responsiblePersons.push(user);
-        console.log('User: #' + user.id + ' add to organization: #' + this.organization.id);
         e.target.checked = !e.target.checked;
+        this.notificationService.showSuccessWithTimeout('User has been successfully added to organization.',
+          'Add user to organization',
+          3200);
+      }, error => {
+        this.notificationService.showErrorHTMLMessage('Add user to organization error.', 'Error');
       });
     } else {
       this.organizationService.removeUserFromOrganization(user.id, this.organization.id).subscribe(() => {
         this.organization.responsiblePersons.filter(item => item.id !== user.id);
-        console.log('User: #' + user.id + ' remove from organization: #' + this.organization.id);
         e.target.checked = !e.target.checked;
+        this.notificationService.showSuccessWithTimeout('User has been successfully removed from organization.',
+          'Remove user from organization',
+          3200);
+      }, error => {
+        this.notificationService.showErrorHTMLMessage('Remove user from organization error.', 'Error');
       });
     }
   }

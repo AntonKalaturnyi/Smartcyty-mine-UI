@@ -38,6 +38,7 @@ export class OrganizationService {
   updateOrganization(id: any, organization: any): Observable<any> {
     let headers = new HttpHeaders();
     headers = headers.append('authorization', 'Bearer ' + localStorage.getItem('token'));
+    organization.id = id;
     return this.http.put('http://localhost:8080/smartcity_war/organizations/' + id, organization,
       {headers});
   }
