@@ -1,4 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, DoCheck } from '@angular/core';
+import { WebSocketService } from 'src/app/services/webSocket.service';
+import { NotificationService } from 'src/app/services/notification.service';
+import { UserVerificationService } from 'src/app/services/user-verification.service';
 
 @Component({
   selector: 'app-home',
@@ -7,9 +10,17 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HomeComponent implements OnInit {
 
-  constructor() { }
-
-  ngOnInit() {
+  constructor(private webSocketService: WebSocketService, 
+    private notificationService: NotificationService, 
+    private userVerf: UserVerificationService) { 
+      if(this.userVerf.supervisorVerification()||this.userVerf.responsiblePersonVerification()){
+      this.webSocketService.connect();
+      }
   }
 
+  ngOnInit() {
+    this.webSocketService.addTask(data =>{
+      this.notificationService.showInfoHTMLMessage('New task has been created', 'Task info');
+    })
+  }
 }

@@ -24,7 +24,6 @@
                 <th>Transaction budget</th>
                 <th>Created</th>
                 <th>Updated</th>
-                <th>Actions</th>
             </tr>
         </thead>
         <tbody *ngIf="transactions">
@@ -34,10 +33,6 @@
                 <td>{{transaction.transactionBudget}}</td>
                 <td>{{transaction.createdDate}}</td>
                 <td>{{transaction.updatedDate}}</td>
-                <td>
-                    <button (click)="handleEdit(transaction.id)" title="Edit"><i class="fas fa-pen"></i></button>
-                    <button (click)="handleDelete(transaction.id)" title="Delete"><i class="fas fa-trash"></i></button>
-                </td>
             </tr>
         </tbody>
     </table>

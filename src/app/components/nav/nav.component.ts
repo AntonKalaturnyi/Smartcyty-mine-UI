@@ -7,6 +7,7 @@ import { timer } from 'rxjs';
 import { UserVerificationService } from 'src/app/services/user-verification.service';
 import { User } from 'src/app/model/User';
 import { NotificationService } from 'src/app/services/notification.service';
+import { WebSocketService } from 'src/app/services/webSocket.service';
 
 @Component({
   selector: 'app-nav',
@@ -25,7 +26,7 @@ export class NavComponent implements OnInit {
   constructor(private userService: UserService, private budgetService: 
     BudgetService, private router: Router, private compMessage: ComponentMessageService,
     private notificationService: NotificationService,
-    private userVerfService: UserVerificationService) {
+    private userVerfService: UserVerificationService, private webSocketService: WebSocketService) {
   }
 
   refreshBudget() {
@@ -82,6 +83,7 @@ export class NavComponent implements OnInit {
     // Process checkout data here
     localStorage.clear();
     this.user = null;
+    this.webSocketService.disconnect();
     this.router.navigateByUrl('/home/signin');
   }
 

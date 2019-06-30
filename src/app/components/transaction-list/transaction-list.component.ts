@@ -25,12 +25,10 @@ export class TransactionListComponent implements OnInit {
     this.transactionService.findTransactionsByTaskId(this.route.snapshot.paramMap.get("id"))
       .subscribe(data => {
         this.transactions = data;
-        console.log(this.transactions);
       });
     this.taskService.findTaskById(this.route.snapshot.paramMap.get("id"))
       .subscribe(data => {
         this.task = data;
-        console.log(this.task)
       });
   }
 
@@ -38,17 +36,16 @@ export class TransactionListComponent implements OnInit {
     this.dateRange = dateRange;
     this.transactionService.findTransactionsByDate(this.route.snapshot.paramMap.get("id"),this.dateRange).subscribe(data => {
       this.transactions = data;
-      console.log(this.transactions);
   });
   }
 
-  handleDelete(id: Number) {
-    this.transactionService.deleteTransaction(id);
-    this.transactions = this.transactions.filter(item => item.id !== id);
-  }
+  // handleDelete(id: Number) {
+  //   this.transactionService.deleteTransaction(id);
+  //   this.transactions = this.transactions.filter(item => item.id !== id);
+  // }
 
-  handleEdit(id: Number) {
-    this.router.navigateByUrl('/home/task/edit/' + id);
-  }
+  // handleEdit(id: Number) {
+  //   this.router.navigateByUrl('/home/task/edit/' + id);
+  // }
 
 }

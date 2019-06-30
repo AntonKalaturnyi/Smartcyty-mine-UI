@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { TaskService } from 'src/app/services/task.service';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ActivatedRoute } from "@angular/router";
 import { Task } from 'src/app/model/Task';
@@ -8,6 +8,7 @@ import { User } from 'src/app/model/User';
 import { UserService } from 'src/app/services/user.service';
 import { NotificationService } from 'src/app/services/notification.service';
 import { UserVerificationService } from 'src/app/services/user-verification.service';
+import { WebSocketService } from 'src/app/services/webSocket.service';
 
 @Component({
   selector: 'app-task-create',
@@ -25,16 +26,32 @@ export class TaskCreateComponent implements OnInit {
   constructor(private taskService: TaskService, private userService: UserService,
     private formBuilder: FormBuilder, private router: Router,
     private actRouter: ActivatedRoute, private notificationService: NotificationService,
-    private userVerfService: UserVerificationService) {
+    private userVerfService: UserVerificationService, private webSocketService: WebSocketService) {
     this.checkoutForm = this.formBuilder.group({
-      title: '',
-      description: '',
-      budget: '',
-      approvedBudget: '',
-      deadlineDate: '',
-      taskStatus: '',
-      usersOrganizationsId: ''
+      title: ['',[Validators.required]],
+      description: ['',[Validators.required, Validators.minLength(3)]],
+      budget: [''],
+      approvedBudget: [''],
+      deadlineDate: ['',[Validators.required]],
+      taskStatus: [''],
+      usersOrganizationsId: ['']
     });
+  }
+
+  get title() {
+    return this.checkoutForm.get('title');
+  }
+
+  get description() {
+    return this.checkoutForm.get('description');
+  }
+
+  get budget() {
+    return this.checkoutForm.get('budget');
+  }
+
+  get approvedBudget() {
+    return this.checkoutForm.get('approvedBudget');
   }
 
   ngOnInit() {
@@ -54,16 +71,25 @@ export class TaskCreateComponent implements OnInit {
       task.usersOrganizationsId = this.allUsers.filter(item => item.email === localStorage.getItem('email'))[0].id;
       task.approvedBudget = 0;
     }
+    if(!task.budget){
+      task.budget = 0;
+    }
+    if(!task.approvedBudget){
+      task.approvedBudget = 0;
+    }
     task.taskStatus = 'Todo';
     task.deadlineDate = JSON.stringify(task.deadlineDate).replace('Z', '').replace('"', '').replace('"', '');
     this.taskService.findUsersOrgsId(task.usersOrganizationsId.toString(), this.orgId).subscribe((res) => {
       task.usersOrganizationsId = Number.parseInt(res.toString());
-      this.taskService.createTask(task).subscribe(data => {
-        this.notificationService.showSuccessHTMLMessage('Task successfully created', 'Task create');
-        this.router.navigateByUrl('/home/organizations');
-      }, error => {
-        this.notificationService.showErrorHTMLMessage(error.error.message, 'Invalid input')
-      });
+      this.webSocketService.sendTask(task);
+      this.router.navigateByUrl('/home/organizations');
+      // this.taskService.createTask(task).subscribe(data => {
+      //   this.webSocketService.sendTask(task);
+      //   this.notificationService.showSuccessHTMLMessage('Task successfully created', 'Task create');
+      //   this.router.navigateByUrl('/home/organizations');
+      // }, error => {
+      //   this.notificationService.showErrorHTMLMessage(error.error.message, 'Invalid input')
+      // });
     }
       , () => {
         this.notificationService.showErrorHTMLMessage('Please assign responsible person', 'Invalid input')

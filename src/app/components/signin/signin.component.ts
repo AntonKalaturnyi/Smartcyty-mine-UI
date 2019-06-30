@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { ComponentMessageService } from 'src/app/services/component-message.service';
 import { NotificationService } from 'src/app/services/notification.service';
 import { User } from 'src/app/model/User';
+import { WebSocketService } from 'src/app/services/webSocket.service';
 
 
 @Component({
@@ -19,7 +20,7 @@ export class SigninComponent implements OnInit {
   errorMsg: string;
   constructor(private formBuilder: FormBuilder, private userService: UserService, 
     private router: Router, private compMessage: ComponentMessageService, 
-    private notificationService : NotificationService) {
+    private notificationService : NotificationService, private webSocketService: WebSocketService) {
     this.checkoutForm = this.formBuilder.group({
       username: '',
       password: ''
@@ -40,6 +41,9 @@ export class SigninComponent implements OnInit {
       this.userService.getUserbyEmail(user.username).subscribe(data => {
         this.user = data;
         this.compMessage.changeMessage(this.user);
+        if(localStorage.getItem('ROLE_SUPERVISOR')||localStorage.getItem('ROLE_RESPONSIBLE_PERSON')){
+        this.webSocketService.connect();
+        }
         this.router.navigateByUrl('/home/organizations');
     });
   }, error => {
