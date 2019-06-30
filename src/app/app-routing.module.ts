@@ -17,6 +17,8 @@ import {UpdateOrganizationComponent} from './components/update-organization/upda
 import {CommentListComponent} from './components/comment-list/comment-list.component';
 import {CommentEditComponent} from './components/comment-edit/comment-edit.component';
 import {UsersOrganizationComponent} from './components/users-organization/users-organization.component';
+import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
+import { PasswordResetViaMailComponent } from './password-reset-via-mail/password-reset-via-mail.component';
 
 export const routes: Routes = [
   {
@@ -82,6 +84,14 @@ export const routes: Routes = [
       {
         path: 'users-organization/:id',
         component: UsersOrganizationComponent
+      },
+      {
+        path: 'forgot-password',
+        component: ForgotPasswordComponent
+      },
+      {
+        path: 'reset-password',
+        component: PasswordResetViaMailComponent
       }
     ],
   }

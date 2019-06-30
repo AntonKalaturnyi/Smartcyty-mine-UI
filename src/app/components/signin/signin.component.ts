@@ -52,4 +52,8 @@ export class SigninComponent implements OnInit {
   toSignUp(){
     this.router.navigateByUrl('/home/signup');
   }
+
+  toForgotPassword(){
+    this.router.navigateByUrl('/home/forgot-password');
+  }
 }

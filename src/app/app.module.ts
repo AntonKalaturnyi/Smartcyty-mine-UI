@@ -36,6 +36,8 @@ import {UsersOrganizationComponent} from './components/users-organization/users-
 import {TransactionListComponent} from './components/transaction-list/transaction-list.component';
 import {MatConfirmDialogComponent} from './components/mat-confirm-dialog/mat-confirm-dialog.component';
 import {ToastrModule} from 'ngx-toastr';
+import { PasswordResetViaMailComponent } from './password-reset-via-mail/password-reset-via-mail.component';
+import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 
 @NgModule({
   declarations: [
@@ -59,6 +61,8 @@ import {ToastrModule} from 'ngx-toastr';
     CommentEditComponent,
     UsersOrganizationComponent,
     MatConfirmDialogComponent,
+    PasswordResetViaMailComponent,
+    ForgotPasswordComponent,
   ],
   imports: [
     MatButtonModule,
