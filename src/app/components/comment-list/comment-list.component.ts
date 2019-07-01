@@ -43,7 +43,7 @@ export class CommentListComponent implements OnInit {
       .subscribe((data:Task) => {
         this.task = data;
       }, (error) =>
-          this.notificationService.showErrorHTMLMessage(error,"Error")
+          this.notificationService.showErrorHTMLMessage(error.error.messasge,"Error")
       );
 
     this.commentService.findCommentByTaskId(this.actRouter.snapshot.paramMap.get('id'))
@@ -63,10 +63,10 @@ export class CommentListComponent implements OnInit {
           this.allComments.forEach(v => {
             if (v.userId !== this.user.id && !v.userSeen.some(t => t == this.user.id)) count = count + 1;
           });
-          if (count !== 0)
-
+          if (count !== 0 && date)
             this.notificationService.showInfoWithTimeout("You have " + count + " unread comments", "Info", 6500);
-        });
+        },
+          (error) => this.notificationService.showErrorHTMLMessage(error.error.message,"Error"));
       }, (error) =>
         this.notificationService.showErrorHTMLMessage(error.error.message,"Error")
       );

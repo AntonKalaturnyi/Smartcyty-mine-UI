@@ -8,15 +8,15 @@
               <span class="input-group-text" id="basic-addon1">@</span>
             </div>
             <div>
-              <input class="form-control" type="search" placeholder="Search by email" aria-label="Search" [(ngModel)]="searchText"  (ngModelChange)="search()" name="inputEmail">
+              <input class="form-control" type="search" placeholder="Search by name" aria-label="Search" [(ngModel)]="searchText"  (ngModelChange)="search()" name="inputEmail">
             </div>
             </div>
         </div>
         <div class="sort-classs flex-row text-center justify-content-center">
-            <button class="btn btn-secondary btn-marg" (click)="viewAll()">Viwe All</button>
-            <button class="btn btn-secondary btn-marg" (click)="viewNew()">Only New</button>
-            <button class="btn btn-secondary btn-marg" (click)="sortNew()">Sort first New</button>
-            <button class="btn btn-secondary btn-marg" (click)="sortOld()">Sort first Old</button>
+            <button class="btn btn-outline-primary btn-marg" (click)="viewAll()">All</button>
+            <button class="btn btn-outline-secondary btn-marg" (click)="viewNew()">Only New</button>
+            <button class="btn btn-outline-secondary btn-marg" (click)="sortNew()">Sort first New</button>
+            <button class="btn btn-outline-secondary btn-marg" (click)="sortOld()">Sort first Old</button>
         </div>
     </nav>
   </div>
@@ -87,9 +87,15 @@
              <button (click)="viewMore()" class="btn btn-primary btn-marg-botom">View more Comments! ({{allComments.length - comments.length}})</button>
         </div>
         <div *ngIf="comments.length === 0">
-          <h2>Comments not found or loading...</h2>
+          <h2>Comments not found!</h2>
         </div>
       </div>
     </div>
+  </div>
+</div>
+<div *ngIf="!(task && (this.userVerificationService.responsiblePersonVerification() || this.userVerificationService.adminVerification() || this.userVerificationService.supervisorVerification()))">
+  <div class="denied mt-3 p-5 alert-danger">
+    <h2 class="text-danger mt-3">ACCESS DENIED !!!</h2>
+    <p class="mt-4">You dont have permissions to view this resource.<br><br> Please contact your administrator.</p>
   </div>
 </div>
