@@ -1,6 +1,6 @@
 import { Component, OnInit, NgModule } from '@angular/core';
 import { TaskService } from 'src/app/services/task.service';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
 import { Task } from 'src/app/model/Task';
@@ -27,12 +27,12 @@ export class TaskUpdateComponent implements OnInit {
               private actRouter: ActivatedRoute) {
 
     this.taskEditForm = this.formBuilder.group({
-      title: '',
-      description: '',
-      budget: '',
-      approvedBudget: '',
-      deadlineDate: '',
-      taskStatus: '',
+      title: ['', [Validators.required]],
+      description: ['', [Validators.required, Validators.minLength(3)]],
+      budget: ['', [Validators.required]],
+      approvedBudget: ['', [Validators.required]],
+      deadlineDate: ['', [Validators.required]],
+      taskStatus: [''],
   });
 }
 
@@ -56,6 +56,22 @@ export class TaskUpdateComponent implements OnInit {
     if (this.getTaskSubscription) {
       this.getTaskSubscription.unsubscribe();
     }
+  }
+
+  get title() {
+    return this.taskEditForm.get('title');
+  }
+
+  get description() {
+    return this.taskEditForm.get('description');
+  }
+
+  get budget() {
+    return this.taskEditForm.get('budget');
+  }
+
+  get approvedBudget() {
+    return this.taskEditForm.get('approvedBudget');
   }
 
   onSubmit(updatedTask: Task) {
