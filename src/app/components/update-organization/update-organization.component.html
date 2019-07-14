@@ -16,13 +16,13 @@
             Name is required.
           </div>
           <div *ngIf="name.errors.pattern">
-            Only latin letters.
+            Only latin letters and (-).
           </div>
           <div *ngIf="name.errors.minlength">
             Min length is 3 symbols.
           </div>
           <div *ngIf="name.errors.maxlength">
-            Max length is 15 symbols.
+            Max length is 20 symbols.
           </div>
         </div>
       </div>
@@ -39,13 +39,13 @@
             Address is required.
           </div>
           <div *ngIf="address.errors.pattern">
-            Only latin letters and numbers.
+            Only latin letters and numbers and (-), (.), ( ).
           </div>
           <div *ngIf="address.errors?.minlength">
             Min length is 3 symbols.
           </div>
           <div *ngIf="address.errors?.maxlength">
-            Max length is 15 symbols.
+            Max length is 45 symbols.
           </div>
         </div>
       </div>

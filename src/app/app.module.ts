@@ -6,8 +6,8 @@ import {
   MatDialogModule,
   MatFormFieldModule,
   MatInputModule,
-  MatNativeDateModule,
-  MatRippleModule
+  MatNativeDateModule, MatProgressSpinnerModule,
+  MatRippleModule, MatTooltipModule
 } from '@angular/material';
 import {NgModule} from '@angular/core';
 import {HttpClientModule} from '@angular/common/http';
@@ -91,7 +91,9 @@ import { ForgotPasswordComponent } from './forgot-password/forgot-password.compo
         countDuplicates: true,
         preventDuplicates: true
       }
-    )
+    ),
+    MatTooltipModule,
+    MatProgressSpinnerModule
   ],
   providers: [],
   bootstrap: [AppComponent],

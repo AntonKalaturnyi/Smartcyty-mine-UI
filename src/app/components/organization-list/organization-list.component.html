@@ -1,55 +1,50 @@
-<div *ngIf="this.userVerificationService.adminVerification() || this.userVerificationService.supervisorVerification()
- || this.userVerificationService.responsiblePersonVerification(); else accessDenied" class="text-center row my-4">
-  <div *ngFor="let organization of organizations" class="mt-4 mb-4 card-wrapper">
-    <div class="card border-dark">
-      <div class="card-header">
-        <div class="row list-group list-group-horizontal mx-auto">
-          <div class="col border list-group-item-success">
-            {{organization.numberDone}}
+<div *ngIf="!this.isLoading">
+  <div *ngIf="this.isAdmin || this.isSuper || this.isRespons; else accessDenied" class="text-center row my-4">
+    <div *ngFor="let organization of organizations" class="mt-4 mb-4 card-wrapper">
+      <div class="card border-dark">
+        <div class="card-header">
+          <div *ngIf="!this.isAdmin; else numberTaskAccessDenied" class="row list-group list-group-horizontal mx-auto">
+            <div class="col border list-group-item-success">
+              {{organization.numberDone}}
+            </div>
+            <div class="col border list-group-item-warning">
+              {{organization.numberInProgress}}
+            </div>
+            <div class="col border list-group-item-danger">
+              {{organization.numberToDo}}
+            </div>
           </div>
-          <div class="col border list-group-item-warning">
-            {{organization.numberInProgress}}
+        </div>
+        <div class="card-body text-dark"
+             (dblclick)="(this.isRespons || this.isSuper) && onDblClickTasksList(organization.id)">
+          <h6 class="card-title text-ellipsis" matTooltip="{{organization.address}}">{{organization.address}}</h6>
+          <br>
+          <h5 class="card-title text-center text-ellipsis" matTooltip="{{organization.name}}">{{organization.name}}</h5>
+          <br>
+          <div *ngIf="(this.isRespons || this.isSuper); else createTask" (click)="onClickCreateTask(organization.id)"
+               class="create-task-button">
+            <img src="/assets/plus1.png">
           </div>
-          <div class="col border list-group-item-danger">
-            {{organization.numberToDo}}
+          <div *ngIf="this.isAdmin" (click)="onClickDeleteOrganization(organization)">
+            <img src="/assets/delete.png" class="delete-organization-button">
           </div>
-        </div>
-      </div>
-      <div class="card-body text-dark" (dblclick)="(this.userVerificationService.adminVerification()
-       && !this.userVerificationService.supervisorVerification()
-        && this.userVerificationService.responsiblePersonVerification() && this.inOrganization(organization)
-        || this.userVerificationService.supervisorVerification() || this.userVerificationService.responsiblePersonVerification()) && onDblClickTasksList(organization.id)">
-        <!-- Need to change properties after changing url -->
-        <h6 class="card-title">{{organization.address}}</h6>
-        <br>
-        <h5 class="card-title text-center">{{organization.name}}</h5>
-        <br>
-        <div *ngIf="(this.userVerificationService.adminVerification()
-       && !this.userVerificationService.supervisorVerification()
-        && this.userVerificationService.responsiblePersonVerification() && this.inOrganization(organization)
-        || this.userVerificationService.supervisorVerification() || this.userVerificationService.responsiblePersonVerification()); else createTask"
-             (click)="onClickCreateTask(organization.id)" class="create-task-button">
-          <img src="/assets/plus1.png">
-        </div>
-        <div *ngIf="this.userVerificationService.adminVerification()" (click)="onClickDeleteOrganization(organization)">
-          <img src="/assets/delete.png" class="delete-organization-button">
-        </div>
-        <div *ngIf="this.userVerificationService.adminVerification()"
-             (click)="onClickUpdateOrganization(organization.id)">
-          <img src="/assets/update.png" class="update-organization-button">
-        </div>
-        <div
-          *ngIf="this.userVerificationService.adminVerification()"
-          (click)="onClickUsersOrganization(organization.id)">
-          <img src="/assets/users-organization.png" class="users-organization-button">
+          <div *ngIf="this.isAdmin"
+               (click)="onClickUpdateOrganization(organization.id)">
+            <img src="/assets/update.png" class="update-organization-button">
+          </div>
+          <div
+            *ngIf="this.isAdmin"
+            (click)="onClickUsersOrganization(organization.id)">
+            <img src="/assets/users-organization.png" class="users-organization-button">
+          </div>
         </div>
       </div>
     </div>
-  </div>
-  <div *ngIf="this.userVerificationService.adminVerification()" class="mt-3 mb-5 card-add-wrapper">
-    <div class="card-body text-dark">
-      <div (click)="onClickCreateOrganization()" class="create-organization-button">
-        <img src="/assets/plus.png">
+    <div *ngIf="this.isAdmin" class="mt-3 mb-5 card-add-wrapper">
+      <div class="card-body text-dark">
+        <div (click)="onClickCreateOrganization()" class="create-organization-button">
+          <img src="/assets/plus.png">
+        </div>
       </div>
     </div>
   </div>
@@ -58,9 +53,28 @@
   <div style="width: 48px; height: 48px">
   </div>
 </ng-template>
+
 <ng-template #accessDenied>
   <div class="denied mt-3 p-5 alert-danger">
     <h2 class="text-danger mt-3">ACCESS DENIED !!!</h2>
     <p class="mt-4">You dont have permissions to view this resource.<br><br> Please contact your administrator.</p>
   </div>
 </ng-template>
+
+<ng-template #numberTaskAccessDenied>
+  <div class="row list-group list-group-horizontal mx-auto">
+    <div class="col border list-group-item-success">
+      **
+    </div>
+    <div class="col border list-group-item-warning">
+      **
+    </div>
+    <div class="col border list-group-item-danger">
+      **
+    </div>
+  </div>
+</ng-template>
+
+<mat-spinner *ngIf="isLoading" diameter="100" class="spinner"></mat-spinner>
+
+

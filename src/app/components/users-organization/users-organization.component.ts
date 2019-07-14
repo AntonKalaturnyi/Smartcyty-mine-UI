@@ -16,6 +16,7 @@ export class UsersOrganizationComponent implements OnInit {
 
   organization: Organization;
   allUsers: User[];
+  isLoading: boolean;
 
   constructor(private organizationService: OrganizationService, private userService: UserService,
               private actRouter: ActivatedRoute, private userVerificatioService: UserVerificationService,
@@ -23,6 +24,7 @@ export class UsersOrganizationComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.isLoading = true;
     this.organizationService.findById(this.actRouter.snapshot.paramMap.get('id'))
       .subscribe(organization => {
         this.organization = organization;
@@ -30,6 +32,7 @@ export class UsersOrganizationComponent implements OnInit {
       });
     this.userService.getUsersByRoleId(4).subscribe(allUsers => {
       this.allUsers = allUsers;
+      this.isLoading = false;
     });
   }
 

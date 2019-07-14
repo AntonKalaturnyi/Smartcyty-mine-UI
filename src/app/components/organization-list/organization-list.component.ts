@@ -3,7 +3,6 @@ import {OrganizationService} from 'src/app/services/organization.service';
 import {Router} from '@angular/router';
 import {Organization} from '../../model/Organization';
 import {TaskService} from '../../services/task.service';
-import {Task} from '../../model/Task';
 import {DialogService} from '../../services/dialog.service';
 import {User} from '../../model/User';
 import {UserService} from '../../services/user.service';
@@ -19,6 +18,10 @@ export class OrganizationListComponent implements OnInit {
 
   organizations: Organization[];
   authenticatedUser: User;
+  isAdmin: boolean;
+  isRespons: boolean;
+  isSuper: boolean;
+  isLoading: boolean;
 
   constructor(private userVerificationService: UserVerificationService, private organizationService: OrganizationService,
               private taskService: TaskService, private router: Router, private dialogService: DialogService,
@@ -26,32 +29,36 @@ export class OrganizationListComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.userService.getAuthenticatedUser().subscribe(authenticatedUser => {
-      this.authenticatedUser = authenticatedUser;
-      this.organizationService.findAllOrganizations().subscribe(data => {
-        this.organizations = data;
-        if (!this.userVerificationService.adminVerification() && !this.userVerificationService.supervisorVerification()
-          && this.userVerificationService.responsiblePersonVerification()) {
-          this.organizations = this.organizations.filter(organization => organization.responsiblePersons
-            .some((item) => item.id === this.authenticatedUser.id));
-        }
-        this.setNumberTasks();
+    this.isLoading = true;
+    this.isAdmin = this.userVerificationService.adminVerification();
+    this.isSuper = this.userVerificationService.supervisorVerification();
+    this.isRespons = this.userVerificationService.responsiblePersonVerification();
+    if (this.isAdmin || this.isSuper || this.isRespons) {
+      this.userService.getAuthenticatedUser().subscribe(authenticatedUser => {
+        this.authenticatedUser = authenticatedUser;
+        this.organizationService.findAllOrganizations().subscribe(data => {
+          this.organizations = data;
+          if (!this.isAdmin && !this.isSuper && this.isRespons) {
+            this.organizations = this.organizations.filter(organization => organization.responsiblePersons
+              .some((item) => item.id === this.authenticatedUser.id));
+          }
+          if (!this.isAdmin) {
+            this.setNumberTasks();
+          }
+          this.isLoading = false;
+        });
       });
-    });
-  }
-
-  inOrganization(organization: Organization): boolean {
-    return organization.responsiblePersons.some(item => item.id === this.authenticatedUser.id);
+    } else {
+      this.isLoading = false;
+    }
   }
 
   setNumberTasks() {
-    let tasks: Task[];
     this.organizations.forEach((item) => {
       this.taskService.findTasksByOrganizationId(item.id).subscribe(data => {
-        tasks = data;
-        item.numberDone = tasks.filter(task => !task.taskStatus.localeCompare('Done')).length;
-        item.numberInProgress = tasks.filter(task => !task.taskStatus.localeCompare('InProgress')).length;
-        item.numberToDo = tasks.filter(task => !task.taskStatus.localeCompare('Todo')).length;
+        item.numberDone = data.filter(task => !task.taskStatus.localeCompare('Done')).length;
+        item.numberInProgress = data.filter(task => !task.taskStatus.localeCompare('InProgress')).length;
+        item.numberToDo = data.filter(task => !task.taskStatus.localeCompare('Todo')).length;
       });
     });
   }

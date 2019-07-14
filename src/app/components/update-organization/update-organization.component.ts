@@ -21,13 +21,13 @@ export class UpdateOrganizationComponent implements OnInit {
               private notificationService: NotificationService) {
     this.updateOrganizationForm = this.formBuilder.group({
       name: ['', [Validators.required,
-        Validators.pattern('^[a-zA-Z \-\']+'),
+        Validators.pattern('[a-zA-Z-]*'),
         Validators.minLength(3),
-        Validators.maxLength(15)]],
+        Validators.maxLength(20)]],
       address: ['', [Validators.required,
-        Validators.pattern('^[a-zA-Z0-9 \-\']+'),
+        Validators.pattern('[a-zA-Z0-9. -]*'),
         Validators.minLength(3),
-        Validators.maxLength(15)]]
+        Validators.maxLength(45)]]
     });
   }
 

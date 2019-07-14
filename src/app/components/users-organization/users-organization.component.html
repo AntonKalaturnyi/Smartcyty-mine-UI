@@ -1,35 +1,37 @@
-<div *ngIf="this.userVerificatioService.adminVerification() else accessDenied">
-  <div class="task-list-header">
-    <nav class="navbar">
-      <div *ngIf="organization">
-        <h4>{{organization.name}}</h4>
-      </div>
-    </nav>
-  </div>
-  <div class="badge-light">
-    <table class="table table-bordered table-hover">
-      <thead class="thead-light">
-      <tr>
-        <th>Name</th>
-        <th>Surname</th>
-        <th>Email</th>
-        <th>Status in organization</th>
-      </tr>
-      </thead>
-      <tbody *ngIf="allUsers">
-      <tr *ngFor="let user: of allUsers">
-        <td>{{user.name}}</td>
-        <td>{{user.surname}}</td>
-        <td>{{user.email}}</td>
-        <td>
-          <label class="switch">
-            <input id="checkbox" type="checkbox" [checked]="contain(user)" (change)="check($event, user)">
-            <span class="slider"></span>
-          </label>
-        </td>
-      </tr>
-      </tbody>
-    </table>
+<div *ngIf="!this.isLoading">
+  <div *ngIf="this.userVerificatioService.adminVerification() else accessDenied">
+    <div class="task-list-header">
+      <nav class="navbar">
+        <div *ngIf="organization">
+          <h4>{{organization.name}}</h4>
+        </div>
+      </nav>
+    </div>
+    <div class="badge-light">
+      <table class="table table-bordered table-hover">
+        <thead class="thead-light">
+        <tr>
+          <th>Name</th>
+          <th>Surname</th>
+          <th>Email</th>
+          <th>Status in organization</th>
+        </tr>
+        </thead>
+        <tbody *ngIf="allUsers">
+        <tr *ngFor="let user: of allUsers">
+          <td>{{user.name}}</td>
+          <td>{{user.surname}}</td>
+          <td>{{user.email}}</td>
+          <td>
+            <label class="switch">
+              <input id="checkbox" type="checkbox" [checked]="contain(user)" (change)="check($event, user)">
+              <span class="slider"></span>
+            </label>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
 </div>
 <ng-template #accessDenied>
@@ -38,3 +40,5 @@
     <p class="mt-4">You dont have permissions to view this resource.<br><br> Please contact your administrator.</p>
   </div>
 </ng-template>
+
+<mat-spinner *ngIf="isLoading" diameter="100" class="spinner"></mat-spinner>

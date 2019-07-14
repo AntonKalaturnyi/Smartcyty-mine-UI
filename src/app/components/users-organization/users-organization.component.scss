@@ -49,6 +49,13 @@ input:checked + .slider {
   border-radius: 70px;
 }
 
+.spinner{
+  margin: 14% auto 0 auto;
+}
+.mat-spinner::ng-deep circle {
+  margin: 14% auto 0 auto;
+  stroke: #6c757d;
+}
 
 
 

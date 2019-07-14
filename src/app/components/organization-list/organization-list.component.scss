@@ -92,4 +92,22 @@ img {
   border-radius: 70px;
 }
 
+.text-ellipsis{
+  white-space: nowrap;
+  overflow: hidden;
+  padding: 5px;
+  text-overflow: ellipsis;
+  cursor: default;
+}
+
+.card-body{
+  padding: 1.9rem;
+}
+
+.spinner{
+  margin: 14% auto 0 auto;
+}
+.mat-spinner::ng-deep circle {
+  stroke: #6c757d;
+}
 
