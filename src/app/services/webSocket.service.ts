@@ -20,10 +20,18 @@ connect() {
     this.stompClient = Stomp.over(socket);
     this.stompClient.connect({}, frame => {
         console.log('Connected: ' + frame);
-        this.stompClient.subscribe('/topic/activity', task => {
-            console.log(task);
-            this.tasks.forEach(handler => handler(JSON.parse(task.body)));
-        });
+        if(localStorage.getItem('ROLE_SUPERVISOR')){
+            this.stompClient.subscribe('/topic/task.create', task => {
+                console.log(task);
+                this.tasks.forEach(handler => handler(JSON.parse(task.body)));
+            });
+        }
+        if(localStorage.getItem('ROLE_RESPONSIBLE_PERSON')){
+            this.stompClient.subscribe('/topic/task.create/'+ localStorage.getItem('email'), task => {
+                console.log(task);
+                this.tasks.forEach(handler => handler(JSON.parse(task.body)));
+            });
+        }
     });
 }
 
@@ -38,8 +46,8 @@ disconnect() {
     }
 }
 
-sendTask(task) {
-    this.stompClient.send("/smartcity_war/sendTask", {}, JSON.stringify(task));
-}
+// sendTask(task) {
+//     this.stompClient.send("/smartcity_war/sendTask", {}, JSON.stringify(task));
+// }
 
 }

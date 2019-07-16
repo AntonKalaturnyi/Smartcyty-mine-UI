@@ -81,15 +81,12 @@ export class TaskCreateComponent implements OnInit {
     task.deadlineDate = JSON.stringify(task.deadlineDate).replace('Z', '').replace('"', '').replace('"', '');
     this.taskService.findUsersOrgsId(task.usersOrganizationsId.toString(), this.orgId).subscribe((res) => {
       task.usersOrganizationsId = Number.parseInt(res.toString());
-      this.webSocketService.sendTask(task);
-      this.router.navigateByUrl('/home/organizations');
-      // this.taskService.createTask(task).subscribe(data => {
-      //   this.webSocketService.sendTask(task);
-      //   this.notificationService.showSuccessHTMLMessage('Task successfully created', 'Task create');
-      //   this.router.navigateByUrl('/home/organizations');
-      // }, error => {
-      //   this.notificationService.showErrorHTMLMessage(error.error.message, 'Invalid input')
-      // });
+      this.taskService.createTask(task).subscribe(data => {
+        this.notificationService.showSuccessHTMLMessage('Task successfully created', 'Task create');
+        this.router.navigateByUrl('/home/organizations');
+      }, error => {
+        this.notificationService.showErrorHTMLMessage(error.error.message, 'Invalid input')
+      });
     }
       , () => {
         this.notificationService.showErrorHTMLMessage('Please assign responsible person', 'Invalid input')
