@@ -1,11 +1,12 @@
-import { Component, OnInit, NgModule } from '@angular/core';
-import { TaskService } from 'src/app/services/task.service';
-import { ActivatedRoute } from "@angular/router";
-import { Router } from '@angular/router';
-import {  OrganizationService } from 'src/app/services/organization.service';
-import { DateRange } from '@uiowa/date-range-picker';
-import { TaskUpdateComponent } from '../task-update/task-update.component';
-import { NotificationService } from 'src/app/services/notification.service';
+import {Component, OnInit} from '@angular/core';
+import {TaskService} from 'src/app/services/task.service';
+import {ActivatedRoute, Router} from '@angular/router';
+import {OrganizationService} from 'src/app/services/organization.service';
+import {DateRange} from '@uiowa/date-range-picker';
+import {TaskUpdateComponent} from '../task-update/task-update.component';
+import {NotificationService} from 'src/app/services/notification.service';
+import {Task} from '../../model/Task';
+import {UserVerificationService} from '../../services/user-verification.service';
 
 @Component({
   selector: 'app-task-list',
@@ -19,29 +20,33 @@ export class TaskListComponent implements OnInit {
   org: Object;
   orgId;
 
+
   constructor(private taskService: TaskService, private orgService: OrganizationService,
-    private route: ActivatedRoute, private router: Router, 
-    private notificationService: NotificationService) { }
+              private route: ActivatedRoute, private router: Router,
+              private notificationService: NotificationService, private verificationService: UserVerificationService) {
+  }
 
   ngOnInit() {
-    this.orgId = this.route.snapshot.paramMap.get("id");
-    this.dateRange =  new DateRange(new Date());
+    this.orgId = this.route.snapshot.paramMap.get('id');
+    this.dateRange = new DateRange(new Date());
     this.taskService.findTasksByOrganizationId(this.orgId)
-    .subscribe(data => {
+      .subscribe(data => {
         this.tasks = data;
-    });
+      });
     this.orgService.findById(this.orgId)
-    .subscribe(data => {
-      this.org = data;
-    });
+      .subscribe(data => {
+        this.org = data;
+      });
   }
-  refOnComments(comId: Number){
-    this.router.navigateByUrl('/home/comments/'+ comId);
+
+  refOnComments(comId: Number) {
+    this.router.navigateByUrl('/home/comments/' + comId);
   }
-  handleDelete(id: Number){
+
+  handleDelete(id: Number) {
     this.taskService.deleteTask(id).subscribe(() => {
       this.tasks = this.tasks.filter(item => item.id !== id);
-    },error => {
+    }, error => {
       this.notificationService.showErrorHTMLMessage(error.error.message, 'Task delete');
     });
   }
@@ -55,11 +60,27 @@ export class TaskListComponent implements OnInit {
     this.dateRange = dateRange;
     this.taskService.findTasksByDate(this.orgId, this.dateRange).subscribe(data => {
       this.tasks = data;
-  });
+    });
   }
 
-  handleTransactions(taskId: Number){
+  handleTransactions(taskId: Number) {
     this.router.navigateByUrl('/home/transactions/' + taskId);
   }
+
+
+  approveBudget(updTask: Task) {
+    if (this.verificationService.supervisorVerification() && updTask.approvedBudget !== updTask.budget) {
+      updTask.approvedBudget = updTask.budget;
+    } else {
+      return;
+    }
+    this.taskService.updateTask(updTask.id, updTask).subscribe(data => {
+      console.log(data);
+      this.router.navigate(['home/tasks/' + this.orgId]);
+    }, validationErr => {
+      this.notificationService.showErrorHTMLMessage(validationErr.error.message, 'Invalid input');
+    });
+  }
+
 
 }

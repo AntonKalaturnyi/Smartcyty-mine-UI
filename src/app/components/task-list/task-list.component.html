@@ -1,46 +1,55 @@
 <div class="task-list-header">
-    <nav class="navbar">
-        <div *ngIf="org">
-             <h4>{{org.name}}</h4>
-          </div>
-          <div class="date-search form-inline">
-                <date-range-picker  [(dateRange)]="dateRange" (click)="changeDate(dateRange)"></date-range-picker>
-              </div>
-    </nav>        
-<div class="task-list-body table-responsive">
+  <nav class="navbar">
+    <div *ngIf="org">
+      <h4>{{org.name}}</h4>
+    </div>
+    <div class="date-search form-inline">
+      <date-range-picker [(dateRange)]="dateRange" (click)="changeDate(dateRange)"></date-range-picker>
+    </div>
+  </nav>
+  <div class="task-list-body table-responsive">
     <table class="table table-bordered table-hover">
-        <thead class="thead-light">
-            <tr>
-                <th>№</th>
-                <th>Title</th>
-                <th>Status</th>
-                <th>Budget</th>
-                <th>Approved Budget</th>
-                <th>Created</th>
-                <th>Updated</th>
-                <th>Deadline</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody *ngIf="tasks">
-            <tr *ngFor="let task of tasks; let i = index">
-                <td>{{i + 1}}</td>
-                <td>{{task.title}}</td>
-                <td>{{task.taskStatus}}</td>
-                <td>{{task.budget}}</td>
-                <td>{{task.approvedBudget}}</td>
-                <td>{{task.createdAt}}</td>
-                <td>{{task.updatedAt}}</td>
-                <td>{{task.deadlineDate}}</td>
-                <td>
-                    <button (click)="handleEdit(task.id)" title="Edit"><i class="fas fa-pen"></i></button>
-                    <button (click)="handleTransactions(task.id)" title="Transactions"><i class="far fa-money-bill-alt"></i></button>
-                    <button (click)="refOnComments(task.id)" title="Comments"><i class="fas fa-comments-dollar"></i></button>
-                    <button (click)="handleDelete(task.id)" title="Delete"><i class="fas fa-trash"></i></button>
-                </td>
-            </tr>
-        </tbody>
+      <thead class="thead-light">
+      <tr>
+        <th>№</th>
+        <th>Title</th>
+        <th>Status</th>
+        <th>Budget</th>
+        <th>Approved Budget</th>
+        <th>Created</th>
+        <th>Updated</th>
+        <th>Deadline</th>
+        <th>IsApproved?</th>
+        <th>Actions</th>
+      </tr>
+      </thead>
+      <tbody *ngIf="tasks">
+      <tr *ngFor="let task of tasks; let i = index">
+        <td>{{i + 1}}</td>
+        <td>{{task.title}}</td>
+        <td>{{task.taskStatus}}</td>
+        <td>{{task.budget}}</td>
+        <td>{{task.approvedBudget}}</td>
+        <td>{{task.createdAt}}</td>
+        <td>{{task.updatedAt}}</td>
+        <td>{{task.deadlineDate}}</td>
+        <td>
+          <button (click)="approveBudget(task)" title="isApprovedBudget">
+            <i class="fas fa-circle"
+               [ngStyle]="{'color': task.approvedBudget>0&&task.approvedBudget>=task.budget ? 'green':'red'}">
+            </i></button>
+        </td>
+        <td>
+          <button (click)="handleEdit(task.id)" title="Edit"><i class="fas fa-pen"></i></button>
+          <button (click)="handleTransactions(task.id)" title="Transactions"><i class="far fa-money-bill-alt"></i>
+          </button>
+          <button (click)="refOnComments(task.id)" title="Comments"><i class="fas fa-comments-dollar"></i></button>
+          <button (click)="handleDelete(task.id)" title="Delete"><i class="fas fa-trash"></i></button>
+
+        </td>
+      </tr>
+      </tbody>
     </table>
 
 
-</div>
+  </div>
