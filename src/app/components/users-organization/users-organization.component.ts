@@ -16,6 +16,7 @@ export class UsersOrganizationComponent implements OnInit {
 
   organization: Organization;
   allUsers: User[];
+  trueUsers: User[];
   isLoading: boolean;
 
   constructor(private organizationService: OrganizationService, private userService: UserService,
@@ -32,6 +33,7 @@ export class UsersOrganizationComponent implements OnInit {
       });
     this.userService.getUsersByRoleId(4).subscribe(allUsers => {
       this.allUsers = allUsers;
+      this.trueUsers = allUsers;
       this.isLoading = false;
     });
   }
@@ -43,28 +45,40 @@ export class UsersOrganizationComponent implements OnInit {
   }
 
   check(e: any, user: User) {
-    e.target.checked = !e.target.checked;
-    if (!e.target.checked) {
+    if (e.target.checked) {
       this.organizationService.addUserToOrganization(user.id, this.organization.id).subscribe(() => {
         this.organization.responsiblePersons.push(user);
-        e.target.checked = !e.target.checked;
         this.notificationService.showSuccessWithTimeout('User has been successfully added to organization.',
           'Add user to organization',
           3200);
       }, error => {
+        e.target.checked = !e.target.checked;
         this.notificationService.showErrorHTMLMessage('Add user to organization error.', 'Error');
       });
     } else {
       this.organizationService.removeUserFromOrganization(user.id, this.organization.id).subscribe(() => {
         this.organization.responsiblePersons.filter(item => item.id !== user.id);
-        e.target.checked = !e.target.checked;
         this.notificationService.showSuccessWithTimeout('User has been successfully removed from organization.',
           'Remove user from organization',
           3200);
       }, error => {
+        e.target.checked = !e.target.checked;
         this.notificationService.showErrorHTMLMessage('Remove user from organization error.', 'Error');
       });
     }
+  }
+
+  showAllResponsible() {
+    this.trueUsers = this.allUsers;
+  }
+
+  showOnlyInOrganization() {
+    this.trueUsers = this.organization.responsiblePersons;
+  }
+
+  showOnlyNotInOrganization() {
+    this.trueUsers = this.allUsers.filter((el) => !this.organization.responsiblePersons
+      .some((item) => item.id === el.id));
   }
 }
 

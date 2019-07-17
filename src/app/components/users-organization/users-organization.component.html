@@ -5,6 +5,11 @@
         <div *ngIf="organization">
           <h4>{{organization.name}}</h4>
         </div>
+        <div>
+          <button type="button" class="allUsers btn btn-outline-secondary ml-3" (click)="this.showAllResponsible()">All responsible</button>
+          <button type="button" class="btn btn-outline-primary ml-3" (click)="this.showOnlyInOrganization()">In organization</button>
+          <button type="button" class="btn btn-outline-danger ml-3" (click)="this.showOnlyNotInOrganization()">Not in organization</button>
+        </div>
       </nav>
     </div>
     <div class="badge-light">
@@ -18,7 +23,7 @@
         </tr>
         </thead>
         <tbody *ngIf="allUsers">
-        <tr *ngFor="let user: of allUsers">
+        <tr *ngFor="let user: of this.trueUsers">
           <td>{{user.name}}</td>
           <td>{{user.surname}}</td>
           <td>{{user.email}}</td>

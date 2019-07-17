@@ -36,10 +36,10 @@
 
 input:checked + .slider:before {
   transform:translateX(30px);
-  background: #0069d9;
+  background: #007bff;
 }
 input:checked + .slider {
-  box-shadow:0 0 0 2px #0069d9,0 0 2px #0069d9;
+  box-shadow:0 0 0 2px #007bff,0 0 2px #007bff;
 }
 
 .denied{
