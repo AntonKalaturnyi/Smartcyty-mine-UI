@@ -1,0 +1,53 @@
+<div class="row" >
+    <div class="my-5 col-sm-8 offset-sm-2 rounded border border-secondary text-center bg-white custom-style">
+        <nav class="navbar">
+            <div class="d-flex">
+                <form class="mr-auto p-2">
+                    <button onclick="goBack()">
+                        <i class="fas fa-arrow-alt-circle-left" style="font-size: 2em; color: gray"></i>
+                    </button>
+                </form>
+            </div>
+            <div class="mr-auto p-2" *ngIf="task" style="margin: auto">
+                <h4 >{{task.title    }}  <i class="fas fa-circle"
+                  [ngStyle]="{'color': task.approvedBudget>0&&task.approvedBudget>=task.budget ? 'green':'red'}">
+               </i></h4>
+            </div>
+        </nav>
+    
+            <table class="table table-hover">       
+                <tbody>
+                  <tr>
+                    <th scope="row">Description</th>
+                    <td>{{task.description}}</td>
+                  </tr>
+                  <tr *ngIf="this.verificationService.responsiblePersonVerification() || this.verificationService.supervisorVerification()">
+                    <th scope="row">Budget</th>
+                    <td>{{task.budget}}</td>         
+                  </tr>
+                  <tr *ngIf="this.verificationService.supervisorVerification()">
+                    <th scope="row">Approved budget</th>
+                    <td colspan="2">{{task.approvedBudget}}</td>
+                  </tr>
+                   <tr ng-switch [ngSwitch]="task.taskStatus">
+                    <th scope="row">Task status</th>
+                    <td  *ngSwitchCase="'Todo'" style="color: red" colspan="2">{{task.taskStatus}}</td>
+                    <td  *ngSwitchCase="'InProgress'" style="color: rgba(250, 192, 2, 0.829)" colspan="2">{{task.taskStatus}}</td>
+                    <td  *ngSwitchCase="'Done'" style="color: rgb(22, 190, 22)" colspan="2">{{task.taskStatus}}</td>
+                  </tr>
+                  <!-- <tr>
+                        <th scope="row">Assignee</th>
+                        <td colspan="2">{{assignee.name}}</td>
+                      </tr> -->
+                  <tr>
+                        <th scope="row">Deadline date</th>
+                        <td colspan="2">{{task.deadlineDate}}</td>
+                      </tr> 
+                </tbody>
+              </table>
+              <div class="row" style="margin-left: 42%; padding-bottom: 3%">
+            <button style="margin-right: 3%; align-content: center"  class="btn btn-info" (click)="handleEdit(task.id)" title="Edit">Edit</button>
+            <button  *ngIf="this.verificationService.supervisorVerification()" class="btn btn-success" (click)="approveBudget(task)" title="Edit">Approve</button>
+            </div>  
+    </div>
+</div>

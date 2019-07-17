@@ -31,7 +31,7 @@ export class UserService {
       .pipe(catchError(this.errorHandler));
   }
 
-  getUserbyId(id) {
+  getUserbyId(id) : any {
     let headers = this.getAuthHeader();
     return this.http.get('http://localhost:8080/smartcity_war/users/' + id, {headers});
   }

@@ -19,6 +19,7 @@ import {CommentEditComponent} from './components/comment-edit/comment-edit.compo
 import {UsersOrganizationComponent} from './components/users-organization/users-organization.component';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 import { PasswordResetViaMailComponent } from './password-reset-via-mail/password-reset-via-mail.component';
+import { TaskDetailsComponent } from './task-details/task-details.component';
 
 export const routes: Routes = [
   {
@@ -56,6 +57,10 @@ export const routes: Routes = [
       {
         path: 'task/edit/:id',
         component: TaskUpdateComponent
+      },
+      {
+        path: 'task/details/:id',
+        component: TaskDetailsComponent
       },
       {
         path: 'user-update',

@@ -1,4 +1,4 @@
-import { Component, OnInit, NgModule } from '@angular/core';
+import { Component, OnInit, NgModule, OnDestroy } from '@angular/core';
 import { TaskService } from 'src/app/services/task.service';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -12,7 +12,7 @@ import { UserVerificationService } from 'src/app/services/user-verification.serv
   templateUrl: './task-update.component.html',
   styleUrls: ['./task-update.component.scss']
 })
-export class TaskUpdateComponent implements OnInit {
+export class TaskUpdateComponent implements OnInit, OnDestroy {
 
   static organizationId: number;
   taskEditForm;

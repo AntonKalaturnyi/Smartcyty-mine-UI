@@ -56,6 +56,10 @@ export class TaskListComponent implements OnInit {
     this.router.navigateByUrl('/home/task/edit/' + id);
   }
 
+  onDblClickTaskDetails(id: number) {
+    this.router.navigateByUrl('/home/task/details/' + id);
+  }
+
   changeDate(dateRange: DateRange) {
     this.dateRange = dateRange;
     this.taskService.findTasksByDate(this.orgId, this.dateRange).subscribe(data => {
