@@ -57,7 +57,7 @@ export class UsersOrganizationComponent implements OnInit {
       });
     } else {
       this.organizationService.removeUserFromOrganization(user.id, this.organization.id).subscribe(() => {
-        this.organization.responsiblePersons.filter(item => item.id !== user.id);
+        this.organization.responsiblePersons = this.organization.responsiblePersons.filter(el => el.id !== user.id);
         this.notificationService.showSuccessWithTimeout('User has been successfully removed from organization.',
           'Remove user from organization',
           3200);
@@ -73,12 +73,11 @@ export class UsersOrganizationComponent implements OnInit {
   }
 
   showOnlyInOrganization() {
-    this.trueUsers = this.organization.responsiblePersons;
+    this.trueUsers = this.allUsers.filter((el) => this.contain(el));
   }
 
   showOnlyNotInOrganization() {
-    this.trueUsers = this.allUsers.filter((el) => !this.organization.responsiblePersons
-      .some((item) => item.id === el.id));
+    this.trueUsers = this.allUsers.filter((el) => !this.contain(el));
   }
 }
 
