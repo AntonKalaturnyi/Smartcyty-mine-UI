@@ -38,7 +38,7 @@ import {MatConfirmDialogComponent} from './components/mat-confirm-dialog/mat-con
 import {ToastrModule} from 'ngx-toastr';
 import { PasswordResetViaMailComponent } from './password-reset-via-mail/password-reset-via-mail.component';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
-
+import { NgxPaginationModule } from 'ngx-pagination';
 @NgModule({
   declarations: [
     AppComponent,
@@ -93,7 +93,8 @@ import { ForgotPasswordComponent } from './forgot-password/forgot-password.compo
       }
     ),
     MatTooltipModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    BrowserModule, NgxPaginationModule
   ],
   providers: [],
   bootstrap: [AppComponent],

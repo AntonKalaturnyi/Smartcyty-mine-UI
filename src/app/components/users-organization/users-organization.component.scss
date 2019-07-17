@@ -1,3 +1,4 @@
+
 .switch input {
   display:none;
 }
@@ -57,6 +58,12 @@ input:checked + .slider {
   stroke: #6c757d;
 }
 
+::ng-deep .ngx-pagination .current {
+  background: #007bff !important;
+}
 
-
+::ng-deep .ngx-pagination{
+  margin: 0!important;
+  padding: 0;
+}
 

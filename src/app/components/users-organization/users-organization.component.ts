@@ -18,10 +18,14 @@ export class UsersOrganizationComponent implements OnInit {
   allUsers: User[];
   trueUsers: User[];
   isLoading: boolean;
+  itemsPerPage: number;
+  currentPage: number;
 
   constructor(private organizationService: OrganizationService, private userService: UserService,
               private actRouter: ActivatedRoute, private userVerificatioService: UserVerificationService,
               private notificationService: NotificationService) {
+    this.itemsPerPage = 5;
+    this.currentPage = 1;
   }
 
   ngOnInit() {
@@ -70,14 +74,17 @@ export class UsersOrganizationComponent implements OnInit {
 
   showAllResponsible() {
     this.trueUsers = this.allUsers;
+    this.currentPage = 1;
   }
 
   showOnlyInOrganization() {
     this.trueUsers = this.allUsers.filter((el) => this.contain(el));
+    this.currentPage = 1;
   }
 
   showOnlyNotInOrganization() {
     this.trueUsers = this.allUsers.filter((el) => !this.contain(el));
+    this.currentPage = 1;
   }
 }
 

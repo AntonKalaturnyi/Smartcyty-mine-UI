@@ -6,9 +6,15 @@
           <h4>{{organization.name}}</h4>
         </div>
         <div>
-          <button type="button" class="allUsers btn btn-outline-secondary ml-3" (click)="this.showAllResponsible()">All responsible</button>
-          <button type="button" class="btn btn-outline-primary ml-3" (click)="this.showOnlyInOrganization()">In organization</button>
-          <button type="button" class="btn btn-outline-danger ml-3" (click)="this.showOnlyNotInOrganization()">Not in organization</button>
+          <button type="button" class="allUsers btn btn-outline-secondary ml-3" (click)="this.showAllResponsible()">All
+            responsible
+          </button>
+          <button type="button" class="btn btn-outline-primary ml-3" (click)="this.showOnlyInOrganization()">In
+            organization
+          </button>
+          <button type="button" class="btn btn-outline-danger ml-3" (click)="this.showOnlyNotInOrganization()">Not in
+            organization
+          </button>
         </div>
       </nav>
     </div>
@@ -23,7 +29,8 @@
         </tr>
         </thead>
         <tbody *ngIf="allUsers">
-        <tr *ngFor="let user: of this.trueUsers">
+        <tr
+          *ngFor="let user: of this.trueUsers | paginate: { itemsPerPage: this.itemsPerPage, currentPage: this.currentPage }">
           <td>{{user.name}}</td>
           <td>{{user.surname}}</td>
           <td>{{user.email}}</td>
@@ -34,11 +41,17 @@
             </label>
           </td>
         </tr>
+        <tr>
+          <td colspan="4" class="text-right">
+            <pagination-controls (pageChange)="this.currentPage = $event" class="text-danger"></pagination-controls>
+          </td>
+        </tr>
         </tbody>
       </table>
     </div>
   </div>
 </div>
+
 <ng-template #accessDenied>
   <div class="denied mt-3 p-5 alert-danger">
     <h2 class="text-danger mt-3">ACCESS DENIED !!!</h2>
