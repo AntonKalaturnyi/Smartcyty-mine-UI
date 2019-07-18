@@ -22,8 +22,7 @@ export class WebSocketService {
   private serverUrl = 'http://localhost:8080/smartcity_war/socket';
   private stompClient;
   tasks = [];
-  private commentsSubject = new Subject<any>();
-  comments = this.commentsSubject.asObservable();
+  comments = [];
 
 connect() {
     let socket = new SockJs(this.serverUrl);
@@ -35,46 +34,27 @@ connect() {
                 console.log(task);
                 this.tasks.forEach(handler => handler(JSON.parse(task.body)));
             });
+            this.stompClient.subscribe('/topic/comment.create',comment =>{
+              this.comments.forEach(handler=>handler(JSON.parse(comment.body)));
+            })
         }
         if(localStorage.getItem('ROLE_RESPONSIBLE_PERSON')) {
           this.stompClient.subscribe('/topic/task.create/' + localStorage.getItem('email'), task => {
             console.log(task);
             this.tasks.forEach(handler => handler(JSON.parse(task.body)));
           });
-        }
-        if(this.userVerificationService.supervisorVerification() || this.userVerificationService.responsiblePersonVerification()) {
-          this.stompClient.subscribe('/topic/comment.create', data => {
-            this.userService.getAuthenticatedUser().subscribe((user: User) => {
-                  let comment: CommentNotification = JSON.parse(data.body);
-                  this.organizationService.findById(comment.organizationId).subscribe(resOrganization =>{
-                      let organization:Organization = resOrganization;
-                      if (comment.userId !== user.id && (organization.responsiblePersons.some(item => item.id === user.id) || this.userVerificationService.supervisorVerification())) {
-
-                        this.notif.showInfoHTMLMessage("Author:" + comment.user + "<br>Description:<br>" + comment.description, "New comment for task:" + comment.task);
-
-                        this.commentService.findCommentById(comment.id).subscribe(
-                          date => {
-                            this.addComment(date);
-                          }
-                          ,
-                          error => this.notif.showErrorHTMLMessage(error.error.message, "Error")
-                        );
-                    }
-                  },
-                    error => this.notif.showErrorHTMLMessage(error.error.message,"Error"));
-              }
-            , error => this.notif.showErrorHTMLMessage(error.error.message, "Error"));
-
-          });
+          this.stompClient.subscribe('/topic/comment.create/' + localStorage.getItem('email'),comment =>{
+            this.comments.forEach(handler=>handler(JSON.parse(comment.body)));
+          })
         }
     });
 }
-
 addTask(task){
     this.tasks.push(task);
 }
-addComment(comment:any){
-  this.commentsSubject.next(comment);
+
+addComment(comment){
+  this.comments.push(comment);
 }
 disconnect() {
     if (this.stompClient != null) {

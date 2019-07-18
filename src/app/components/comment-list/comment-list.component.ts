@@ -10,6 +10,7 @@ import {DialogService} from "../../services/dialog.service";
 import {NotificationService} from "../../services/notification.service";
 import {UserVerificationService} from "../../services/user-verification.service";
 import {WebSocketService} from "../../services/webSocket.service";
+import {CommentNotification} from "../../model/CommentNotification";
 
 @Component({
   selector: 'app-comment-list',
@@ -68,14 +69,22 @@ export class CommentListComponent implements OnInit {
       }, (error) =>
         this.notificationService.showErrorHTMLMessage(error.error.message,"Error")
       );
-      this.webSocketService.comments.subscribe((date:Comment) =>{
-        if(date.userId !== this.user.id && this.taskId === date.taskId) {
-          this.allComments.unshift(date);
-        }
-      });
     this.createCommentForm = this.formBuilder.group({
       description: ''
     });
+
+    this.webSocketService.addComment((comment:CommentNotification) =>{
+      this.userService.getAuthenticatedUser().subscribe((user: User) => {
+        if (comment.userId !== user.id) {
+          this.commentService.findCommentById(comment.id).subscribe(
+            date => {
+              this.allComments.unshift(date);
+            }
+          );
+        }
+      });
+    });
+
   }
 
   get description() {
