@@ -17,9 +17,9 @@
         </div>
         <div class="card-body text-dark"
              (dblclick)="(this.isRespons || this.isSuper) && onDblClickTasksList(organization.id)">
-          <h6 class="card-title text-ellipsis" matTooltip="{{organization.address}}">{{organization.address}}</h6>
+          <h6 class="card-title text-ellipsis" matTooltip="Address: {{organization.address}}">{{organization.address}}</h6>
           <br>
-          <h5 class="card-title text-center text-ellipsis" matTooltip="{{organization.name}}">{{organization.name}}</h5>
+          <h5 class="card-title text-center text-ellipsis" matTooltip="Name: {{organization.name}}">{{organization.name}}</h5>
           <br>
           <div *ngIf="(this.isRespons || this.isSuper); else createTask" (click)="onClickCreateTask(organization.id)"
                class="create-task-button">
@@ -64,13 +64,13 @@
 <ng-template #numberTaskAccessDenied>
   <div class="row list-group list-group-horizontal mx-auto">
     <div class="col border list-group-item-success">
-      **
+      <img src="/assets/block.png" alt="" class="block">
     </div>
     <div class="col border list-group-item-warning">
-      **
+      <img src="/assets/block.png" alt="" class="block">
     </div>
     <div class="col border list-group-item-danger">
-      **
+      <img src="/assets/block.png" alt="" class="block">
     </div>
   </div>
 </ng-template>
