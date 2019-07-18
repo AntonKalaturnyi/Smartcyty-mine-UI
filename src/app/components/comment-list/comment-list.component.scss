@@ -76,6 +76,10 @@
   padding-top: 20px;
   border-top: 2px solid #eee;
 }
+.comment-block:last-child{
+  padding-bottom: 20px;
+  border-bottom: 2px solid #eee;
+}
 .avatar{
   border-radius: 50%;
   width: 64px;
@@ -94,7 +98,6 @@
 }
 .btn-marg{
   margin-left: 15px;
-  min-width: 70px;
 }
 .btn-marg-botom{
   margin-bottom: 30px;
@@ -112,11 +115,11 @@
   flex-direction: column;
 }
 
-.checkNewBlock{
-  margin-left: 15px;
-}
+
 
 .newMessag{
+  margin-left: 15px;
+  margin-top: 15px;
   background: url("../../../assets/new.png") center;
   -webkit-background-size: cover;
   background-size: cover;
@@ -133,3 +136,21 @@
 }
 
 
+.spinner{
+  margin: 14% auto 0 auto;
+}
+.mat-spinner::ng-deep circle {
+  stroke: #6c757d;
+}
+.button-position{
+  flex-direction: row;
+}
+@media (max-width: 800px) {
+  .button-position{
+    flex-direction: column;
+  }
+  .btn-marg{
+    margin-left: 0px;
+  }
+  
+}

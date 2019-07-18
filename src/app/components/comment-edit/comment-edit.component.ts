@@ -12,10 +12,8 @@ import {NotificationService} from "../../services/notification.service";
 })
 export class CommentEditComponent implements OnInit {
   updatedCommentForm: FormGroup;
-  userId :number;
   constructor(private formBuilder: FormBuilder, private commentService: CommentService, private router: Router,
               private actRouter: ActivatedRoute, private notificationService : NotificationService) {
-
     this.updatedCommentForm = this.formBuilder.group({
       description: ['', [Validators.required]],
     });
@@ -27,11 +25,11 @@ export class CommentEditComponent implements OnInit {
     if(value.description !== '') {
       this.commentService.findCommentById(this.actRouter.snapshot.paramMap.get('id')).subscribe((com: Comment) => {
         com.description = value.description;
-        this.commentService.updateComment(this.actRouter.snapshot.paramMap.get('id'), com).subscribe((date: Comment) => {
+        this.commentService.updateComment(com).subscribe((date: Comment) => {
           console.log(date);
-          this.router.navigateByUrl('home/comments/' + com.taskId);
+          this.router.navigateByUrl('home/task/details/' + com.taskId);
           this.notificationService.showSuccessWithTimeout("Comment has been successfully updated!","Success",3200);
-        },  error =>         this.notificationService.showErrorHTMLMessage(error.error.message,"Error"))
+        },  error => this.notificationService.showErrorHTMLMessage(error.error.message,"Error"))
       },error => this.notificationService.showErrorHTMLMessage(error.error.message,"Error"));
     }
     else{
@@ -40,12 +38,11 @@ export class CommentEditComponent implements OnInit {
   }
   onClickCancel() {
     this.commentService.findCommentById(this.actRouter.snapshot.paramMap.get('id')).subscribe((com: Comment) => {
-        this.router.navigateByUrl('home/comments/' + com.taskId);
+        this.router.navigateByUrl('home/task/details' + com.taskId);
       },error => this.notificationService.showErrorHTMLMessage(error.error.message,"Error"));
   }
   ngOnInit() {
     this.commentService.findCommentById(this.actRouter.snapshot.paramMap.get('id')).subscribe((comment: Comment) => {
-      this.userId = comment.userId;
       this.updatedCommentForm.controls.description.setValue(comment.description);
     });
   }

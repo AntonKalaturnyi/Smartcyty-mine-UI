@@ -7,5 +7,5 @@ export class Comment {
   createdDate: string;
   updatedDate: string;
   userSeen:number[] = [];
-  createName: string;
+  userName: string;
 }

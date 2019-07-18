@@ -1,101 +1,89 @@
-<div *ngIf="task && (this.userVerificationService.responsiblePersonVerification() || this.userVerificationService.adminVerification() || this.userVerificationService.supervisorVerification())">
-  <div class="task-list-header">
-    <nav class="navbar">
-        <h4>Comments for: <a (click)="goBackToTask()">{{task.title}}</a></h4>
-        <div>
-          <div class="input-group flex-row">
-            <div class="input-group-prepend">
-              <span class="input-group-text" id="basic-addon1">@</span>
-            </div>
-            <div>
-              <input class="form-control" type="search" placeholder="Search by name" aria-label="Search" [(ngModel)]="searchText"  (ngModelChange)="search()" name="inputEmail">
-            </div>
-            </div>
-        </div>
-        <div class="sort-classs flex-row text-center justify-content-center">
-            <button class="btn btn-outline-primary btn-marg" (click)="viewAll()">All</button>
-            <button class="btn btn-outline-secondary btn-marg" (click)="viewNew()">Only New</button>
-            <button class="btn btn-outline-secondary btn-marg" (click)="sortNew()">Sort first New</button>
-            <button class="btn btn-outline-secondary btn-marg" (click)="sortOld()">Sort first Old</button>
-        </div>
-    </nav>
-  </div>
-
-  <div class="container">
-    <div class="panel">
+<div *ngIf="!this.isLoading">
+  <div *ngIf="(this.userVerificationService.responsiblePersonVerification() ||  this.userVerificationService.supervisorVerification()); else accessDenied">
+    <div class="container">
+        <div class="panel">
           <div class="panel-heading">
-            Comments ({{allComments.length}})
-          </div>
-          <div class="form-block">
-            <form id="contact-form" [formGroup]="createCommentForm" (ngSubmit)="handleCreate(createCommentForm.value)" role="form">
-              <div class="controls">
-                <div class="row">
-                  <div class="col-md-12">
-                    <div class="form-group">
-                      <textarea id="form_message" class="form-control"   formControlName="description" class="form-control" placeholder="write a comment...*" rows="4"  data-error="Залиште повідомлення."></textarea>
-                      <div *ngIf="isValidationMessage">
-                      <div class="alert alert-danger alert-dismissible fade show">
-                        <strong>Error!</strong> Comment can not be empty!
-                        <button type="button" (click)="messageValidationClose()" class="close" data-dismiss="alert">&times;</button>
-                      </div>
+                Comments ({{allComments.length}})
+                <nav class="navbar">
+                  <div class="sort-classs button-position text-center justify-content-center">
+                    <div>
+                      <input class="form-control" type="search" placeholder="Search by name" aria-label="Search" [(ngModel)]="inputSearch"  (ngModelChange)="search()" name="inputName">
                     </div>
-
-                      <div *ngIf="isSuccesfullMessage">
-                        <div class="alert alert-success alert-dismissible fade show">
-                          <strong>Success!</strong>The comment was successfully created!
-                          <button type="button" (click)="messageSuccsesfulClose()" class="close" data-dismiss="alert">&times;</button>
+                    <button class="btn btn-outline-primary btn-marg" (click)="showAllComments()">All</button>
+                    <button class="btn btn-outline-secondary btn-marg" (click)="showOnlyNewComments()">New</button>
+                    <button class="btn btn-outline-secondary btn-marg" (click)="sortNew()">Sorting from earliest to latest date</button>
+                    <button class="btn btn-outline-secondary btn-marg" (click)="sortOld()">Sorting from latest to earliest date</button>
+                  </div>
+                </nav>
+              </div>
+              <div class="form-block">
+                <form id="contact-form" [formGroup]="createCommentForm" (ngSubmit)="clickOnCreateComment(createCommentForm.value)" role="form">
+                  <div class="controls">
+                    <div class="row">
+                      <div class="col-md-12">
+                        <div class="form-group">
+                          <textarea id="form_message" class="form-control"   formControlName="description" class="form-control" placeholder="write a comment...*" rows="4"  data-error="Залиште повідомлення."></textarea>
+                          <div *ngIf="isValidationMessage">
+                          <div class="alert alert-danger alert-dismissible fade show">
+                            <strong>Error!</strong> Comment can not be empty!
+                            <button type="button" (click)="messageValidationClose()" class="close" data-dismiss="alert">&times;</button>
+                          </div>
+                        </div>
+                          <div *ngIf="isSuccesfullMessage">
+                            <div class="alert alert-success alert-dismissible fade show">
+                              <strong>Success!</strong>The comment was successfully created!
+                              <button type="button" (click)="messageSuccsesfulClose()" class="close" data-dismiss="alert">&times;</button>
+                            </div>
+                          </div>
                         </div>
                       </div>
+                      <div class="col-md-12 text-right">
+                        <button type="button " class="btn btn-info pull-right">Post</button>
+                      </div>
                     </div>
                   </div>
-                  <div class="col-md-12 text-right">
-                    <button type="button " class="btn btn-info pull-right">Post</button>
-
-                  </div>
-                </div>
+                </form>
               </div>
-            </form>
+              <div class="comments__block">
+                  <ul class="comments" *ngIf="comments">
+                    <li class="comment-block" *ngFor="let comment: of this.comments | paginate: { itemsPerPage: this.itemsPerPage, currentPage: this.currentPage }">
+                      <img src="https://bootdey.com/img/Content/user_1.jpg" class="avatar" alt="">
+                      <div class="post-comments">
+                        <p class="header-info">
+                         <i>Author: <strong class="text-success text-left">{{comment.userName}}</strong></i>
+                          <i class="pull-right text-right" >Created: {{ comment.createdDate | date:'MM/dd/yyyy HH:mm:ss' }} Updated: {{ comment.updatedDate | date:'MM/dd/yyyy HH:mm:ss' }} View: {{comment.userSeen.length}}</i>
+                        </p>
+                        <p class="description">
+                          {{comment.description}}
+                        </p>
+                        <div class="text-right">
+                          <button  *ngIf="checkOnOwner(comment)" (click)="clickOnEditComment(comment)" class="btn btn-primary btn-marg text-center" >Edit</button>
+                          <button *ngIf="checkOnOwner(comment)" (click)="clickOnDeleteComment(comment)" class="btn btn-danger btn-marg text-center" >Delete</button>
+                          <button *ngIf="checkOnSeen(comment)" (click)="addToUserSeenList(comment)" class="btn btn-primary btn-marg text-center">Seen!</button>
+                        </div>
+                      </div>
+                      <div  *ngIf="checkOnSeen(comment) ">
+                        <div class="newMessag"></div>
+                      </div>
+                    </li>
+                  </ul>
+              </div>
+          <div class="text-center">
+              <div *ngIf="comments.length === 0">
+                <h2>Comments not found!</h2>
+                <br>
+              </div>
+            <pagination-controls (pageChange)="this.currentPage = $event" class="text-danger"></pagination-controls>
           </div>
-
-          <div class="comments__block">
-              <ul class="comments" *ngIf="comments">
-                <li class="comment-block" *ngFor="let comment of comments">
-                  <img src="https://bootdey.com/img/Content/user_1.jpg" class="avatar" alt="">
-                  <div class="post-comments">
-                    <p class="header-info">
-                     <i>Author: <strong class="text-success text-left">{{comment.createName}}</strong></i>
-                      <i class="pull-right text-right" >Created: {{ comment.createdDate | date:'MM/dd/yyyy HH:mm:ss' }} Updated: {{ comment.updatedDate | date:'MM/dd/yyyy HH:mm:ss' }} View: {{comment.userSeen.length}}</i>
-                    </p>
-                    <p class="description">
-                      {{comment.description}}
-                    </p>
-                    <div class="text-right">
-                      <button  *ngIf="checkOnOwner(comment) || this.userVerificationService.adminVerification()" (click)="handleEdit(comment)" class="btn btn-primary btn-marg text-center" >Edit</button>
-                      <button *ngIf="checkOnOwner(comment) || this.userVerificationService.adminVerification()" (click)="handleDelete(comment)" class="btn btn-danger btn-marg text-center" >Delete</button>
-                      <button *ngIf="checkOnSeen(comment) && !checkOnOwner(comment)" (click)="addToSeen(comment)" class="btn btn-primary btn-marg text-center">Seen!</button>
-                    </div>
-                  </div>
-                  <div class="checkNewBlock" *ngIf="checkOnSeen(comment) && !checkOnOwner(comment)">
-                    <div class="newMessag"></div>
-                  </div>
-                </li>
-              </ul>
-
-          </div>
-      <div class="text-center">
-        <div *ngIf="comments.length < allComments.length && !isMoreView">
-             <button (click)="viewMore()" class="btn btn-primary btn-marg-botom">View more Comments! ({{allComments.length - comments.length}})</button>
-        </div>
-        <div *ngIf="comments.length === 0">
-          <h2>Comments not found!</h2>
-        </div>
       </div>
+   </div>
+  </div>
+</div>
+
+<ng-template #accessDenied>
+    <div class="denied mt-3 p-5 alert-danger">
+      <h2 class="text-danger mt-3">ACCESS DENIED !!!</h2>
+      <p class="mt-4">You dont have permissions to view this resource.<br><br> Please contact your administrator.</p>
     </div>
-  </div>
-</div>
-<div *ngIf="!(task && (this.userVerificationService.responsiblePersonVerification() || this.userVerificationService.adminVerification() || this.userVerificationService.supervisorVerification()))">
-  <div class="denied mt-3 p-5 alert-danger">
-    <h2 class="text-danger mt-3">ACCESS DENIED !!!</h2>
-    <p class="mt-4">You dont have permissions to view this resource.<br><br> Please contact your administrator.</p>
-  </div>
-</div>
+</ng-template>
+<mat-spinner *ngIf="isLoading" diameter="100" class="spinner"></mat-spinner>

@@ -16,6 +16,7 @@ export class NotificationService {
       enableHtml :  true
     })
   }
+
   showSuccessWithTimeout(message, title, timespan){
     this.toastr.success(message, title ,{
       timeOut :  timespan,
