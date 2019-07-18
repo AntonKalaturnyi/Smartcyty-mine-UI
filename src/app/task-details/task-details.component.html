@@ -1,4 +1,5 @@
-<div class="row" >
+<div *ngIf="task&&assignee">
+<div class="row"  >
     <div class="my-5 col-sm-8 offset-sm-2 rounded border border-secondary text-center bg-white custom-style">
         <nav class="navbar">
             <div class="d-flex">
@@ -10,7 +11,7 @@
             </div>
             <div class="mr-auto p-2" *ngIf="task" style="margin: auto">
                 <h4 >{{task.title    }}  <i class="fas fa-circle"
-                  [ngStyle]="{'color': task.approvedBudget>0&&task.approvedBudget>=task.budget ? 'green':'red'}">
+                  [ngStyle]="{'color': task.approvedBudget>0&&task.approvedBudget == task.budget ? 'green':'red'}">
                </i></h4>
             </div>
         </nav>
@@ -35,11 +36,20 @@
                     <td  *ngSwitchCase="'InProgress'" style="color: rgba(250, 192, 2, 0.829)" colspan="2">{{task.taskStatus}}</td>
                     <td  *ngSwitchCase="'Done'" style="color: rgb(22, 190, 22)" colspan="2">{{task.taskStatus}}</td>
                   </tr>
-                  <!-- <tr>
-                        <th scope="row">Assignee</th>
-                        <td colspan="2">{{assignee.name}}</td>
-                      </tr> -->
                   <tr>
+                        <th scope="row">Assignee</th>
+                        <td colspan="2">{{assignee?.name}}</td>
+                      </tr>
+                      <tr>
+                        <th scope="row">Created date</th>
+                        <td colspan="2">{{task.createdAt}}</td>
+                      </tr> 
+                  <tr>
+                      <tr>
+                          <th scope="row">Updated date</th>
+                          <td colspan="2">{{task.updatedAt}}</td>
+                        </tr> 
+                    <tr>
                         <th scope="row">Deadline date</th>
                         <td colspan="2">{{task.deadlineDate}}</td>
                       </tr> 
@@ -47,9 +57,9 @@
               </table>
               <div class="row" style="margin-left: 42%; padding-bottom: 3%">
             <button style="margin-right: 3%; align-content: center"  class="btn btn-info" (click)="handleEdit(task.id)" title="Edit">Edit</button>
-            <button  *ngIf="this.verificationService.supervisorVerification()" class="btn btn-success" (click)="approveBudget(task)" title="Edit">Approve</button>
+            <button  *ngIf="this.verificationService.supervisorVerification() && task.approvedBudget != task.budget" class="btn btn-success" (click)="approveBudget(task)" title="Edit">Approve</button>
             </div>  
     </div>
 </div>
-<app-comment-list>
-</app-comment-list>
+<app-comment-list></app-comment-list>
+</div>

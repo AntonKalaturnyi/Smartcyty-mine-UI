@@ -80,7 +80,6 @@ export class TaskService {
     if (localStorage.getItem('token') == null) {
       return new Observable();
     }
-    console.log("In update!");
     headers = headers.append('authorization', 'Bearer ' + localStorage.getItem('token'));
     return this.http.put<Task>('http://localhost:8080/smartcity_war/tasks/' + id, taskDto, { headers })
     .pipe(catchError(this.errorHandler));

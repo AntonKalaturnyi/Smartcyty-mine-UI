@@ -15,28 +15,29 @@ import { User } from '../model/User';
 })
 export class TaskDetailsComponent implements OnInit, OnDestroy {
 
-  static assigneeId: number;
   assignee: User;
+  usersOrgsId: number;
   taskId;
   task: Task;
   getTaskSubscription;
 
-  constructor(private service: TaskService, private notificationService: NotificationService,
+  constructor(private taskService: TaskService, private notificationService: NotificationService,
               private verificationService: UserVerificationService,
               private router: Router, private userService: UserService,
               private actRouter: ActivatedRoute) {
-    this.taskId = this.actRouter.snapshot.paramMap.get('id');
-    console.log('TASK ID: ' + this.taskId);
-    this.getTaskSubscription =  this.service.findTaskById(this.taskId).subscribe(data => {
-      this.task = data;
-    });
-    // this.userService.getUserbyId(TaskDetailsComponent.assigneeId).subscribe((res) => {
-    //   console.log(res);
-    //   this.assignee = res;
-    // });
+
 }
 
   ngOnInit() {
+  //  getUserByUsersOrgsId
+  this.taskId = this.actRouter.snapshot.paramMap.get('id');
+  this.getTaskSubscription =  this.taskService.findTaskById(this.taskId).subscribe(data => {
+    this.task = data;
+    this.usersOrgsId = this.task.usersOrganizationsId;
+    this.userService.getUserByUsersOrgsId(this.usersOrgsId).subscribe(user => {
+      this.assignee = user;
+    });
+  });
   }
 
   ngOnDestroy() {
@@ -56,7 +57,7 @@ export class TaskDetailsComponent implements OnInit, OnDestroy {
     } else {
       return;
     }
-    this.service.updateTask(updTask.id, updTask).subscribe(data => {
+    this.taskService.updateTask(updTask.id, updTask).subscribe(data => {
       console.log(data);
     }, validationErr => {
       this.notificationService.showErrorHTMLMessage(validationErr.error.message, 'Invalid input');

@@ -36,7 +36,7 @@
       </div>
       <div *ngIf="!this.userVerfService.responsiblePersonVerification()||this.userVerfService.supervisorVerification()"
         class="form-group row">
-        <input type="number" class="form-control" formControlName="approvedBudget" placeholder="Budget">
+        <input type="number" class="form-control" formControlName="approvedBudget" placeholder="Approved Budget">
         <div *ngIf="approvedBudget.invalid && (approvedBudget.dirty || approvedBudget.touched)" class="alert alert-danger" style="width: 100%">
           <div *ngIf="approvedBudget.errors.required">
             Budget is required.
