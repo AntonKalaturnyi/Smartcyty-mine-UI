@@ -46,9 +46,9 @@ export class UserService {
     return this.http.get<User>('http://localhost:8080/smartcity_war/users/?email=' + email, { headers });
   }
 
-  getAllUsers(): Observable<User[]> {
+  getAllUsers(pageId: Number): Observable<User[]> {
     let headers = this.getAuthHeader();
-    return this.http.get<User[]>('http://localhost:8080/smartcity_war/users/all', { headers });
+    return this.http.get<User[]>('http://localhost:8080/smartcity_war/users/all/' + pageId, { headers });
   }
 
   deleteUser(id: Number) {

@@ -41,18 +41,30 @@ export class UserListComponent implements OnInit {
     this.userService.getAuthenticatedUser().subscribe(authUser => {
       this.userId = authUser.id;
       this.authenticationUser = authUser;
-      this.getUsersSubscription = this.userService.getAllUsers().subscribe(data => {
-        this.users = data;
-        this.allUsers = data;
-        for (let user of this.users) {
-          this.userService.getRoles(user.id).subscribe(date2 => {
-            user.roles = date2;
-          });
-        }
-      });
+      this.getUsersSubscription = this.getUsersLimit(1);
       this.getRolesSubscription = this.roleService.getRoles().subscribe(roleService => {
         this.allRoles = roleService;
       });
+    });
+  }
+
+  getUserByEmail(inputName: String) {
+    this.userService.getUserbyEmail(inputName).subscribe(userFind => {   
+      let users = [];
+      users.push(userFind);
+      this.users = users;
+    });
+  }
+
+  getUsersLimit(pageId: Number) {
+    this.userService.getAllUsers(pageId).subscribe(data => {
+      this.users = data;
+      this.allUsers = data;
+      for (let user of this.users) {
+        this.userService.getRoles(user.id).subscribe(date2 => {
+          user.roles = date2;
+        });
+      }
     });
   }
 
@@ -62,8 +74,8 @@ export class UserListComponent implements OnInit {
 
   search(){
     this.users = this.allUsers.filter(value => {
-      if(value.name) {
-        return value.name.toLowerCase().indexOf(this.inputName.toLowerCase()) > -1
+      if(value.email) {
+        return value.email.toLowerCase().indexOf(this.inputName.toLowerCase()) > -1
       }
       return false;
     });

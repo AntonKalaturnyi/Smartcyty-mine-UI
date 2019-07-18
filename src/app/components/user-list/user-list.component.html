@@ -4,7 +4,7 @@
       <button type="button" class="allUsers btn btn-outline-primary" (click)="showUsers()">All</button>
       <button type="button" class="btn btn-outline-success" (click)="showActive()">Activated</button>
       <button type="button" class="btn btn-outline-danger" (click)="showDeactivated()">Deactivated</button>
-      <form class="email-search form-inline" (ngSubmit)="getUserByEmail(inputEmail)" >
+      <form class="email-search form-inline" (ngSubmit)="getUserByEmail(inputName)" >
         <label>
             <div class="input-group flex-row">
               <div class="input-group-prepend">
@@ -59,8 +59,20 @@
         </td>
       </tr>
     </table>
+    <nav class="pagin-centre" aria-label="Page navigation example">
+        <ul class="pagination">
+          <li class="page-item"><a class="page-link" (click)=getUsersLimit(1)>1</a></li>
+          <li class="page-item"><a class="page-link" (click)=getUsersLimit(2)>2</a></li>
+          <li class="page-item"><a class="page-link" (click)=getUsersLimit(3)>3</a></li>
+          <li class="page-item"><a class="page-link" (click)=getUsersLimit(4)>4</a></li>
+          <li class="page-item"><a class="page-link" (click)=getUsersLimit(5)>5</a></li>
+          <li class="page-item"><a class="page-link" (click)=getUsersLimit(6)>6</a></li>
+        </ul>
+      </nav>
   </div>
+  
 </div>
+
 <ng-template #accessDenied>
   <div class="denied mt-3 p-5 alert-danger">
     <h2 class="text-danger mt-3">Access denied</h2>
