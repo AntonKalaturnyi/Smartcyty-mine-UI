@@ -27,7 +27,6 @@ import {TaskCreateComponent} from './components/task-create/task-create.componen
 import {TaskUpdateComponent} from './components/task-update/task-update.component';
 import {TaskListComponent} from './components/task-list/task-list.component';
 import {UserUpdateComponent} from './components/user-update/user-update.component';
-import {PasswordUpdateComponent} from './components/password-update/password-update.component';
 import {CreateOrganizationComponent} from './components/create-organization/create-organization.component';
 import {UpdateOrganizationComponent} from './components/update-organization/update-organization.component';
 import {CommentListComponent} from './components/comment-list/comment-list.component';
@@ -55,7 +54,6 @@ import { NgxPaginationModule } from 'ngx-pagination';
     TaskCreateComponent,
     TaskUpdateComponent,
     UserUpdateComponent,
-    PasswordUpdateComponent,
     CreateOrganizationComponent,
     TransactionListComponent,
     UpdateOrganizationComponent,

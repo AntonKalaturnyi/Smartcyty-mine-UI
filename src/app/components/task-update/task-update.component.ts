@@ -22,7 +22,7 @@ export class TaskUpdateComponent implements OnInit, OnDestroy {
   getTaskSubscription;
 
   constructor(private service: TaskService, private notificationService: NotificationService,
-              private verificationService: UserVerificationService,
+              public verificationService: UserVerificationService,
               private formBuilder: FormBuilder, private router: Router,
               private actRouter: ActivatedRoute) {
 

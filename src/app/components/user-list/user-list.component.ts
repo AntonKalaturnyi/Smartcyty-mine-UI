@@ -33,7 +33,7 @@ export class UserListComponent implements OnInit {
 
 
   constructor(private userService: UserService, private roleService: RoleService, 
-    private userVerificationService: UserVerificationService) { }
+    public userVerificationService: UserVerificationService) { }
 
 
   ngOnInit() {

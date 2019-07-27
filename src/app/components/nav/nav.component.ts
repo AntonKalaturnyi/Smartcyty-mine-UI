@@ -26,7 +26,7 @@ export class NavComponent implements OnInit {
   constructor(private userService: UserService, private budgetService: 
     BudgetService, private router: Router, private compMessage: ComponentMessageService,
     private notificationService: NotificationService,
-    private userVerfService: UserVerificationService, private webSocketService: WebSocketService) {
+    public userVerfService: UserVerificationService, private webSocketService: WebSocketService) {
   }
 
   refreshBudget() {

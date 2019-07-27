@@ -17,7 +17,7 @@ export class UpdateOrganizationComponent implements OnInit {
   organization: Organization;
 
   constructor(private formBuilder: FormBuilder, private organizationService: OrganizationService, private router: Router,
-              private actRouter: ActivatedRoute, private userVerificationService: UserVerificationService,
+              private actRouter: ActivatedRoute, public userVerificationService: UserVerificationService,
               private notificationService: NotificationService) {
     this.updateOrganizationForm = this.formBuilder.group({
       name: ['', [Validators.required,

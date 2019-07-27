@@ -12,7 +12,7 @@ import { NotificationService } from '../services/notification.service';
 export class PasswordResetViaMailComponent implements OnInit {
 
   private await: boolean;
-  private done: boolean;
+  public done: boolean;
   private token: string;
   private resetPasswordForm: FormGroup;
 

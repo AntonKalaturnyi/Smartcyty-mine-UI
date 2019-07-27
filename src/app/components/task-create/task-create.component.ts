@@ -26,7 +26,7 @@ export class TaskCreateComponent implements OnInit {
   constructor(private taskService: TaskService, private userService: UserService,
     private formBuilder: FormBuilder, private router: Router,
     private actRouter: ActivatedRoute, private notificationService: NotificationService,
-    private userVerfService: UserVerificationService, private webSocketService: WebSocketService) {
+    public userVerfService: UserVerificationService, private webSocketService: WebSocketService) {
     this.checkoutForm = this.formBuilder.group({
       title: ['',[Validators.required]],
       description: ['',[Validators.required, Validators.minLength(3)]],

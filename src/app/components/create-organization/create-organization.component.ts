@@ -16,7 +16,7 @@ export class CreateOrganizationComponent implements OnInit {
   createOrganizationForm: FormGroup;
 
   constructor(private formBuilder: FormBuilder, private organizationServise: OrganizationService, private router: Router,
-              private userVerificationService: UserVerificationService, private notificationService: NotificationService) {
+              public userVerificationService: UserVerificationService, private notificationService: NotificationService) {
     this.createOrganizationForm = this.formBuilder.group({
       name: ['', [Validators.required,
         Validators.pattern('[a-zA-Z-]*'),
