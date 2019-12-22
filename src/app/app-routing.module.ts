@@ -11,7 +11,6 @@ import { TransactionListComponent } from './components/transaction-list/transact
 import { TaskCreateComponent } from './components/task-create/task-create.component';
 import { TaskUpdateComponent } from './components/task-update/task-update.component';
 import { UserUpdateComponent } from './components/user-update/user-update.component';
-import { PasswordUpdateComponent } from './components/password-update/password-update.component';
 import {CreateOrganizationComponent} from './components/create-organization/create-organization.component';
 import {UpdateOrganizationComponent} from './components/update-organization/update-organization.component';
 import {CommentListComponent} from './components/comment-list/comment-list.component';
@@ -73,10 +72,6 @@ export const routes: Routes = [
       {
         path: 'comments/edit/:id',
         component: CommentEditComponent
-      },
-      {
-        path: 'password-update',
-        component: PasswordUpdateComponent
       },
       {
         path: 'create-organization',
