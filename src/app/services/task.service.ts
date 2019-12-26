@@ -86,7 +86,7 @@ export class TaskService {
 
   }
 
-  findUsersOrgsId(userId: string, orgId: string) {
+  findUsersOrgsId(userId: Number, orgId: Number) {
     let headers = new HttpHeaders();
     headers = headers.append('authorization', 'Bearer ' + localStorage.getItem('token'));
     return this.http.get('http://localhost:8080/smartcity_war/tasks?userId=' + userId + "&orgId=" + orgId, { headers })

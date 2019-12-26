@@ -20,6 +20,7 @@ export class TaskCreateComponent implements OnInit {
 
   checkoutForm;
   allUsers: User[];
+  userId: number;
   orgId: string;
   date: Date;
   email: string;
@@ -68,19 +69,22 @@ export class TaskCreateComponent implements OnInit {
     if (this.userVerfService.supervisorVerification()) {
       task.budget = task.approvedBudget;
     } else {
-      task.usersOrganizationsId = this.allUsers.filter(item => item.email === localStorage.getItem('email'))[0].id;
+      this.userId = this.allUsers.filter(item => item.email === localStorage.getItem('email'))[0].id;
       task.approvedBudget = 0;
     }
-    if(!task.budget){
-      task.budget = 0;
-    }
+    // if(!task.budget){
+    //   task.budget = 0;
+    // }
     if(!task.approvedBudget){
       task.approvedBudget = 0;
     }
     task.taskStatus = 'Todo';
     task.deadlineDate = JSON.stringify(task.deadlineDate).replace('Z', '').replace('"', '').replace('"', '');
-    this.taskService.findUsersOrgsId(task.usersOrganizationsId.toString(), this.orgId).subscribe((res) => {
+    console.log('this.taskService.findUsersOrgsId(task.usersOrganizationsId('+ task.usersOrganizationsId + '), this.orgId(' + this.orgId + '))');
+    this.taskService.findUsersOrgsId(task.usersOrganizationsId, +this.orgId).subscribe((res) => {   // ???
+      // tslint:disable-next-line: radix
       task.usersOrganizationsId = Number.parseInt(res.toString());
+      console.log('task.usersOrganizationsId = ' + task.usersOrganizationsId);
       this.taskService.createTask(task).subscribe(data => {
         this.notificationService.showSuccessHTMLMessage('Task successfully created', 'Task create');
         this.router.navigateByUrl('/home/organizations');
