@@ -30,9 +30,11 @@ export class NavComponent implements OnInit {
   }
 
   refreshBudget() {
-    if(localStorage.email!=null){
+    if(localStorage.email != null) {
       this.budgetService.getBudget().subscribe(data => {
-        this.budget = data;
+        this.budget =  data;
+        // this.budget =  this.formatAmount(data.toString() );
+
       });
     }
   }
@@ -113,16 +115,23 @@ export class NavComponent implements OnInit {
       this.awaitingBudgetDepositFinish = false;
       this.notificationService.showErrorWithTimeout('Could not update budget.', 'Something went wrong', 4200);
       this.refreshBudget();
-    }
-    if(amount>0){
+    };
+    if(amount >  0) {
       this.budgetService.deposit(amount).subscribe(handler,onErr);
-    }else{
+    } else {
       this.budgetService.withdraw(-amount).subscribe(handler,onErr);
     }
   }
 
-  canSeeBudget(){
-    if(this.user!=null){
+  formatAmount(x): any {
+    return String(x).replace(
+      /(?!^)(?=(?:\d{3})+$)/g,
+      ' '
+    );
+}
+
+  canSeeBudget() {
+    if (this.user != null) {
       return this.userVerfService.supervisorVerification()||this.userVerfService.responsiblePersonVerification();
     }
     return false;
