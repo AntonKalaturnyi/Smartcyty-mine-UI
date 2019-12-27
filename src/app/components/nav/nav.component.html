@@ -23,7 +23,9 @@
       <div *ngIf="user; else elseBlock2">
         <div class="form-group row my-2 mr-1">
           <ng-template [ngIf]="canSeeBudget()">
-            <label for="Budget" class="col-sm-3 col-form-label">Budget:</label>
+            <label for="Budget" class="col-sm-2 col-form-label">Budget:</label>
+            <label for="Budget" class="col-sm-1 col-form-label">₴</label>
+
             <div class="col-sm-6 row">
               <input type="number" class="form-control" id="Budget" placeholder="" value="{{budget!=null?budget.value:0}}" readonly>
             </div>

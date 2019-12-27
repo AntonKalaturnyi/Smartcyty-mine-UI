@@ -93,9 +93,9 @@ export class UserService {
     return this.http.get('http://localhost:8080/smartcity_war/users/users-organizations/' + usersOrgsId, { headers });
   }
 
-  getUsersByRoleId(id): Observable<any> {
+  getUsersByRole(role: string): Observable<any> {
     let headers = this.getAuthHeader();
-    return this.http.get('http://localhost:8080/smartcity_war/users/role/' + id, { headers });
+    return this.http.get('http://localhost:8080/smartcity_war/users/role/?role=' + role, { headers });
   }
 
 

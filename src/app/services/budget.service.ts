@@ -9,27 +9,26 @@ export class BudgetService {
   constructor(private http: HttpClient) { }
 
   getBudget() {
-
     let headers = new HttpHeaders();
-    headers = headers.append('authorization','Bearer '+localStorage.getItem('token'));
+    headers = headers.append('authorization', 'Bearer ' + localStorage.getItem('token'));
     return this.http.get('http://localhost:8080/smartcity_war/budget', {headers});
   }
 
   setBudget(budget) {
     let headers = new HttpHeaders();
-    headers = headers.append('authorization','Bearer '+localStorage.getItem('token'));
+    headers = headers.append('authorization','Bearer ' + localStorage.getItem('token'));
     return this.http.put('http://localhost:8080/smartcity_war/budget', budget, {headers});
   }
 
   deposit(amount) {
     let headers = new HttpHeaders();
-    headers = headers.append('authorization','Bearer '+localStorage.getItem('token'));
+    headers = headers.append('authorization', 'Bearer ' + localStorage.getItem('token'));
     return this.http.put('http://localhost:8080/smartcity_war/budget/deposit', +amount, {headers});
   }
 
   withdraw(amount) {
     let headers = new HttpHeaders();
-    headers = headers.append('authorization','Bearer '+localStorage.getItem('token'));
+    headers = headers.append('authorization', 'Bearer ' + localStorage.getItem('token'));
     return this.http.put('http://localhost:8080/smartcity_war/budget/withdraw', +amount, {headers});
   }
 }

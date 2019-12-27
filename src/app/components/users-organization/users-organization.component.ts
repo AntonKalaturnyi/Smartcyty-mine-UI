@@ -35,7 +35,7 @@ export class UsersOrganizationComponent implements OnInit {
         this.organization = organization;
         console.log(organization);
       });
-    this.userService.getUsersByRoleId(4).subscribe(allUsers => {
+    this.userService.getUsersByRole('ROLE_RESPONSIBLE_PERSON').subscribe(allUsers => {
       this.allUsers = allUsers;
       this.trueUsers = allUsers;
       this.isLoading = false;
