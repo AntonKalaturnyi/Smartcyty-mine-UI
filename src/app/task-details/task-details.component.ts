@@ -18,6 +18,7 @@ export class TaskDetailsComponent implements OnInit, OnDestroy {
   assignee: User;
   usersOrgsId: number;
   taskId;
+  orgId: number;
   task: Task;
   getTaskSubscription;
 
@@ -47,9 +48,13 @@ export class TaskDetailsComponent implements OnInit, OnDestroy {
     }
   }
   backToTaskList() {
-    this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
-   // here we go   this.router.navigate(['/home/tasks/' + this.orgId]);
-  });
+      this.taskService.findOrgIdByUsersOrgId(this.usersOrgsId).subscribe(data => {
+        this.orgId = +(data.toString());
+        this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+          this.router.navigate(['/home/tasks/' + this.orgId]);
+        });
+    });
+
   }
 
   handleEdit(id: number) {

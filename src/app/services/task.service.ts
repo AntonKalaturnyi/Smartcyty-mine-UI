@@ -93,6 +93,13 @@ export class TaskService {
     .pipe(catchError(this.errorHandler));
   }
 
+  findOrgIdByUsersOrgId(usersOrgId: Number) {
+    let headers = new HttpHeaders();
+    headers = headers.append('authorization', 'Bearer ' + localStorage.getItem('token'));
+    return this.http.get('http://localhost:8080/smartcity_war/tasks/OrgIdByUsersOrgId?usersOrgId=' + usersOrgId, { headers })
+    .pipe(catchError(this.errorHandler));
+  }
+
   errorHandler(error: HttpErrorResponse) {
     return throwError(error|| "Server error");
   }
