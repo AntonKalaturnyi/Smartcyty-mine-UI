@@ -93,9 +93,13 @@ export class TaskUpdateComponent implements OnInit, OnDestroy {
     this.task.taskStatus = updatedTask.taskStatus.toString();
     this.service.updateTask(this.taskId, this.task ).subscribe(data => {
       console.log(data);
-      this.router.navigate(['home/tasks/' + TaskUpdateComponent.organizationId]);
+     // this.router.navigate(['/home/task/details/' + this.taskId]);
+      this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+      this.router.navigate(['/home/task/details/' + this.taskId]);
+  });
     }, validationErr => {
       this.notificationService.showErrorHTMLMessage(validationErr.error.message, 'Invalid input');
     });
+ //   window.history.back();
   }
 }

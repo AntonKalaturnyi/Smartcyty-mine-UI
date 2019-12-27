@@ -46,6 +46,11 @@ export class TaskDetailsComponent implements OnInit, OnDestroy {
       this.getTaskSubscription.unsubscribe();
     }
   }
+  backToTaskList() {
+    this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+   // here we go   this.router.navigate(['/home/tasks/' + this.orgId]);
+  });
+  }
 
   handleEdit(id: number) {
     this.router.navigateByUrl('/home/task/edit/' + id);
