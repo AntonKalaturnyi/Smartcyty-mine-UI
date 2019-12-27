@@ -29,11 +29,11 @@ export class TaskCreateComponent implements OnInit {
     private actRouter: ActivatedRoute, private notificationService: NotificationService,
     public userVerfService: UserVerificationService, private webSocketService: WebSocketService) {
     this.checkoutForm = this.formBuilder.group({
-      title: ['',[Validators.required]],
-      description: ['',[Validators.required, Validators.minLength(3)]],
+      title: ['', [Validators.required]],
+      description: ['', [Validators.required, Validators.minLength(3)]],
       budget: [''],
       approvedBudget: [''],
-      deadlineDate: ['',[Validators.required]],
+      deadlineDate: ['', [Validators.required]],
       taskStatus: [''],
       usersOrganizationsId: ['']
     });
@@ -57,7 +57,6 @@ export class TaskCreateComponent implements OnInit {
 
   ngOnInit() {
     this.email = localStorage.getItem('email');
-    
     this.orgId = this.actRouter.snapshot.paramMap.get('id');
     this.userService.getUsersByOrganizationId(this.orgId).subscribe(allUsers => {
       this.allUsers = allUsers;
@@ -68,6 +67,7 @@ export class TaskCreateComponent implements OnInit {
     // Process checkout data here
     if (this.userVerfService.supervisorVerification()) {
       task.budget = task.approvedBudget;
+      this.userId = +task.usersOrganizationsId;
     } else {
       this.userId = this.allUsers.filter(item => item.email === localStorage.getItem('email'))[0].id;
       task.approvedBudget = 0;
@@ -81,7 +81,7 @@ export class TaskCreateComponent implements OnInit {
     task.taskStatus = 'Todo';
     task.deadlineDate = JSON.stringify(task.deadlineDate).replace('Z', '').replace('"', '').replace('"', '');
     console.log('this.taskService.findUsersOrgsId(task.usersOrganizationsId('+ task.usersOrganizationsId + '), this.orgId(' + this.orgId + '))');
-    this.taskService.findUsersOrgsId(task.usersOrganizationsId, +this.orgId).subscribe((res) => {   // ???
+    this.taskService.findUsersOrgsId(this.userId, +this.orgId).subscribe((res) => {   // ???
       // tslint:disable-next-line: radix
       task.usersOrganizationsId = Number.parseInt(res.toString());
       console.log('task.usersOrganizationsId = ' + task.usersOrganizationsId);
@@ -89,7 +89,7 @@ export class TaskCreateComponent implements OnInit {
         this.notificationService.showSuccessHTMLMessage('Task successfully created', 'Task create');
         this.router.navigateByUrl('/home/organizations');
       }, error => {
-        this.notificationService.showErrorHTMLMessage(error.error.message, 'Invalid input')
+        this.notificationService.showErrorHTMLMessage(error.error.message, 'Invalid input');
       });
     }
       , () => {
