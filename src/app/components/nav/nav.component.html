@@ -1,26 +1,28 @@
 <div>
-  <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #e0e0eb;">
-    <div *ngIf="user; else elseBlock1">
+  <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #ffffff;">
+    <div >
       <a class="navbar-brand ml-2 mr-2 align-middle" routerLink="/home">GrowIt<img class="align-middle gear ml-1" src="/assets/bumerang.png"></a>
     </div>
-    <ng-template #elseBlock1><a class="navbar-brand ml-2">GrowIt<img class="align-middle gear ml-1" src="/assets/bumerang.png"></a></ng-template>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-
-    <div class="collapse navbar-collapse ml-5" id="navbarSupportedContent">
-      <ul class="navbar-nav mr-auto">
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto">
+          <li class="nav-item active">
+              <div *ngIf="!user;" class="pointer" >Borrow</div>
+            </li>
+            <li class="ml-4 nav-item active">
+                <div *ngIf="!user;" class="pointer" >Invest</div>
+            </li>
+            <li class="ml-4 nav-item active">
+                <div *ngIf="!user;" class="pointer" >How it works</div>
+            </li>
         <li class="nav-item active">
-          <div *ngIf="user&&(this.userVerfService.adminVerification()||this.userVerfService.supervisorVerification()||this.userVerfService.responsiblePersonVerification());" class="pointer" (click)="toOrg()">Organizations</div>
+          <div *ngIf="user&&(this.userVerfService.adminVerification()||this.userVerfService.supervisorVerification()||this.userVerfService.responsiblePersonVerification());" class="pointer" (click)="toOrg()">Dashboard</div>
         </li>
-        <li class="ml-4">
+        <li class="mx-3 my-auto">
           <div *ngIf="user&&this.userVerfService.adminVerification()" class="pointer" (click)="toUsers()">Users</div>
         </li>
       </ul>
-      <!-- Button for log in and log out, depends on state -->
       <div *ngIf="user; else elseBlock2">
-        <div class="form-group row my-2 mr-1">
+        <div class="form-group row my-1 mr-1">
           <ng-template [ngIf]="canSeeBudget()">
             <label for="Budget" class="col-sm-2 col-form-label">Budget:</label>
             <label for="Budget" class="col-sm-1 col-form-label">₴</label>
@@ -61,26 +63,7 @@
                 </li>
             </ul>
           </div>
-
         </div>
-          <!-- <ul class="nav navbar-nav navbar-right">
-            <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
-                   aria-haspopup="true" aria-expanded="false"><i class="fa fa-user" aria-hidden="true"></i> {{user.name}} <span
-                        class="caret"></span></a>
-                <ul class="dropdown-menu">
-                    <li>
-                        <a href="/home/user-update"><i class="fa fa-id-card" aria-hidden="true"></i> Profile</a>
-                    </li>
-                    <li role="separator" class="divider"></li>
-                    <li>
-                            <button (click)="logOut()" class="btn btn-link"><i class="fa fa-sign-out" aria-hidden="true"></i> Log out</button>
-                    </li>
-                </ul>
-            </li>
-          </div>
-          </ul> -->
-          
         
         <div *ngIf="canSeeBudget()" id="nav-budget-deposit-popup" class="nav-budget-deposit-popup row my-2 mr-1 step" [class.hide]="!showBudgetDepositPopup">
           <input #deposit
@@ -92,13 +75,8 @@
       <ng-template #elseBlock2>
         <button class="btn btn-outline-secondary my-sm-0 ml-2" [routerLink]="['/home/signin']" type="button">Log in</button>
       </ng-template>
-      <!-- <div class="form-group row my-2 mr-3">
-        <label for="Budget" class="col-sm-3 col-form-label">Budget:</label>
-        <div class="col-sm-6">
-          <input type="email" class="form-control" id="Budget" placeholder="15464634$" readonly>
-        </div>
-      </div>
-      <button class="btn btn-outline-secondary my-sm-0 ml-2" type="submit">Log out</button>  -->
+
     </div>
   </nav>
 </div>
+
