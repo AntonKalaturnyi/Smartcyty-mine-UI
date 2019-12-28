@@ -1,16 +1,15 @@
 <div>
   <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #e0e0eb;">
     <div *ngIf="user; else elseBlock1">
-      <a class="navbar-brand ml-2 mr-2 align-middle" routerLink="/home">{{user.name}}</a>
-      <a class="mr-5" routerLink="/home/user-update"><img class="align-middle gear" src="/assets/gear.png"></a>
+      <a class="navbar-brand ml-2 mr-2 align-middle" routerLink="/home">GrowIt<img class="align-middle gear ml-1" src="/assets/bumerang.png"></a>
     </div>
-    <ng-template #elseBlock1><a class="navbar-brand ml-2">SmartCity</a></ng-template>
+    <ng-template #elseBlock1><a class="navbar-brand ml-2">GrowIt<img class="align-middle gear ml-1" src="/assets/bumerang.png"></a></ng-template>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
       aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
 
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <div class="collapse navbar-collapse ml-5" id="navbarSupportedContent">
       <ul class="navbar-nav mr-auto">
         <li class="nav-item active">
           <div *ngIf="user&&(this.userVerfService.adminVerification()||this.userVerfService.supervisorVerification()||this.userVerfService.responsiblePersonVerification());" class="pointer" (click)="toOrg()">Organizations</div>
@@ -43,10 +42,46 @@
               </div>
             </ng-template>
           </ng-template>
-          
-          <button (click)="logOut()" [routerLink]="['/home/signin']" class="btn btn-outline-secondary my-sm-0 ml-3" type="button">Log out</button>
-        </div>
 
+          <div>
+            <ul class="form-group row my-2 mr-1">
+             <li class="dropdown">
+             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
+             aria-haspopup="true" aria-expanded="false"><i class="fa fa-user" aria-hidden="true"></i>{{user.name}} <span
+                  class="caret"></span></a>
+              <ul class="dropdown-menu">
+             <li>
+                 <a routerLink="/home/user-update"><i class="fa fa-id-card ml-2" aria-hidden="true"></i>Profile</a>
+             </li>
+             <li role="separator" class="divider"></li>
+             <li>
+                     <button (click)="logOut()" class="btn btn-link"><i class="fa fa-sign-out" aria-hidden="true"></i> Log out</button>
+             </li>
+                </ul>   
+                </li>
+            </ul>
+          </div>
+
+        </div>
+          <!-- <ul class="nav navbar-nav navbar-right">
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
+                   aria-haspopup="true" aria-expanded="false"><i class="fa fa-user" aria-hidden="true"></i> {{user.name}} <span
+                        class="caret"></span></a>
+                <ul class="dropdown-menu">
+                    <li>
+                        <a href="/home/user-update"><i class="fa fa-id-card" aria-hidden="true"></i> Profile</a>
+                    </li>
+                    <li role="separator" class="divider"></li>
+                    <li>
+                            <button (click)="logOut()" class="btn btn-link"><i class="fa fa-sign-out" aria-hidden="true"></i> Log out</button>
+                    </li>
+                </ul>
+            </li>
+          </div>
+          </ul> -->
+          
+        
         <div *ngIf="canSeeBudget()" id="nav-budget-deposit-popup" class="nav-budget-deposit-popup row my-2 mr-1 step" [class.hide]="!showBudgetDepositPopup">
           <input #deposit
             (keyup.enter)="depositBudget(deposit.value)"

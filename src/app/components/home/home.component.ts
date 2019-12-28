@@ -23,7 +23,8 @@ export class HomeComponent implements OnInit {
 
   ngOnInit() {
     this.webSocketService.addTask((data: any) => {
-      this.notificationService.showInfoHTMLMessage('New task has been created. Title: ' + data.title + '\nOrganization: ' + data.orgName + '\nBudget: ' + data.budget, 'Task info');
+      this.notificationService.showInfoHTMLMessage('New task has been created. Title: ' + data.title + '\nOrganization: '
+      + data.orgName + '\nBudget: ' + data.budget, 'Task info');
     });
     this.webSocketService.addComment((comment: CommentNotification) => {
       this.userService.getAuthenticatedUser().subscribe((user: User) => {
