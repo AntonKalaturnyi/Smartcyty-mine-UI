@@ -19,6 +19,11 @@ import {UsersOrganizationComponent} from './components/users-organization/users-
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 import { PasswordResetViaMailComponent } from './password-reset-via-mail/password-reset-via-mail.component';
 import { TaskDetailsComponent } from './task-details/task-details.component';
+import { MainComponent } from './components/main/main.component';
+import { BorrowComponent } from './components/borrow/borrow.component';
+import { InvestComponent } from './components/invest/invest.component';
+import { HowItWorksComponent } from './components/how-it-works/how-it-works.component';
+
 
 export const routes: Routes = [
   {
@@ -92,6 +97,22 @@ export const routes: Routes = [
       {
         path: 'reset-password',
         component: PasswordResetViaMailComponent
+      },
+      {
+        path: 'main',
+        component: MainComponent
+      },
+      {
+        path: 'borrow',
+        component: BorrowComponent
+      },
+      {
+        path: 'invest',
+        component: InvestComponent
+      },
+      {
+        path: 'how-it-works',
+        component: HowItWorksComponent
       }
     ],
   }

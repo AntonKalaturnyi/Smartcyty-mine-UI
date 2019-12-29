@@ -1,18 +1,18 @@
 <div>
   <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #ffffff;">
     <div >
-      <a class="navbar-brand ml-2 mr-2 align-middle" routerLink="/home">GrowIt<img class="align-middle gear ml-1" src="/assets/bumerang.png"></a>
+      <a class="navbar-brand ml-2 mr-2 align-middle" routerLink="home/main">GrowIt<img class="align-middle gear ml-1" src="/assets/bumerang.png"></a>
     </div>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav ml-auto">
           <li class="nav-item active">
-              <div *ngIf="!user;" class="pointer" >Borrow</div>
+              <div *ngIf="!user;" routerLink="home/borrow" class="pointer" >Borrow</div>
             </li>
             <li class="ml-4 nav-item active">
-                <div *ngIf="!user;" class="pointer" >Invest</div>
+                <div *ngIf="!user;" routerLink="home/invest" class="pointer" >Invest</div>
             </li>
             <li class="ml-4 nav-item active">
-                <div *ngIf="!user;" class="pointer" >How it works</div>
+                <div *ngIf="!user;" routerLink="home/how-it-works" class="pointer" >How it works</div>
             </li>
         <li class="nav-item active">
           <div *ngIf="user&&(this.userVerfService.adminVerification()||this.userVerfService.supervisorVerification()||this.userVerfService.responsiblePersonVerification());" class="pointer" (click)="toOrg()">Dashboard</div>
