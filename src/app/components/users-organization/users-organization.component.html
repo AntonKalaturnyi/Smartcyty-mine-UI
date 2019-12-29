@@ -23,6 +23,7 @@
         <thead class="thead-light">
         <tr>
           <th>Name</th>
+          <th>Middle name</th>
           <th>Surname</th>
           <th>Email</th>
           <th>Status in organization</th>
@@ -31,7 +32,8 @@
         <tbody *ngIf="allUsers">
         <tr
           *ngFor="let user: of this.trueUsers | paginate: { itemsPerPage: this.itemsPerPage, currentPage: this.currentPage }">
-          <td>{{user.name}}</td>
+          <td>{{user.name}}</td> 
+          <td>{{user.middleName}}</td>
           <td>{{user.surname}}</td>
           <td>{{user.email}}</td>
           <td>

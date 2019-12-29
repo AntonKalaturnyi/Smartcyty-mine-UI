@@ -35,9 +35,9 @@
       <tbody *ngIf="users">
       <tr *ngFor="let user of users" [class.table-info]="isCurrent(user)">
         <td style="color: #555"><strong>{{user.id}}</strong></td>
-        <td>{{user.name}} {{user.surname}}</td>
+        <td>{{user.name}} {{user.middleName}} {{user.surname}}</td>
         <td>{{user.email}}</td>
-        <td>{{user.phoneNumber}}</td>
+        <td>{{user.phone}}</td>
         <td>{{user.createdDate | date:'MM-dd-yyyy HH:mm:ss'}}</td>
         <td>
           <div class="dropdown">

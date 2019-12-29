@@ -18,7 +18,8 @@ export class SignupComponent implements OnInit {
     this.checkoutForm = this.formBuilder.group({
       name: '',
       surname: '',
-      phoneNumber: '',
+      middleName: '',
+      phone: '',
       email: '',
       password: ''
     });
