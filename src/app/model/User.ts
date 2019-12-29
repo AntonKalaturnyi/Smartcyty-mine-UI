@@ -1,11 +1,12 @@
 import { Role } from './Role';
 
-export class User{
+export class User {
     id: number;
     name: string;
     surname: string;
+    middleName: string;
     email: string;
-    phoneNumber: string;
+    phone: string;
     active: boolean;
     roles: Role[];
 }
