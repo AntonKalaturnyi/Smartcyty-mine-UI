@@ -39,6 +39,10 @@ import { PasswordResetViaMailComponent } from './password-reset-via-mail/passwor
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 import { TaskDetailsComponent } from './task-details/task-details.component';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { MainComponent } from './components/main/main.component';
+import { BorrowComponent } from './components/borrow/borrow.component';
+import { InvestComponent } from './components/invest/invest.component';
+import { HowItWorksComponent } from './components/how-it-works/how-it-works.component';
 
 @NgModule({
   declarations: [
@@ -64,6 +68,10 @@ import { NgxPaginationModule } from 'ngx-pagination';
     PasswordResetViaMailComponent,
     ForgotPasswordComponent,
     TaskDetailsComponent,
+    MainComponent,
+    BorrowComponent,
+    InvestComponent,
+    HowItWorksComponent,
   ],
   imports: [
     MatButtonModule,
