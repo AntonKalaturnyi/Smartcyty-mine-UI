@@ -30,11 +30,8 @@ export class UserListComponent implements OnInit {
   getUserByEmailSubscription;
   getRolesAddSubscription;
 
-
-
-  constructor(private userService: UserService, private roleService: RoleService, 
-    public userVerificationService: UserVerificationService) { }
-
+  constructor(private userService: UserService, private roleService: RoleService,
+              public userVerificationService: UserVerificationService) { }
 
   ngOnInit() {
     console.log(this.userVerificationService.adminVerification());
@@ -49,7 +46,7 @@ export class UserListComponent implements OnInit {
   }
 
   getUserByEmail(inputName: String) {
-    this.userService.getUserbyEmail(inputName).subscribe(userFind => {   
+    this.userService.getUserbyEmail(inputName).subscribe(userFind => {
       let users = [];
       users.push(userFind);
       this.users = users;
@@ -61,6 +58,7 @@ export class UserListComponent implements OnInit {
       this.users = data;
       this.allUsers = data;
       for (let user of this.users) {
+        console.log(user);
         this.userService.getRoles(user.id).subscribe(date2 => {
           user.roles = date2;
         });
@@ -81,7 +79,7 @@ export class UserListComponent implements OnInit {
     });
   }
 
-  isCurrent(user: User):boolean {
+  isCurrent(user: User): boolean {
     if(this.userId) {
       return user.id === this.userId;
     }

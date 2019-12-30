@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
-import{ UserService } from 'src/app/services/user.service';
-import { Router } from "@angular/router";
+import { UserService } from 'src/app/services/user.service';
+import { Router } from '@angular/router';
 import { NotificationService } from 'src/app/services/notification.service';
  
 @Component({
@@ -13,15 +13,18 @@ export class SignupComponent implements OnInit {
 
   checkoutForm;
 
-  constructor(private formBuilder: FormBuilder, private userService: UserService, 
-    private router: Router, private notificationService : NotificationService) {
+  constructor(private formBuilder: FormBuilder, private userService: UserService,
+              private router: Router, private notificationService: NotificationService) {
     this.checkoutForm = this.formBuilder.group({
       name: '',
       surname: '',
       middleName: '',
       phone: '',
       email: '',
-      password: ''
+      password: '',
+      birthDate: '',
+      registrationDate: '',
+      updatedDate: ''
     });
   }
 
@@ -30,11 +33,12 @@ export class SignupComponent implements OnInit {
 
   onSubmit(user) {
     // Process checkout data here
+    user.birthDate = JSON.stringify(user.birthDate).replace('Z', '').replace('"', '').replace('"', '');
     this.userService.regUser(user).subscribe(data =>{
       this.notificationService.showSuccessHTMLMessage('User successfully created', 'SignUp');
       this.router.navigateByUrl('/home/signin');
     }, error => {
-      // console.log(error);
+      console.log(error);
       this.notificationService.showErrorHTMLMessage(error.error.message, 'Invalid input');
     }
     );

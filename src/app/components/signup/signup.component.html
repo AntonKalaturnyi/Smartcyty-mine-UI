@@ -11,7 +11,12 @@
           <input type="text" class="form-control" formControlName="surname" placeholder="LastName">
         </div> 
         <div class="form-group col-md-6">
-          <input type="text" class="form-control" formControlName="middleName" placeholder="MiddleName">
+          <input type="text" class="form-control" formControlName="middleName" placeholder="Middle name">
+      </div>
+      <div class="form-group col-md-6">
+          <input class="form-control col-sm-6" matInput [matDatepicker]="picker" formControlName="birthDate" placeholder="Your Birthday">
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
         </div>
       </div>
       <div class="form-group row">
