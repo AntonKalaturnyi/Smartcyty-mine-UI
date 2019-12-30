@@ -7,7 +7,7 @@ import {
   MatFormFieldModule,
   MatInputModule,
   MatNativeDateModule, MatProgressSpinnerModule,
-  MatRippleModule, MatTooltipModule
+  MatRippleModule, MatTooltipModule, MAT_DATE_LOCALE, MAT_DATE_FORMATS, DateAdapter
 } from '@angular/material';
 import {NgModule} from '@angular/core';
 import {HttpClientModule} from '@angular/common/http';
@@ -43,6 +43,8 @@ import { MainComponent } from './components/main/main.component';
 import { BorrowComponent } from './components/borrow/borrow.component';
 import { InvestComponent } from './components/invest/invest.component';
 import { HowItWorksComponent } from './components/how-it-works/how-it-works.component';
+import { MAT_MOMENT_DATE_FORMATS } from '@angular/material-moment-adapter';
+import { MomentUtcDateAdapter } from './services/MomentUtcDateAdapter';
 
 @NgModule({
   declarations: [
@@ -105,7 +107,11 @@ import { HowItWorksComponent } from './components/how-it-works/how-it-works.comp
     MatProgressSpinnerModule,
     BrowserModule, NgxPaginationModule
   ],
-  providers: [],
+  providers: [
+    { provide: MAT_DATE_LOCALE, useValue: 'en-GB' },
+    { provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS },
+    { provide: DateAdapter, useClass: MomentUtcDateAdapter }
+  ],
   bootstrap: [AppComponent],
   entryComponents: [MatConfirmDialogComponent]
 

@@ -25,9 +25,9 @@ export class TaskCreateComponent implements OnInit {
   date: Date;
   email: string;
   constructor(private taskService: TaskService, private userService: UserService,
-    private formBuilder: FormBuilder, private router: Router,
-    private actRouter: ActivatedRoute, private notificationService: NotificationService,
-    public userVerfService: UserVerificationService, private webSocketService: WebSocketService) {
+              private formBuilder: FormBuilder, private router: Router,
+              private actRouter: ActivatedRoute, private notificationService: NotificationService,
+              public userVerfService: UserVerificationService, private webSocketService: WebSocketService) {
     this.checkoutForm = this.formBuilder.group({
       title: ['', [Validators.required]],
       description: ['', [Validators.required, Validators.minLength(3)]],
@@ -72,16 +72,13 @@ export class TaskCreateComponent implements OnInit {
       this.userId = this.allUsers.filter(item => item.email === localStorage.getItem('email'))[0].id;
       task.approvedBudget = 0;
     }
-    // if(!task.budget){
-    //   task.budget = 0;
-    // }
-    if(!task.approvedBudget){
+
+    if (!task.approvedBudget){
       task.approvedBudget = 0;
     }
     task.taskStatus = 'Todo';
     task.deadlineDate = JSON.stringify(task.deadlineDate).replace('Z', '').replace('"', '').replace('"', '');
-    console.log('this.taskService.findUsersOrgsId(task.usersOrganizationsId('+ task.usersOrganizationsId + '), this.orgId(' + this.orgId + '))');
-    this.taskService.findUsersOrgsId(this.userId, +this.orgId).subscribe((res) => {   // ???
+    this.taskService.findUsersOrgsId(this.userId, +this.orgId).subscribe((res) => {
       // tslint:disable-next-line: radix
       task.usersOrganizationsId = Number.parseInt(res.toString());
       console.log('task.usersOrganizationsId = ' + task.usersOrganizationsId);

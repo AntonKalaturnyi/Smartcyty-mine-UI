@@ -26,7 +26,8 @@
         <th>Fullname</th>
         <th>Email</th>
         <th>Phone</th>
-        <th>Date Created</th>
+        <th>Birth date</th>
+        <th>Register date</th>
         <th>Roles</th>
         <th>Active</th>
         <th>Actions</th>
@@ -38,7 +39,8 @@
         <td>{{user.name}} {{user.middleName}} {{user.surname}}</td>
         <td>{{user.email}}</td>
         <td>{{user.phone}}</td>
-        <td>{{user.createdDate | date:'MM-dd-yyyy HH:mm:ss'}}</td>
+        <td>{{user.birthDate | date:'MM-dd-yyyy HH:mm:ss'}}</td>
+        <td>{{user.registrationDate | date:'MM-dd-yyyy HH:mm:ss'}}</td>
         <td>
           <div class="dropdown">
             <button class="roleButton btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

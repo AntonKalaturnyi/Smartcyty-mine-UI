@@ -9,4 +9,6 @@ export class User {
     phone: string;
     active: boolean;
     roles: Role[];
+    registrationDate: any;
+    birthDate: any;
 }
