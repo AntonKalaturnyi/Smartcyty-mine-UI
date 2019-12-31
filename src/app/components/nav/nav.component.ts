@@ -132,7 +132,7 @@ export class NavComponent implements OnInit {
 
   canSeeBudget() {
     if (this.user != null) {
-      return this.userVerfService.supervisorVerification()||this.userVerfService.adminVerification();
+      return this.userVerfService.supervisorVerification()||this.userVerfService.responsiblePersonVerification();
     }
     return false;
   }
