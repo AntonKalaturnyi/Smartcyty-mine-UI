@@ -22,44 +22,44 @@ export class UserService {
   }
 
   regUser(user) {
-   return this.http.post('http://localhost:8080/smartcity_war/registration', user)
+   return this.http.post('http://localhost:8080/GrowIt/registration', user)
     .pipe(catchError(this.errorHandler));
   }
 
   authUser(user) {
-    return this.http.post<any>('http://localhost:8080/smartcity_war/auth/signin', user)
+    return this.http.post<any>('http://localhost:8080/GrowIt/auth/signin', user)
       .pipe(catchError(this.errorHandler));
   }
 
   getUserbyId(id) : any {
     let headers = this.getAuthHeader();
-    return this.http.get('http://localhost:8080/smartcity_war/users/' + id, {headers});
+    return this.http.get('http://localhost:8080/GrowIt/users/' + id, {headers});
   }
 
   getAuthenticatedUser(): Observable<User> {
     let headers = this.getAuthHeader();
-    return this.http.get<User>('http://localhost:8080/smartcity_war/users/get-current', { headers });
+    return this.http.get<User>('http://localhost:8080/GrowIt/users/get-current', { headers });
   }
 
   getUserbyEmail(email: String): Observable<User> {
     let headers = this.getAuthHeader();
-    return this.http.get<User>('http://localhost:8080/smartcity_war/users/?email=' + email, { headers });
+    return this.http.get<User>('http://localhost:8080/GrowIt/users/?email=' + email, { headers });
   }
 
   getAllUsers(pageId: Number): Observable<User[]> {
     let headers = this.getAuthHeader();
-    return this.http.get<User[]>('http://localhost:8080/smartcity_war/users/all/' + pageId, { headers });
+    return this.http.get<User[]>('http://localhost:8080/GrowIt/users/all/' + pageId, { headers });
   }
 
   deleteUser(id: Number) {
     let headers = this.getAuthHeader();
-    return this.http.delete('http://localhost:8080/smartcity_war/users/' + id, { headers });
+    return this.http.delete('http://localhost:8080/GrowIt/users/' + id, { headers });
   }
 
   updateUser(user: User): Observable<User> {
     let headers = this.getAuthHeader();
     headers.append('Content-Type', 'application/json');
-    return this.http.put<User>('http://localhost:8080/smartcity_war/users/update-profile', user, { headers })
+    return this.http.put<User>('http://localhost:8080/GrowIt/users/update-profile', user, { headers })
       .pipe(catchError(this.errorHandler));
   }
 
@@ -70,38 +70,38 @@ export class UserService {
   activateUser(id: Number) {
     let headers = this.getAuthHeader();
     headers.append('Content-type', 'application/json');
-    return this.http.post('http://localhost:8080/smartcity_war/users/activate/' + id, null, { headers });
+    return this.http.post('http://localhost:8080/GrowIt/users/activate/' + id, null, { headers });
   }
 
   getRoles(id: Number): Observable<Role[]> {
     let headers = this.getAuthHeader();
-    return this.http.get<Role[]>('http://localhost:8080/smartcity_war/users/' + id + '/get-roles', { headers });
+    return this.http.get<Role[]>('http://localhost:8080/GrowIt/users/' + id + '/get-roles', { headers });
   }
 
   setRoles(roles:Number[], id: Number) {
     let headers = this.getAuthHeader();
-    return this.http.put('http://localhost:8080/smartcity_war/users/' + id + '/set-roles', roles, { headers });
+    return this.http.put('http://localhost:8080/GrowIt/users/' + id + '/set-roles', roles, { headers });
   }
 
   getUsersByOrganizationId(organizationId: any): Observable<any> {
     let headers = this.getAuthHeader();
-    return this.http.get('http://localhost:8080/smartcity_war/users/organization/' + organizationId, { headers });
+    return this.http.get('http://localhost:8080/GrowIt/users/organization/' + organizationId, { headers });
   }
 
   getUserByUsersOrgsId(usersOrgsId): Observable<any> {
     const headers = this.getAuthHeader();
-    return this.http.get('http://localhost:8080/smartcity_war/users/users-organizations/' + usersOrgsId, { headers });
+    return this.http.get('http://localhost:8080/GrowIt/users/users-organizations/' + usersOrgsId, { headers });
   }
 
   getUsersByRole(role: string): Observable<any> {
     let headers = this.getAuthHeader();
-    return this.http.get('http://localhost:8080/smartcity_war/users/role/?role=' + role, { headers });
+    return this.http.get('http://localhost:8080/GrowIt/users/role/?role=' + role, { headers });
   }
 
 
   getUsersByCommentId(commentId): Observable<any> {
     let headers = this.getAuthHeader();
-    return this.http.get('http://localhost:8080/smartcity_war/users/comment/' + commentId, { headers });
+    return this.http.get('http://localhost:8080/GrowIt/users/comment/' + commentId, { headers });
   }
 
   private getAuthHeader() {

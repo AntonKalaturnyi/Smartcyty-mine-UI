@@ -14,39 +14,39 @@ export class OrganizationService {
     // Need to change url
     let headers = new HttpHeaders();
     headers = headers.append('authorization', 'Bearer ' + localStorage.getItem('token'));
-    return this.http.get('http://localhost:8080/smartcity_war/organizations', {headers});
+    return this.http.get('http://localhost:8080/GrowIt/organizations', {headers});
   }
 
   addOrganization(organization: any): Observable<any> {
     let headers = new HttpHeaders();
     headers = headers.append('authorization', 'Bearer ' + localStorage.getItem('token'));
-    return this.http.post('http://localhost:8080/smartcity_war/organizations', organization, {headers});
+    return this.http.post('http://localhost:8080/GrowIt/organizations', organization, {headers});
   }
 
   deleteOrganization(id: any): Observable<any> {
     let headers = new HttpHeaders();
     headers = headers.append('authorization', 'Bearer ' + localStorage.getItem('token'));
-    return this.http.delete('http://localhost:8080/smartcity_war/organizations/' + id, {headers});
+    return this.http.delete('http://localhost:8080/GrowIt/organizations/' + id, {headers});
   }
 
   findById(id: any): Observable<any> {
     let headers = new HttpHeaders();
     headers = headers.append('authorization', 'Bearer ' + localStorage.getItem('token'));
-    return this.http.get('http://localhost:8080/smartcity_war/organizations/' + id, {headers});
+    return this.http.get('http://localhost:8080/GrowIt/organizations/' + id, {headers});
   }
 
   updateOrganization(id: any, organization: any): Observable<any> {
     let headers = new HttpHeaders();
     headers = headers.append('authorization', 'Bearer ' + localStorage.getItem('token'));
     organization.id = id;
-    return this.http.put('http://localhost:8080/smartcity_war/organizations/' + id, organization,
+    return this.http.put('http://localhost:8080/GrowIt/organizations/' + id, organization,
       {headers});
   }
 
   addUserToOrganization(userId: any, organizationId: any): Observable<any> {
     let headers = new HttpHeaders();
     headers = headers.append('authorization', 'Bearer ' + localStorage.getItem('token'));
-    return this.http.post('http://localhost:8080/smartcity_war/organizations/' + organizationId + '/addUser/' + userId,
+    return this.http.post('http://localhost:8080/GrowIt/organizations/' + organizationId + '/addUser/' + userId,
       null,
       {headers});
   }
@@ -54,7 +54,7 @@ export class OrganizationService {
   removeUserFromOrganization(userId: any, organizationId: any): Observable<any> {
     let headers = new HttpHeaders();
     headers = headers.append('authorization', 'Bearer ' + localStorage.getItem('token'));
-    return this.http.delete('http://localhost:8080/smartcity_war/organizations/' + organizationId + '/removeUser/' + userId,
+    return this.http.delete('http://localhost:8080/GrowIt/organizations/' + organizationId + '/removeUser/' + userId,
       {headers});
   }
 }

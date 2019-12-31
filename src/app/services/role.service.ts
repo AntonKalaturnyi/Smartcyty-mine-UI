@@ -16,7 +16,7 @@ export class RoleService {
 
   getRoles(): Observable<Role[]> {
     let headers = this.getAuthHeader();
-    return this.http.get<Role[]>('http://localhost:8080/smartcity_war/roles/all', { headers });
+    return this.http.get<Role[]>('http://localhost:8080/GrowIt/roles/all', { headers });
   }
 
   private getAuthHeader() {

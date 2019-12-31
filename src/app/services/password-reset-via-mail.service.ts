@@ -10,12 +10,12 @@ export class PasswordResetViaMailService {
 
   requestResetPasswordMail(email: string){
     let headers = new HttpHeaders();
-    return this.http.post('http://localhost:8080/smartcity_war/forgotPassword/', email, {headers});
+    return this.http.post('http://localhost:8080/GrowIt/forgotPassword/', email, {headers});
   }
 
   updatePasswordViaToken(token: string, newPass: string){
     let headers = new HttpHeaders();
-    return this.http.post('http://localhost:8080/smartcity_war/forgotPassword/resetPassword?token='+token, newPass, {headers});
+    return this.http.post('http://localhost:8080/GrowIt/forgotPassword/resetPassword?token='+token, newPass, {headers});
   }
 
 }
