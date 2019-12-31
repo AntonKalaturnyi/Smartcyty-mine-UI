@@ -20,7 +20,7 @@ export class TaskService {
       return new Observable;
     };
     headers = headers.append('authorization', 'Bearer ' + localStorage.getItem('token'));
-    return this.http.get<Task>('http://localhost:8080/smartcity_war/tasks/' + id, { headers });
+    return this.http.get<Task>('http://localhost:8080/GrowIt/tasks/' + id, { headers });
   }
 
   findTasksByOrganizationId(id: any): Observable<any> {
@@ -29,7 +29,7 @@ export class TaskService {
       return new Observable;
     };
     headers = headers.append('authorization', 'Bearer ' + localStorage.getItem('token'));
-    return this.http.get('http://localhost:8080/smartcity_war/tasks/organizationId/' + id, { headers });
+    return this.http.get('http://localhost:8080/GrowIt/tasks/organizationId/' + id, { headers });
   }
 
   findTasksByUserId(id: Number) {
@@ -38,7 +38,7 @@ export class TaskService {
       return new Observable;
     };
     headers = headers.append('authorization', 'Bearer ' + localStorage.getItem('token'));
-    return this.http.get('http://localhost:8080/smartcity_war/tasks/userId/' + id, { headers });
+    return this.http.get('http://localhost:8080/GrowIt/tasks/userId/' + id, { headers });
   }
 
   createTask(taskDto: Object) {
@@ -48,7 +48,7 @@ export class TaskService {
     };
     console.log(taskDto);
     headers = headers.append('authorization', 'Bearer ' + localStorage.getItem('token'));
-    return this.http.post('http://localhost:8080/smartcity_war/tasks/', taskDto, { headers })
+    return this.http.post('http://localhost:8080/GrowIt/tasks/', taskDto, { headers })
     .pipe(catchError(this.errorHandler));
   }
 
@@ -61,7 +61,7 @@ export class TaskService {
     if (dateRange.start != null && dateRange.end != null) {
       dateRange.start.setUTCHours(0);
       dateRange.end.setUTCHours(24);
-      return this.http.get('http://localhost:8080/smartcity_war/tasks/organizationId/' + orgId + "/date?from="
+      return this.http.get('http://localhost:8080/GrowIt/tasks/organizationId/' + orgId + "/date?from="
         + dateRange.start.toJSON().replace('Z', '')
         + "&to=" + dateRange.end.toJSON().replace('Z', ''), { headers });
     }
@@ -71,7 +71,7 @@ export class TaskService {
   deleteTask(id: Number) {
     let headers = new HttpHeaders();
     headers = headers.append('authorization', 'Bearer ' + localStorage.getItem('token'));
-    return this.http.delete('http://localhost:8080/smartcity_war/tasks/' + id, { headers })
+    return this.http.delete('http://localhost:8080/GrowIt/tasks/' + id, { headers })
     .pipe(catchError(this.errorHandler));
   }
 
@@ -81,7 +81,7 @@ export class TaskService {
       return new Observable();
     }
     headers = headers.append('authorization', 'Bearer ' + localStorage.getItem('token'));
-    return this.http.put<Task>('http://localhost:8080/smartcity_war/tasks/' + id, taskDto, { headers })
+    return this.http.put<Task>('http://localhost:8080/GrowIt/tasks/' + id, taskDto, { headers })
     .pipe(catchError(this.errorHandler));
 
   }
@@ -89,14 +89,14 @@ export class TaskService {
   findUsersOrgsId(userId: Number, orgId: Number) {
     let headers = new HttpHeaders();
     headers = headers.append('authorization', 'Bearer ' + localStorage.getItem('token'));
-    return this.http.get('http://localhost:8080/smartcity_war/tasks?userId=' + userId + "&orgId=" + orgId, { headers })
+    return this.http.get('http://localhost:8080/GrowIt/tasks?userId=' + userId + "&orgId=" + orgId, { headers })
     .pipe(catchError(this.errorHandler));
   }
 
   findOrgIdByUsersOrgId(usersOrgId: Number) {
     let headers = new HttpHeaders();
     headers = headers.append('authorization', 'Bearer ' + localStorage.getItem('token'));
-    return this.http.get('http://localhost:8080/smartcity_war/tasks/OrgIdByUsersOrgId?usersOrgId=' + usersOrgId, { headers })
+    return this.http.get('http://localhost:8080/GrowIt/tasks/OrgIdByUsersOrgId?usersOrgId=' + usersOrgId, { headers })
     .pipe(catchError(this.errorHandler));
   }
 

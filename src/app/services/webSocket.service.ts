@@ -16,10 +16,11 @@ import {CommentNotification} from "../model/CommentNotification";
 })
 export class WebSocketService {
 
-  constructor(private notif: NotificationService,private userService:UserService,private commentService:CommentService,private userVerificationService:UserVerificationService,private organizationService:OrganizationService) {
+  constructor(private notif: NotificationService,private userService:UserService,private commentService:CommentService,
+    private userVerificationService:UserVerificationService,private organizationService:OrganizationService) {
   }
 
-  private serverUrl = 'http://localhost:8080/smartcity_war/socket';
+  private serverUrl = 'http://localhost:8080/GrowIt/socket';
   private stompClient;
   tasks = [];
   comments = [];
@@ -64,7 +65,7 @@ disconnect() {
 }
 
 // sendTask(task) {
-//     this.stompClient.send("/smartcity_war/sendTask", {}, JSON.stringify(task));
+//     this.stompClient.send("/GrowIt/sendTask", {}, JSON.stringify(task));
 // }
 
 }

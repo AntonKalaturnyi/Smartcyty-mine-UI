@@ -17,7 +17,7 @@ export class TransactionService {
       return new Observable;
     };
     headers = headers.append('authorization', 'Bearer ' + localStorage.getItem('token'));
-    return this.http.get('http://localhost:8080/smartcity_war/transactions/taskId/' + id, { headers });
+    return this.http.get('http://localhost:8080/GrowIt/transactions/taskId/' + id, { headers });
   }
 
 
@@ -27,12 +27,12 @@ export class TransactionService {
       return new Observable;
     };
     headers = headers.append('authorization', 'Bearer ' + localStorage.getItem('token'));
-    return this.http.get('http://localhost:8080/smartcity_war/transactions/' + id, { headers });
+    return this.http.get('http://localhost:8080/GrowIt/transactions/' + id, { headers });
   }
 
 
   createTransaction(transactionDto: Object) {
-    this.http.post('http://localhost:8080/smartcity_war/transactions/', transactionDto).subscribe((res) => {
+    this.http.post('http://localhost:8080/GrowIt/transactions/', transactionDto).subscribe((res) => {
       console.log(res);
     });
   }
@@ -43,7 +43,7 @@ export class TransactionService {
       return new Observable;
     };
     headers = headers.append('authorization', 'Bearer ' + localStorage.getItem('token'));
-    return this.http.delete('http://localhost:8080/smartcity_war/transactions/' + id, { headers }).subscribe((res)=>{
+    return this.http.delete('http://localhost:8080/GrowIt/transactions/' + id, { headers }).subscribe((res)=>{
       console.log(res);
     });
   }
@@ -54,7 +54,7 @@ export class TransactionService {
       return new Observable;
     };
     headers = headers.append('authorization', 'Bearer ' + localStorage.getItem('token'));
-    return this.http.put('http://localhost:8080/smartcity_war/transactions/' + id, transactionDto, { headers });
+    return this.http.put('http://localhost:8080/GrowIt/transactions/' + id, transactionDto, { headers });
   }
 
   findTransactionsByDate(id: Object, dateRange: DateRange) {
@@ -66,7 +66,7 @@ export class TransactionService {
     if (dateRange.start != null && dateRange.end != null) {
       dateRange.start.setUTCHours(0);
       dateRange.end.setUTCHours(24);
-      return this.http.get('http://localhost:8080/smartcity_war/transactions/taskId/' + id +
+      return this.http.get('http://localhost:8080/GrowIt/transactions/taskId/' + id +
         "/date?from=" + dateRange.start.toJSON().replace('Z', '') + "&to=" + dateRange.end.toJSON().replace('Z', ''), { headers });
     } else return new Observable();
   }

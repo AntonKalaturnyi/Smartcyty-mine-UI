@@ -11,24 +11,24 @@ export class BudgetService {
   getBudget() {
     let headers = new HttpHeaders();
     headers = headers.append('authorization', 'Bearer ' + localStorage.getItem('token'));
-    return this.http.get('http://localhost:8080/smartcity_war/budget', {headers});
+    return this.http.get('http://localhost:8080/GrowIt/budget', {headers});
   }
 
   setBudget(budget) {
     let headers = new HttpHeaders();
     headers = headers.append('authorization','Bearer ' + localStorage.getItem('token'));
-    return this.http.put('http://localhost:8080/smartcity_war/budget', budget, {headers});
+    return this.http.put('http://localhost:8080/GrowIt/budget', budget, {headers});
   }
 
   deposit(amount) {
     let headers = new HttpHeaders();
     headers = headers.append('authorization', 'Bearer ' + localStorage.getItem('token'));
-    return this.http.put('http://localhost:8080/smartcity_war/budget/deposit', +amount, {headers});
+    return this.http.put('http://localhost:8080/GrowIt/budget/deposit', +amount, {headers});
   }
 
   withdraw(amount) {
     let headers = new HttpHeaders();
     headers = headers.append('authorization', 'Bearer ' + localStorage.getItem('token'));
-    return this.http.put('http://localhost:8080/smartcity_war/budget/withdraw', +amount, {headers});
+    return this.http.put('http://localhost:8080/GrowIt/budget/withdraw', +amount, {headers});
   }
 }
