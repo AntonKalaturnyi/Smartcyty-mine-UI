@@ -34,7 +34,6 @@ export class UserListComponent implements OnInit {
               public userVerificationService: UserVerificationService) { }
 
   ngOnInit() {
-    console.log(this.userVerificationService.adminVerification());
     this.userService.getAuthenticatedUser().subscribe(authUser => {
       this.userId = authUser.id;
       this.authenticationUser = authUser;
@@ -58,7 +57,6 @@ export class UserListComponent implements OnInit {
       this.users = data;
       this.allUsers = data;
       for (let user of this.users) {
-        console.log(user);
         this.userService.getRoles(user.id).subscribe(date2 => {
           user.roles = date2;
         });

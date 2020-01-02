@@ -49,7 +49,7 @@ export class TaskListComponent implements OnInit {
     }, error => {
       this.notificationService.showErrorHTMLMessage(error.error.message, 'Task delete');
     });
-  }
+}
 
   handleEdit(id: Number) {
     TaskUpdateComponent.organizationId = this.orgId;
