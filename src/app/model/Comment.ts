@@ -6,6 +6,6 @@ export class Comment {
   taskId: number;
   createdDate: string;
   updatedDate: string;
-  userSeen:number[] = [];
+  userSeen: number;
   userName: string;
 }
