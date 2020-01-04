@@ -6,5 +6,7 @@ export class Task {
     approvedBudget: number;
     deadlineDate: any;
     taskStatus: string;
+    createdAt: any;
     usersOrganizationsId: number;
+    updatedAt: any;
 }
