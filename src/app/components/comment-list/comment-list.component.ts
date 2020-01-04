@@ -5,12 +5,12 @@ import {TaskService} from '../../services/task.service';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {UserService} from '../../services/user.service';
 import {Comment} from '../../model/Comment';
-import {User} from "../../model/User";
-import {DialogService} from "../../services/dialog.service";
-import {NotificationService} from "../../services/notification.service";
-import {UserVerificationService} from "../../services/user-verification.service";
-import {WebSocketService} from "../../services/webSocket.service";
-import {CommentNotification} from "../../model/CommentNotification";
+import {User} from '../../model/User';
+import {DialogService} from '../../services/dialog.service';
+import {NotificationService} from '../../services/notification.service';
+import {UserVerificationService} from '../../services/user-verification.service';
+import {WebSocketService} from '../../services/webSocket.service';
+import {CommentNotification} from '../../model/CommentNotification';
 
 @Component({
   selector: 'app-comment-list',
@@ -22,21 +22,21 @@ export class CommentListComponent implements OnInit {
 
   comments: Comment[] = [];
   allComments: Comment[] = [];
-  taskId:number;
-  createCommentForm:FormGroup;
-  user:User;
+  taskId: number;
+  createCommentForm: FormGroup;
+  user: User;
   isSuccesfullMessage: boolean;
-  isValidationMessage:boolean;
-  inputSearch:string;
-  isLoading:boolean =true;
-  itemsPerPage: number = 7;
-  currentPage: number = 1;
+  isValidationMessage: boolean;
+  inputSearch: string;
+  isLoading = true;
+  itemsPerPage = 7;
+  currentPage = 1;
 
   constructor(private commentService: CommentService, private userService: UserService, private formBuilder: FormBuilder,
-              private taskService: TaskService, private userVerificationService:UserVerificationService,
-              private actRouter: ActivatedRoute,private webSocketService:WebSocketService,
-              private router: Router,private dialogService: DialogService,
-              private notificationService : NotificationService) {
+              private taskService: TaskService, private userVerificationService: UserVerificationService,
+              private actRouter: ActivatedRoute, private webSocketService: WebSocketService,
+              private router: Router, private dialogService: DialogService,
+              private notificationService: NotificationService) {
     this.createCommentForm = this.formBuilder.group({
       description: ['', [Validators.required]],
     });
@@ -46,34 +46,35 @@ export class CommentListComponent implements OnInit {
   ngOnInit() {
     this.taskId = Number(this.actRouter.snapshot.paramMap.get('id'));
     this.commentService.findCommentByTaskId(this.actRouter.snapshot.paramMap.get('id'))
-      .subscribe((data:Comment[]) => {
+      .subscribe((data: Comment[]) => {
           this.allComments = data;
           this.allComments.map(t => {
-            this.userService.getUserbyId(t.userId).subscribe((date:User) =>{
-              t.userName = date.surname + " " + date.name;
+            this.userService.getUserbyId(t.userId).subscribe((date: User) => {
+              t.userName = date.surname + ' ' + date.name;
               return t;
             });
           });
           this.comments = this.allComments;
-        this.userService.getAuthenticatedUser().subscribe((result:User) => {
+          this.userService.getAuthenticatedUser().subscribe((result: User) => {
           this.user = result;
           this.isLoading = false;
           let count = 0;
-          this.allComments.forEach(v => {
-            if (v.userId !== this.user.id && !v.userSeen.some(t => t === this.user.id)) count++;
+          this.allComments.forEach(v => { // here
+            if (v.userId !== this.user.id && !(v.userSeen === this.user.id) ) { count++; }
           });
-          if (count !== 0)
-            this.notificationService.showInfoWithTimeout("You have " + count + " unread comments", "Info", 6500);
+          if (count !== 0) {
+            this.notificationService.showInfoWithTimeout('You have ' + count + ' unread comments', 'Info', 6500);
+          }
         },
-          (error) => this.notificationService.showErrorHTMLMessage(error.error.message,"Error"));
+          (error) => this.notificationService.showErrorHTMLMessage(error.error.message, 'Error'));
       }, (error) =>
-        this.notificationService.showErrorHTMLMessage(error.error.message,"Error")
+        this.notificationService.showErrorHTMLMessage(error.error.message, 'Error')
       );
     this.createCommentForm = this.formBuilder.group({
       description: ''
     });
 
-    this.webSocketService.addComment((comment:CommentNotification) =>{
+    this.webSocketService.addComment((comment: CommentNotification) => {
       this.userService.getAuthenticatedUser().subscribe((user: User) => {
         if (comment.userId !== user.id) {
           this.commentService.findCommentById(comment.id).subscribe(
@@ -103,43 +104,39 @@ export class CommentListComponent implements OnInit {
           this.allComments = this.allComments.filter(item => item.id !== comment.id);
           this.comments = this.allComments;
           console.log(date);
-          this.notificationService.showSuccessWithTimeout("Comment has been successfully deleted!","Success",3200);
-        }, error =>
-        {
-            this.notificationService.showErrorHTMLMessage(error.error.message,"Error");
+          this.notificationService.showSuccessWithTimeout('Comment has been successfully deleted!', 'Success', 3200);
+        }, error => {
+            this.notificationService.showErrorHTMLMessage(error.error.message, 'Error');
         }
         );
       }
     });
-
   }
 
   clickOnCreateComment(comment: Comment) {
-    if(
-      comment.description !== '' ) {
+    if (comment.description !== '' ) {
       comment.userId = this.user.id;
       comment.taskId = this.taskId;
       this.commentService.createComment(comment).subscribe
       ((date: Comment) => {
           this.isSuccesfullMessage = true;
           this.isValidationMessage = false;
-          this.createCommentForm.controls['description'].setValue('');
+          this.createCommentForm.controls.description.setValue('');
           console.log(comment);
           this.notificationService.showSuccessWithTimeout('Comment has been successfully created!', 'Success', 3200);
           this.commentService.findCommentById(date.id).subscribe((result: Comment) => {
             this.allComments.unshift(result);
           }, (error) =>
-            this.notificationService.showErrorHTMLMessage(error.error.message,"Error")
+            this.notificationService.showErrorHTMLMessage(error.error.message, 'Error')
           );
         }
       , (error) =>
-          this.notificationService.showErrorHTMLMessage(error.error.message,"Error")
+          this.notificationService.showErrorHTMLMessage(error.error.message, 'Error')
       );
-    }
-    else {
+    } else {
       this.isSuccesfullMessage = false;
       this.isValidationMessage = true;
-      this.notificationService.showErrorWithTimeout("You do not create the comment with the empty description!","Error",4200);
+      this.notificationService.showErrorWithTimeout('You do not create the comment with the empty description!', 'Error', 4200);
     }
   }
 
@@ -150,8 +147,8 @@ export class CommentListComponent implements OnInit {
 
   sortNew() {
     this.comments.sort((a, b) => {
-      var date = new Date(a.createdDate);
-      var date2 = new Date(b.createdDate);
+      const date = new Date(a.createdDate);
+      const date2 = new Date(b.createdDate);
 
       if (date.getTime() < date2.getTime()) {
         return 1;
@@ -160,51 +157,51 @@ export class CommentListComponent implements OnInit {
     });
   }
 
-  sortOld(){
+  sortOld() {
     this.comments.sort((a, b) => {
-      var date = new Date(a.createdDate);
-      var date2 = new Date(b.createdDate);
+      const date = new Date(a.createdDate);
+      const date2 = new Date(b.createdDate);
 
-      if( date.getTime() > date2.getTime()){
+      if ( date.getTime() > date2.getTime()) {
         return 1;
       }
       return -1;
     });
   }
 
-  search(){
+  search() {
       this.comments = this.allComments.filter(value =>  value.userName.toLowerCase().indexOf(this.inputSearch.toLowerCase()) > -1);
   }
 
-  messageValidationClose(){
+  messageValidationClose() {
     this.isValidationMessage = false;
   }
 
-  messageSuccsesfulClose(){
+  messageSuccsesfulClose() {
     this.isSuccesfullMessage = false;
   }
 
-  checkOnSeen(comment:Comment):boolean{
-    return !this.checkOnOwner(comment) && !(comment.userSeen.some(t => t === this.user.id));
+  checkOnSeen(comment: Comment): boolean {
+    return comment.userSeen !== null;
   }
 
-  addToUserSeenList(comment:Comment){
-      this.commentService.addUserToCommentSeen(comment.id, this.user.id).subscribe( (result: boolean) =>{
-        if(result){
-          comment.userSeen.push(this.user.id);
-          this.notificationService.showSuccessWithTimeout("You marked this comment as read!","Succses",4500);
+  addToUserSeenList(comment: Comment) {
+    this.commentService.addUserToCommentSeen(comment.id, this.user.id).subscribe( (result: boolean) => {
+        if (result) {
+          comment.userSeen = this.user.id;
+          this.notificationService.showSuccessWithTimeout('You marked this comment as read!', 'Succses', 4500);
         }}
-      ,(error)=>{
-          this.notificationService.showErrorHTMLMessage(error.error.message,"Error");
+      , (error) => {
+          this.notificationService.showErrorHTMLMessage(error.error.message, 'Error');
         });
   }
 
-  showAllComments(){
+  showAllComments() {
     this.comments = this.allComments;
     this.currentPage = 1;
   }
 
-  showOnlyNewComments(){
+  showOnlyNewComments() {
       this.comments = this.allComments.filter(t => this.checkOnSeen(t) && !this.checkOnOwner(t));
       this.currentPage = 1;
   }
