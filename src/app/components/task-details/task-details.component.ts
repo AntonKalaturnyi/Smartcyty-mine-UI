@@ -4,9 +4,9 @@ import { Router } from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
 import { Task } from 'src/app/model/Task';
 import { UserVerificationService } from 'src/app/services/user-verification.service';
-import { NotificationService } from '../services/notification.service';
-import { UserService } from '../services/user.service';
-import { User } from '../model/User';
+import { NotificationService } from 'src/app/services/notification.service';
+import { UserService } from 'src/app/services/user.service';
+import { User } from 'src/app/model/User';
 
 @Component({
   selector: 'app-task-details',

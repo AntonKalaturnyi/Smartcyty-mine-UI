@@ -18,7 +18,7 @@ import {CommentEditComponent} from './components/comment-edit/comment-edit.compo
 import {UsersOrganizationComponent} from './components/users-organization/users-organization.component';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 import { PasswordResetViaMailComponent } from './password-reset-via-mail/password-reset-via-mail.component';
-import { TaskDetailsComponent } from './task-details/task-details.component';
+import { TaskDetailsComponent } from './components/task-details/task-details.component';
 import { MainComponent } from './components/main/main.component';
 import { BorrowComponent } from './components/borrow/borrow.component';
 import { InvestComponent } from './components/invest/invest.component';
