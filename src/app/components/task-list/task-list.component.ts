@@ -74,16 +74,20 @@ export class TaskListComponent implements OnInit {
 
   approveBudget(updTask: Task) {
     if (this.verificationService.supervisorVerification() && updTask.approvedBudget !== updTask.budget) {
-      updTask.approvedBudget = updTask.budget;
+      this.taskService.findTaskById((+updTask.id).toString())
+      .subscribe(data => {
+        updTask.approvedBudget = updTask.budget;
+        updTask.usersOrganizationsId = data.usersOrganizationsId;
+        this.taskService.updateTask(updTask.id, updTask).subscribe(dat => {
+          console.log('****Task update****' + dat);
+        }, validationErr => {
+            this.notificationService.showErrorHTMLMessage(validationErr.error.message, 'Invalid input');
+          });
+      });
     } else {
       return;
     }
-    this.taskService.updateTask(updTask.id, updTask).subscribe(data => {
-      console.log(data);
-      this.router.navigate(['home/tasks/' + this.orgId]);
-    }, validationErr => {
-      this.notificationService.showErrorHTMLMessage(validationErr.error.message, 'Invalid input');
-    });
+
   }
 
 

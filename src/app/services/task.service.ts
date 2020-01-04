@@ -18,7 +18,7 @@ export class TaskService {
     let headers = new HttpHeaders();
     if (localStorage.getItem('token') == null) {
       return new Observable;
-    };
+    }
     headers = headers.append('authorization', 'Bearer ' + localStorage.getItem('token'));
     return this.http.get<Task>('http://localhost:8080/GrowIt/tasks/' + id, { headers });
   }
@@ -27,7 +27,7 @@ export class TaskService {
     let headers = new HttpHeaders();
     if (localStorage.getItem('token') == null) {
       return new Observable;
-    };
+    }
     headers = headers.append('authorization', 'Bearer ' + localStorage.getItem('token'));
     return this.http.get('http://localhost:8080/GrowIt/tasks/organizationId/' + id, { headers });
   }
@@ -36,7 +36,7 @@ export class TaskService {
     let headers = new HttpHeaders();
     if (localStorage.getItem('token') == null) {
       return new Observable;
-    };
+    }
     headers = headers.append('authorization', 'Bearer ' + localStorage.getItem('token'));
     return this.http.get('http://localhost:8080/GrowIt/tasks/userId/' + id, { headers });
   }
@@ -45,7 +45,7 @@ export class TaskService {
     let headers = new HttpHeaders();
     if (localStorage.getItem('token') == null) {
       return new Observable;
-    };
+    }
     console.log(taskDto);
     headers = headers.append('authorization', 'Bearer ' + localStorage.getItem('token'));
     return this.http.post('http://localhost:8080/GrowIt/tasks/', taskDto, { headers })
@@ -56,16 +56,15 @@ export class TaskService {
     let headers = new HttpHeaders();
     if (localStorage.getItem('token') == null) {
       return new Observable;
-    };
+    }
     headers = headers.append('authorization', 'Bearer ' + localStorage.getItem('token'));
     if (dateRange.start != null && dateRange.end != null) {
       dateRange.start.setUTCHours(0);
       dateRange.end.setUTCHours(24);
-      return this.http.get('http://localhost:8080/GrowIt/tasks/organizationId/' + orgId + "/date?from="
+      return this.http.get('http://localhost:8080/GrowIt/tasks/organizationId/' + orgId + '/date?from='
         + dateRange.start.toJSON().replace('Z', '')
-        + "&to=" + dateRange.end.toJSON().replace('Z', ''), { headers });
-    }
-    else return new Observable();
+        + '&to=' + dateRange.end.toJSON().replace('Z', ''), { headers });
+    } else { return new Observable(); }
   }
 
   deleteTask(id: Number) {
@@ -89,7 +88,7 @@ export class TaskService {
   findUsersOrgsId(userId: Number, orgId: Number) {
     let headers = new HttpHeaders();
     headers = headers.append('authorization', 'Bearer ' + localStorage.getItem('token'));
-    return this.http.get('http://localhost:8080/GrowIt/tasks?userId=' + userId + "&orgId=" + orgId, { headers })
+    return this.http.get('http://localhost:8080/GrowIt/tasks?userId=' + userId + '&orgId=' + orgId, { headers })
     .pipe(catchError(this.errorHandler));
   }
 
@@ -101,6 +100,6 @@ export class TaskService {
   }
 
   errorHandler(error: HttpErrorResponse) {
-    return throwError(error|| "Server error");
+    return throwError(error || 'Server error');
   }
 }

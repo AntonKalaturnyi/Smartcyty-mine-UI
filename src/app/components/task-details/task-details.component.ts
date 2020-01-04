@@ -34,7 +34,6 @@ export class TaskDetailsComponent implements OnInit, OnDestroy {
   this.taskId = this.actRouter.snapshot.paramMap.get('id');
   this.getTaskSubscription =  this.taskService.findTaskById(this.taskId).subscribe(data => {
     this.task = data;
-    console.log("TASK-DETAILS:" + this.task + " usersOrganizationsId: " + this.task.usersOrganizationsId);
     this.usersOrgsId = this.task.usersOrganizationsId;
     this.userService.getUserByUsersOrgsId(this.usersOrgsId).subscribe(user => {
       this.assignee = user;
