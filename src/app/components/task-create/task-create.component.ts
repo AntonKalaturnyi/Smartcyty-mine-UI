@@ -78,12 +78,9 @@ export class TaskCreateComponent implements OnInit {
     }
     task.taskStatus = 'Todo';
     task.deadlineDate = JSON.stringify(task.deadlineDate).replace('Z', '').replace('"', '').replace('"', '');
-    console.log("this.userId" + this.userId + " +this.orgId" + (+this.orgId));
     this.taskService.findUsersOrgsId(this.userId, +this.orgId).subscribe((res) => {
       // tslint:disable-next-line: radix
-      let idd = Number.parseInt(res.toString());
-      console.log("IDD:" + idd);
-      task.usersOrganizationsId = idd;
+      task.usersOrganizationsId = Number.parseInt(res.toString());
       console.log('task.usersOrganizationsId = ' + task.usersOrganizationsId);
       this.taskService.createTask(task).subscribe(data => {
         this.notificationService.showSuccessHTMLMessage('Task successfully created', 'Task create');

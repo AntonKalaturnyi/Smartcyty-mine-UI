@@ -21,8 +21,8 @@
         <div class="form-group row">
           <select class="form-control" #sexOpt id="sex" formControlName="sex">
               <option value="" disabled selected>Sex:</option>
-              <option style="color: black" value="Male">Male</option>
-              <option style="color: black" value="Female">Female</option>
+              <option style="color: blue" value="Male">Male</option>
+              <option style="color: rgb(250, 149, 166)" value="Female">Female</option>
               <option style="color: black" value="Other">Other</option>
             </select>
             <div class="form-group row" *ngIf="sexOpt.value == 'Other'">

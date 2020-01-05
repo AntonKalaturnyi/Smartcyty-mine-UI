@@ -23,14 +23,15 @@ export class UserUpdateComponent implements OnInit {
   userUpdateSubscription;
   getAuthUserSubscription;
   errorMsg: string;
-  isResultReady: boolean = false;
+  isResultReady = false;
 
 
   constructor(private userService: UserService, private formBuilder: FormBuilder) {
     this.editProfileForm = this.formBuilder.group({
-      username: '',
+      firstName: '',
       lastName: '',
       middleName: '',
+      sex: '',
       phone: '',
       email: '',
     });
@@ -42,15 +43,12 @@ export class UserUpdateComponent implements OnInit {
       this.user = user;
 
       // Form initialization
-      this.editProfileForm.controls['username'].setValue(this.user.firstName);
-      this.editProfileForm.controls['lastName'].setValue(this.user.lastName);
-      this.editProfileForm.controls['middleName'].setValue(this.user.middleName);
-      this.editProfileForm.controls['phone'].setValue(this.user.phone);
+      this.editProfileForm.controls.firstName.setValue(this.user.firstName);
+      this.editProfileForm.controls.lastName.setValue(this.user.lastName);
+      this.editProfileForm.controls.middleName.setValue(this.user.middleName);
+      this.editProfileForm.controls.phone.setValue(this.user.phone);
     });
-
-
-    console.log("User " + this.user);
-
+    console.log('User ' + this.user);
   }
 
   ngOnDestroy() {
@@ -63,10 +61,9 @@ export class UserUpdateComponent implements OnInit {
     if (this.getAuthUserSubscription) {
       this.getAuthUserSubscription.unsubscribe();
     }
-
   }
 
-  onEditFormSubmit(updatedUser: any) {
+  onEditFormSubmit(updatedUser: User) {
 
     this.errorMsg = null;
     this.isResultReady = false;
@@ -75,10 +72,11 @@ export class UserUpdateComponent implements OnInit {
     this.user.lastName = updatedUser.lastName;
     this.user.middleName = updatedUser.middleName;
     this.user.phone = updatedUser.phone;
+    this.user.sex = updatedUser.sex;
 
     this.userUpdateSubscription = this.userService.updateUser(this.user).subscribe(
       user => {
-        this.userService.refreshUsernameOnNavbar(this.user)
+        this.userService.refreshUsernameOnNavbar(this.user);
         this.isResultReady = true;
       },
       error => {
