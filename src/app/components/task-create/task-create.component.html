@@ -54,7 +54,7 @@
       <div *ngIf="this.userVerfService.supervisorVerification();" class="form-group row">
         <select class="form-control" formControlName="usersOrganizationsId" name="users">
           <option value="" disabled selected>Assignee</option>
-          <option style="color: black" *ngFor="let user: of allUsers" value="{{user.id}}">{{user.name}}</option>
+          <option style="color: black" *ngFor="let user: of allUsers" value="{{user.id}}">{{user.firstName}}</option>
         </select>
       </div>
       <div class="form-group row">
