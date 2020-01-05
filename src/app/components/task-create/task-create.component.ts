@@ -78,9 +78,12 @@ export class TaskCreateComponent implements OnInit {
     }
     task.taskStatus = 'Todo';
     task.deadlineDate = JSON.stringify(task.deadlineDate).replace('Z', '').replace('"', '').replace('"', '');
+    console.log("this.userId" + this.userId + " +this.orgId" + (+this.orgId));
     this.taskService.findUsersOrgsId(this.userId, +this.orgId).subscribe((res) => {
       // tslint:disable-next-line: radix
-      task.usersOrganizationsId = Number.parseInt(res.toString());
+      let idd = Number.parseInt(res.toString());
+      console.log("IDD:" + idd);
+      task.usersOrganizationsId = idd;
       console.log('task.usersOrganizationsId = ' + task.usersOrganizationsId);
       this.taskService.createTask(task).subscribe(data => {
         this.notificationService.showSuccessHTMLMessage('Task successfully created', 'Task create');
@@ -89,7 +92,7 @@ export class TaskCreateComponent implements OnInit {
         this.notificationService.showErrorHTMLMessage(error.error.message, 'Invalid input');
       });
     }
-      , () => {
+    , () => {
         this.notificationService.showErrorHTMLMessage('Please assign responsible person', 'Invalid input')
       }
     );

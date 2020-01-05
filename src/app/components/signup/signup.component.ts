@@ -16,9 +16,10 @@ export class SignupComponent implements OnInit {
   constructor(private formBuilder: FormBuilder, private userService: UserService,
               private router: Router, private notificationService: NotificationService) {
     this.checkoutForm = this.formBuilder.group({
-      name: '',
-      surname: '',
+      firstName: '',
+      lastName: '',
       middleName: '',
+      sex: '',
       phone: '',
       email: '',
       password: '',
