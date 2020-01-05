@@ -50,7 +50,7 @@ export class CommentListComponent implements OnInit {
           this.allComments = data;
           this.allComments.map(t => {
             this.userService.getUserbyId(t.userId).subscribe((date: User) => {
-              t.userName = date.surname + ' ' + date.name;
+              t.userName = date.lastName + ' ' + date.firstName;
               return t;
             });
           });

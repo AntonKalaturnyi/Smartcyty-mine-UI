@@ -5,10 +5,10 @@
     <form [formGroup]="checkoutForm" (ngSubmit)="onSubmit(checkoutForm.value)" class="form-inlin justify-content-center">
       <div class="form-row">
         <div class="form-group col-md-6">
-          <input type="text" class="form-control" formControlName="name" placeholder="FirstName">
+          <input type="text" class="form-control" formControlName="firstName" placeholder="First name">
         </div>
         <div class="form-group col-md-6">
-          <input type="text" class="form-control" formControlName="surname" placeholder="LastName">
+          <input type="text" class="form-control" formControlName="lastName" placeholder="Last name">
         </div> 
         <div class="form-group col-md-6">
           <input type="text" class="form-control" formControlName="middleName" placeholder="Middle name">
@@ -18,6 +18,18 @@
           <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
           <mat-datepicker #picker></mat-datepicker>
         </div>
+        <div class="form-group row">
+          <select class="form-control" #sexOpt id="sex" formControlName="sex">
+              <option value="" disabled selected>Sex:</option>
+              <option style="color: black" value="Male">Male</option>
+              <option style="color: black" value="Female">Female</option>
+              <option style="color: black" value="Other">Other</option>
+            </select>
+            <div class="form-group row" *ngIf="sexOpt.value == 'Other'">
+                <input type="text" class="form-control" formControlName="sex" onfocus="this.value=''" placeholder="Please specify your sex">
+              </div>
+      </div>
+
       </div>
       <div class="form-group row">
         <input type="tel" class="form-control" formControlName="phone" placeholder="Phone">

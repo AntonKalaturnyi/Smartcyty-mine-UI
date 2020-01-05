@@ -29,7 +29,7 @@ export class UserUpdateComponent implements OnInit {
   constructor(private userService: UserService, private formBuilder: FormBuilder) {
     this.editProfileForm = this.formBuilder.group({
       username: '',
-      surname: '',
+      lastName: '',
       middleName: '',
       phone: '',
       email: '',
@@ -42,8 +42,8 @@ export class UserUpdateComponent implements OnInit {
       this.user = user;
 
       // Form initialization
-      this.editProfileForm.controls['username'].setValue(this.user.name);
-      this.editProfileForm.controls['surname'].setValue(this.user.surname);
+      this.editProfileForm.controls['username'].setValue(this.user.firstName);
+      this.editProfileForm.controls['lastName'].setValue(this.user.lastName);
       this.editProfileForm.controls['middleName'].setValue(this.user.middleName);
       this.editProfileForm.controls['phone'].setValue(this.user.phone);
     });
@@ -71,8 +71,8 @@ export class UserUpdateComponent implements OnInit {
     this.errorMsg = null;
     this.isResultReady = false;
 
-    this.user.name = updatedUser.username;
-    this.user.surname = updatedUser.surname;
+    this.user.firstName = updatedUser.firstName;
+    this.user.lastName = updatedUser.lastName;
     this.user.middleName = updatedUser.middleName;
     this.user.phone = updatedUser.phone;
 

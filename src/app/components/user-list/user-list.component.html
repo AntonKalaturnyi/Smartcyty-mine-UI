@@ -36,7 +36,7 @@
       <tbody *ngIf="users">
       <tr *ngFor="let user of users" [class.table-info]="isCurrent(user)">
         <td style="color: #555"><strong>{{user.id}}</strong></td>
-        <td>{{user.name}} {{user.middleName}} {{user.surname}}</td>
+        <td>{{user.firstName}} {{user.middleName}} {{user.lastName}}</td>
         <td>{{user.email}}</td>
         <td>{{user.phone}}</td>
         <td>{{user.birthDate | date:'MM-dd-yyyy HH:mm:ss'}}</td>
